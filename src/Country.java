@@ -10,4 +10,13 @@ public class Country {
 
     }
 
+    public void battle(int troopsNum, int chosenNumber){
+        Dice dice1 = new Dice(chosenNumber);
+        Dice dice2 = new Dice(chosenNumber);
+
+
+        //dice1.roll - dice2.roll;
+
+
+    }
 }

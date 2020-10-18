@@ -45,7 +45,7 @@ public class Battle {
     public static void main (String[] args){
         Country canada = new Country( "canada");
         Country China = new Country( "china");
-
+        System.out.println("test");
         System.out.print(new Battle(China, canada).fight());
     }
 }

@@ -80,7 +80,7 @@ public class Game {
         Alberta.addAdjacentCountry(WesternUnitedStates);
         CentralAmerica.addAdjacentCountry(EasternUnitedStates);
         CentralAmerica.addAdjacentCountry(WesternUnitedStates);
-        CentralAmerica.addAdjacentCountry(Argentina);
+
 
 
 

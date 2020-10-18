@@ -16,12 +16,11 @@ public class Country {
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
 
-    public Country(int troopsnum, Player player,String name){
+    public Country(String name){
         //initializing troopnum,owner and countryName
-        troopsNum=troopsnum;
-        owner=player;
         countryName=name;
         adjacentCountries = new ArrayList<>();
+        owner=null;
 
     }
     public void addtroops(int num)
@@ -49,6 +48,11 @@ public class Country {
 
     public void changeOwner(Player newowner)
     {
+        if(owner==null)
+        {
+            owner=newowner;
+            return;
+        }
         //change owner of the country
         owner.removeCountry(this);
         this.owner=newowner;
@@ -61,7 +65,7 @@ public class Country {
     }
 
     public String printState() {
-        //print owner and
+        //print name and troops
         String s="";
         s+=getCountryName()+" ("+getTroopsNum()+" troops)";
 

@@ -42,6 +42,11 @@ public class Country {
         return troopsNum;
     }
 
+    public String getCountryName()
+    {
+        return countryName;
+    }
+
     public void changeOwner(Player newowner)
     {
         //change owner of the country
@@ -56,12 +61,10 @@ public class Country {
     }
 
     public String printState() {
-        //print the country state
-        return "Country{" +
-                "countryName='" + countryName + '\'' +
-                ", owner=" + owner +
-                ", troopsNum=" + troopsNum +
-                ", adjacentCountries=" + adjacentCountries +
-                '}';
+        //print owner and
+        String s="";
+        s+=getCountryName()+" ("+getTroopsNum()+" troops)";
+
+        return s;
     }
 }

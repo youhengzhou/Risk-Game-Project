@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Country {
     private String countryName;
-    private String owner;
+    private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
 
@@ -18,5 +18,9 @@ public class Country {
         //dice1.roll - dice2.roll;
 
 
+    }
+
+    public String printState() {
+        return this.countryName + " has armies: " + this.troopsNum;
     }
 }

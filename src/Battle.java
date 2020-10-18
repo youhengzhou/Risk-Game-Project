@@ -34,6 +34,7 @@ public class Battle {
 
                     } else {
                         countryAttack.removetroop(1);
+
                     }
             }
 
@@ -42,7 +43,7 @@ public class Battle {
         return false;
     }
     public static void main (String[] args){
-        Country canada = new Country(3, new Player("ben"), "canada");
+        Country canada = new Country(9, new Player("ben"), "canada");
         Country China = new Country(4, new Player("jay"), "china");
 
         System.out.print(new Battle(China, canada).fight());

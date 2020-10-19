@@ -10,6 +10,7 @@ public class Game {
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
+	private Country currentCountry;
     public Game() 
     {
 		parser = new Parser(); // parser for word checks
@@ -74,7 +75,7 @@ public class Game {
         parser.showCommands();
     }
 	
-	/*private void attack(Command command) 
+	private void attack(Command command)
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to attack...
@@ -82,19 +83,18 @@ public class Game {
             return;
         }
 
-        String direction = command.getSecondWord();
+        String attackCountry = command.getSecondWord();
 
-        // Try to leave current room.
-        Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
+        // Try to attack another country.
+        ArrayList<Country> adjacentCountryList = currentCountry.getAdjacentCountry();
 
-        if (adjacentCountry == null) {
-            System.out.println("There is no adjacent country!");
+        for(int i = adjacentCountryList.size(); i>0 ; i--){
+            Country adjacentCountry = adjacentCountryList.get(i);
+            if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
+                System.out.println(adjacentCountry.printState());
+            }
         }
-        else {
-            currentCountry = nextCountry;
-            System.out.println(currentCountry.getLongDescription());
-        }
-    }*/
+    }
 	
 	private boolean quit(Command command) 
     {

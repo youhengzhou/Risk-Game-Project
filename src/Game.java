@@ -67,8 +67,8 @@ public class Game {
 	
 	private void printHelp() 
     {
-        System.out.println("You are a general. You are leading your army to conquer the world");
-        System.out.println("around at the university.");
+        System.out.println("You are a general. You are leading your army to conquer the world!");
+        System.out.println("Ready your armies, for your enemies would be ready for you.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();

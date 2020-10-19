@@ -99,6 +99,8 @@ public class Game {
         for(int i = adjacentCountryList.size(); i>0 ; i--){
             Country adjacentCountry = adjacentCountryList.get(i);
             if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
+                // we can add more logic here checking if the attacking side has sufficient dice or not, and implement battle here
+                System.out.print(new Battle(currentCountry, adjacentCountry).fight());
                 System.out.println(adjacentCountry.printState());
             }
         }

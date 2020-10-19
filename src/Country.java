@@ -65,6 +65,10 @@ public class Country {
         adjacentCountries.add(adc);
     }
 
+    public ArrayList<Country> getAdjacentCountries() {
+        return adjacentCountries;
+    }
+
     public String printState() {
         //print name and troops
         String s="";

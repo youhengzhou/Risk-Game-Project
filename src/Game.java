@@ -1,18 +1,27 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Game {
-    List<Player> players;
-    List<Country> countries;
-    boolean hasWinner;
-    Player playerOnGoing;
-
+    private List<Player> players;
+    private List<Country> countries;
+    private boolean hasWinner;
+    private Player playerOnGoing;
+    private int numOfPlayer = 0;
+    private int initialTroops = 0;
     public Game()
     {
         players= new ArrayList<>();
         countries = new ArrayList<>();
         hasWinner = false;
 
+        setNumOfPlayer();
+
+        System.out.println("Let's play the game, you can type 'help' to see how to play this game");
+    }
+
+    public static void main (String[] args){
+        Game game = new Game();
     }
 
     public void initCountries()
@@ -80,9 +89,37 @@ public class Game {
         Alberta.addAdjacentCountry(WesternUnitedStates);
         CentralAmerica.addAdjacentCountry(EasternUnitedStates);
         CentralAmerica.addAdjacentCountry(WesternUnitedStates);
+    }
 
+    private boolean isValidNum(int num){
+        if(num < 2 || num > 6) {
+            System.out.println("Please input a valid number (from 2 to 6): ");
+            return false;
+        }
 
+        return true;
+    }
 
+    private void setNumOfPlayer(){
+        System.out.println("Please input the number of players (2 to 6): ");
+        Scanner sc = new Scanner(System.in);
+        this.numOfPlayer = sc.nextInt();
 
+        while(!isValidNum(this.numOfPlayer)){
+            this.numOfPlayer = sc.nextInt();
+        }
+
+        switch(this.numOfPlayer){
+            case 2:
+                this.initialTroops = 50;
+            case 3:
+                this.initialTroops = 35;
+            case 4:
+                this.initialTroops = 30;
+            case 5:
+                this.initialTroops = 25;
+            case 6:
+                this.initialTroops = 20;
+        }
     }
 }

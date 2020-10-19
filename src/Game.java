@@ -83,7 +83,15 @@ public class Game {
             return;
         }
 
-        String attackCountry = command.getSecondWord();
+        System.out.println("Where are we attacking this from, General?");
+
+        while (! finished) {
+            Command command2 = parser.getCommand();
+            finished = processCommand(command);
+        }
+
+        String attackCountry = command.getSecondWord(); // the country getting attacked, chosen by the player
+        String currentCountry = command2.getWord(); // the country to attack from
 
         // Try to attack another country.
         ArrayList<Country> adjacentCountryList = currentCountry.getAdjacentCountry();

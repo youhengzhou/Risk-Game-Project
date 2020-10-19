@@ -96,14 +96,16 @@ public class Game {
         // Try to attack another country.
         ArrayList<Country> adjacentCountryList = currentCountry.getAdjacentCountry();
 
-        for(int i = adjacentCountryList.size(); i>0 ; i--){
+        for(int i = adjacentCountryList.size(); i>=0 ; i--){
             Country adjacentCountry = adjacentCountryList.get(i);
             if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
-                // we can add more logic here checking if the attacking side has sufficient dice or not, and implement battle here
-                System.out.print(new Battle(currentCountry, adjacentCountry).fight());
-                System.out.println(adjacentCountry.printState());
+                if(currentCountry.getTroopsNum() > attackCountry.getTroopsNum()) { // checks if the attacking side has enough dice
+                    System.out.print(new Battle(currentCountry, adjacentCountry).fight());
+                    System.out.println(adjacentCountry.printState());
+                }
             }
         }
+        System.out.println("This attack is not possible, General!"); // when all the conditions fail, the attack is not possible
     }
 	
 	private boolean quit(Command command) 

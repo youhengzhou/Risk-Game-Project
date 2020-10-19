@@ -9,8 +9,10 @@ public class Game {
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
-    public Game()
+	private Parser parser;
+    public Game() 
     {
+		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
         countries = new ArrayList<>();
         hasWinner = false;
@@ -18,6 +20,91 @@ public class Game {
         setNumOfPlayer();
 
         System.out.println("Let's play the game, you can type 'help' to see how to play this game");
+    }
+	
+	public void play() 
+    {            
+        boolean finished = false;
+        while (! finished) {
+            Command command = parser.getCommand();
+            finished = processCommand(command);
+        }
+        System.out.println("Thank you for playing. Good bye.");
+    }
+	
+	private void printWelcome()
+    {
+        System.out.println();
+        System.out.println("Welcome to the RISK!");
+        System.out.println("RISK is the Hasbro game of Global Domination");
+        System.out.println("Type 'help' if you need help.");
+        System.out.println();
+        //System.out.println(currentCountry.getLongDescription()); something that describes the current player situation
+    }
+	
+	private boolean processCommand(Command command) 
+    {
+        boolean wantToQuit = false;
+
+        if(command.isUnknown()) {
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
+
+        String commandWord = command.getCommandWord();
+        if (commandWord.equals("help")) {
+            printHelp();
+        }
+        else if (commandWord.equals("attack")) {
+            //attack(command);
+        }
+        else if (commandWord.equals("quit")) {
+            wantToQuit = quit(command);
+        }
+        // else command not recognised.
+        return wantToQuit;
+    }
+	
+	private void printHelp() 
+    {
+        System.out.println("You are a general. You are leading your army to conquer the world");
+        System.out.println("around at the university.");
+        System.out.println();
+        System.out.println("Your command words are:");
+        parser.showCommands();
+    }
+	
+	/*private void attack(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to attack...
+            System.out.println("Attack where?");
+            return;
+        }
+
+        String direction = command.getSecondWord();
+
+        // Try to leave current room.
+        Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
+
+        if (adjacentCountry == null) {
+            System.out.println("There is no adjacent country!");
+        }
+        else {
+            currentCountry = nextCountry;
+            System.out.println(currentCountry.getLongDescription());
+        }
+    }*/
+	
+	private boolean quit(Command command) 
+    {
+        if(command.hasSecondWord()) {
+            System.out.println("Quit what?");
+            return false;
+        }
+        else {
+            return true;  // signal that we want to quit
+        }
     }
 
     public static void main (String[] args){

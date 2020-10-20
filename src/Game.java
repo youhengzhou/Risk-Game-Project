@@ -10,7 +10,7 @@ public class Game {
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
-	private Country currentCountry;
+	private Player currentPlayer;
     public Game() 
     {
 		parser = new Parser(); // parser for word checks
@@ -19,8 +19,6 @@ public class Game {
         hasWinner = false;
 
         setNumOfPlayer();
-
-        System.out.println("Let's play the game, you can type 'help' to see how to play this game");
     }
 	
 	public void play() 
@@ -29,8 +27,14 @@ public class Game {
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            finished = checkWinner();
         }
         System.out.println("Thank you for playing. Good bye.");
+    }
+
+    public boolean checkWinner(){
+        if(players.size()>1) return false;
+        return true;
     }
 	
 	private void printWelcome()
@@ -61,6 +65,8 @@ public class Game {
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        } else if(commandWord.equals("pass")){
+            wantToQuit = pass(command);
         }
         // else command not recognised.
         return wantToQuit;
@@ -114,9 +120,22 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         }
-        else {
             return true;  // signal that we want to quit
+    }
+
+    /**
+     * implementing for command "pass", to pass the turn from this player to next player
+     * @param command
+     * @return boolean
+     */
+    private boolean pass(Command command){
+        if(command.hasSecondWord()) {
+            System.out.println("Pass what?");
+            return false;
         }
+        int count = players.indexOf(this.currentPlayer);
+        this.currentPlayer = players.get((count % players.size())); //this will iterate the list in a circle (Ex: 1, 2, 3, 1, 2, 3...)
+        return false;
     }
 
     public static void main (String[] args){

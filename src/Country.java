@@ -1,16 +1,6 @@
 import java.util.ArrayList;
 
 public class Country {
-    /**1st Edition Youheng Zhou
-     * Oct 17th
-     * Implemented Country,battle()
-     *
-     * 2nd Edition Shaopeng Liu
-     * Oct 18th
-     * removed battle()
-     * modified Country()
-     * Implemented addtroops(num),removetroop(int num),getTroopsNum()
-     */
     private String countryName;
     private Player owner;
     private int troopsNum;
@@ -34,6 +24,7 @@ public class Country {
         //remove troops in the country
         troopsNum-=num;
     }
+
 
     public int getTroopsNum()
     {

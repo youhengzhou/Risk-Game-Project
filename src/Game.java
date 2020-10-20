@@ -1,43 +1,38 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-    private HashMap<String, Country> map;
     private List<Player> players;
-    private Scanner reader;
+    private List<Country> countries;
     private boolean hasWinner;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
-    private Parser parser;
-    private HashMap<String,Country> nameCountryPairs;
-    private CommandWords cwords;
-    public Game()
+	private Parser parser;
+    public Game() 
     {
-        parser = new Parser(); // parser for word checks
+		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
-        map = new HashMap<>();
+        countries = new ArrayList<>();
         hasWinner = false;
-        nameCountryPairs = new HashMap<>();
 
         setNumOfPlayer();
 
         System.out.println("Let's play the game, you can type 'help' to see how to play this game");
     }
-
-    public void play()
-    {
+	
+	public void play() 
+    {            
         boolean finished = false;
         while (! finished) {
-
-
+            Command command = parser.getCommand();
+            finished = processCommand(command);
         }
         System.out.println("Thank you for playing. Good bye.");
     }
-
-    private void printWelcome()
+	
+	private void printWelcome()
     {
         System.out.println();
         System.out.println("Welcome to the RISK!");
@@ -46,8 +41,8 @@ public class Game {
         System.out.println();
         //System.out.println(currentCountry.getLongDescription()); something that describes the current player situation
     }
-
-    private boolean processCommand(Command command)
+	
+	private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
 
@@ -69,25 +64,29 @@ public class Game {
         // else command not recognised.
         return wantToQuit;
     }
-
-    private void printHelp()
+	
+	private void printHelp() 
     {
         System.out.println("You are a general. You are leading your army to conquer the world");
         System.out.println("around at the university.");
         System.out.println();
         System.out.println("Your command words are:");
+        parser.showCommands();
     }
-
-	/*private void attack(Command command)
+	
+	/*private void attack(Command command) 
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to attack...
             System.out.println("Attack where?");
             return;
         }
+
         String direction = command.getSecondWord();
+
         // Try to leave current room.
         Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
+
         if (adjacentCountry == null) {
             System.out.println("There is no adjacent country!");
         }
@@ -96,8 +95,8 @@ public class Game {
             System.out.println(currentCountry.getLongDescription());
         }
     }*/
-
-    private boolean quit(Command command)
+	
+	private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
@@ -123,7 +122,7 @@ public class Game {
         Country NorthwestTerritory = new Country("Northwest Territory");
         Country Ontario = new Country("Ontario");
         Country Quebec = new Country("Quebec");
-        Country WesternUnitedStates = new Country("WesternUnitedState");
+        Country WesternUnitedStates = new Country("WesterUnitedState");
 
         //South America
         Country Argentina = new Country("Argentina");
@@ -386,56 +385,7 @@ public class Game {
         //4, 12
         WesternAustralia.addAdjacentCountry(EasternAustralia);
         WesternAustralia.addAdjacentCountry(Indonesia);
-
-        map.put("alberta",Alberta );
-        map.put("centralamerica ",CentralAmerica  );
-        map.put("easternunitedstates ",EasternUnitedStates  );
-        map.put("greenland ",Greenland  );
-        map.put("northwestterritory ",NorthwestTerritory  );
-        map.put("ontario ",Ontario  );
-        map.put("quebec ",Quebec  );
-        map.put("westernunitedstates ",WesternUnitedStates  );
-
-        map.put("argentina ",Argentina  );
-        map.put("brazil ",Brazil  );
-        map.put("peru ",Peru  );
-        map.put("venezuela ",Venezuela  );
-
-        map.put("greatbritain ",GreatBritain  );
-        map.put("iceland ",Iceland);
-        map.put("northerneurope ",NorthernEurope  );
-        map.put("scandinavia ",Scandinavia  );
-        map.put("southerneurope ",SouthernEurope  );
-        map.put("ukraine",Ukraine );
-        map.put("westerneurope ",WesternEurope);
-
-        map.put("congo",Congo );
-        map.put("eastafrica",EastAfrica );
-        map.put("egypt",Egypt );
-        map.put("madagascar",Madagascar );
-        map.put("northafrica",NorthAfrica );
-        map.put("southafrica",SouthAfrica );
-
-        map.put("afghanistan",Afghanistan );
-        map.put("china",China );
-        map.put("india  ",India );
-        map.put("irkutsk",Irkutsk  );
-        map.put("japan",Japan  );
-        map.put("kamchatka",Kamchatka  );
-        map.put("middleEast",MiddleEast  );
-        map.put("mongolia",Mongolia  );
-        map.put("siam",Siam   );
-        map.put("siberia",Siberia  );
-        map.put("ural",Ural  );
-        map.put("yakutsk",Yakutsk);
-
-        map.put("easternaustralia",EasternAustralia);
-        map.put("indonesia",Indonesia  );
-        map.put("newGuinea",NewGuinea  );
-        map.put("westernAustralia",WesternAustralia  );
     }
-
-
 
     private boolean isValidNum(int num){
         if(num < 2 || num > 6) {
@@ -467,27 +417,5 @@ public class Game {
             case 6:
                 this.initialTroops = 20;
         }
-    }
-
-    public String getCommandWord()
-    {
-        String commandinput = new String();
-        do{
-            System.out.println("please enter \" Attack\" or \"Move\"");
-            reader = new Scanner(System.in);
-            String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cwords.isCommand(commandinput));
-        return commandinput;
-    }
-
-    public Country getCountryName()
-    {
-        String commandinput = new String();
-        do{
-            System.out.println("please enter a country ");
-            reader = new Scanner(System.in);
-            String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cwords.isCommand(commandinput));
-        return null;
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,8 +11,10 @@ public class Game {
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
+	private HashMap<String,Country> map;
     public Game() 
     {
+        map=new HashMap<>();
 		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
         countries = new ArrayList<>();
@@ -385,6 +388,53 @@ public class Game {
         //4, 12
         WesternAustralia.addAdjacentCountry(EasternAustralia);
         WesternAustralia.addAdjacentCountry(Indonesia);
+
+        map.put("alberta",Alberta );
+        map.put("centralamerica ",CentralAmerica  );
+        map.put("easternunitedstates ",EasternUnitedStates  );
+        map.put("greenland ",Greenland  );
+        map.put("northwestterritory ",NorthwestTerritory  );
+        map.put("ontario ",Ontario  );
+        map.put("quebec ",Quebec  );
+        map.put("westernunitedstates ",WesternUnitedStates  );
+
+        map.put("argentina ",Argentina  );
+        map.put("brazil ",Brazil  );
+        map.put("peru ",Peru  );
+        map.put("venezuela ",Venezuela  );
+
+        map.put("greatbritain ",GreatBritain  );
+        map.put("iceland ",Iceland);
+        map.put("northerneurope ",NorthernEurope  );
+        map.put("scandinavia ",Scandinavia  );
+        map.put("southerneurope ",SouthernEurope  );
+        map.put("ukraine",Ukraine );
+        map.put("westerneurope ",WesternEurope);
+
+        map.put("congo",Congo );
+        map.put("eastafrica",EastAfrica );
+        map.put("egypt",Egypt );
+        map.put("madagascar",Madagascar );
+        map.put("northafrica",NorthAfrica );
+        map.put("southafrica",SouthAfrica );
+
+        map.put("afghanistan",Afghanistan );
+        map.put("china",China );
+        map.put("india  ",India );
+        map.put("irkutsk",Irkutsk  );
+        map.put("japan",Japan  );
+        map.put("kamchatka",Kamchatka  );
+        map.put("middleEast",MiddleEast  );
+        map.put("mongolia",Mongolia  );
+        map.put("siam",Siam   );
+        map.put("siberia",Siberia  );
+        map.put("ural",Ural  );
+        map.put("yakutsk",Yakutsk);
+
+        map.put("easternaustralia",EasternAustralia);
+        map.put("indonesia",Indonesia  );
+        map.put("newGuinea",NewGuinea  );
+        map.put("westernAustralia",WesternAustralia  );
     }
 
     private boolean isValidNum(int num){

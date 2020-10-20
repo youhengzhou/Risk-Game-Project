@@ -76,7 +76,6 @@ public class Game {
         System.out.println("around at the university.");
         System.out.println();
         System.out.println("Your command words are:");
-
     }
 
 	/*private void attack(Command command)
@@ -438,9 +437,6 @@ public class Game {
 
 
 
-
-    }
-
     private boolean isValidNum(int num){
         if(num < 2 || num > 6) {
             System.out.println("Please input a valid number (from 2 to 6): ");
@@ -486,6 +482,12 @@ public class Game {
 
     public Country getCountryName()
     {
+        String commandinput = new String();
+        do{
+            System.out.println("please enter a country ");
+            reader = new Scanner(System.in);
+            String str = reader.nextLine();
+            commandinput =str.replace(" ","");}while (!cwords.isCommand(commandinput));
         return null;
     }
 }

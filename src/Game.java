@@ -10,6 +10,7 @@ public class Game {
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
+	private Country currentCountry;
     public Game() 
     {
 		parser = new Parser(); // parser for word checks
@@ -74,7 +75,7 @@ public class Game {
         parser.showCommands();
     }
 	
-	/*private void attack(Command command) 
+	private void attack(Command command)
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to attack...
@@ -82,19 +83,30 @@ public class Game {
             return;
         }
 
-        String direction = command.getSecondWord();
+        System.out.println("Where are we attacking this from, General?");
 
-        // Try to leave current room.
-        Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
+        while (! finished) {
+            Command command2 = parser.getCommand();
+            finished = processCommand(command);
+        }
 
-        if (adjacentCountry == null) {
-            System.out.println("There is no adjacent country!");
+        String attackCountry = command.getSecondWord(); // the country getting attacked, chosen by the player
+        String currentCountry = command2.getWord(); // the country to attack from
+
+        // Try to attack another country.
+        ArrayList<Country> adjacentCountryList = currentCountry.getAdjacentCountry();
+
+        for(int i = adjacentCountryList.size(); i>=0 ; i--){
+            Country adjacentCountry = adjacentCountryList.get(i);
+            if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
+                if(currentCountry.getTroopsNum() > attackCountry.getTroopsNum()) { // checks if the attacking side has enough dice
+                    System.out.print(new Battle(currentCountry, adjacentCountry).fight());
+                    System.out.println(adjacentCountry.printState());
+                }
+            }
         }
-        else {
-            currentCountry = nextCountry;
-            System.out.println(currentCountry.getLongDescription());
-        }
-    }*/
+        System.out.println("This attack is not possible, General!"); // when all the conditions fail, the attack is not possible
+    }
 	
 	private boolean quit(Command command) 
     {

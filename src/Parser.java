@@ -1,44 +1,53 @@
 import java.util.Scanner;
 
-public class Parser
+public class Parser 
 {
-    CommandWords cword;
+    private CommandWords commands;  // holds all valid command words
+    private Scanner reader;         // source of command input
+
     /**
      * Create a parser to read from the terminal window.
      */
     public Parser() 
     {
-        cword=new CommandWords();
+        commands = new CommandWords();
+        reader = new Scanner(System.in);
     }
+
     /**
      * @return The next command from the user.
      */
-    public static void main(String[] args) {
-        Parser p = new Parser();
-    }
-
-    public String getCommandWord()
+    public Command getCommand() 
     {
-        Scanner reader;
-        String commandinput = new String();
-        do{
-            System.out.println("please enter \" Attack\" or \"Move\"");
-            reader = new Scanner(System.in);
-            String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cword.isCommand(commandinput));
-        return commandinput;
+        String inputLine;   // will hold the full input line
+        String word1 = null;
+        String word2 = null;
+
+        System.out.print("> ");     // print prompt
+
+        inputLine = reader.nextLine();
+
+        // Find up to two words on the line.
+        Scanner tokenizer = new Scanner(inputLine);
+        if(tokenizer.hasNext()) {
+            word1 = tokenizer.next();      // get first word
+            if(tokenizer.hasNext()) {
+                word2 = tokenizer.next();      // get second word
+            }
+        }
+        if(commands.isCommand(word1)) {
+            return new Command(word1, word2);
+        }
+        else {
+            return new Command(null, word2); 
+        }
     }
 
-    public Country getCountryName()
+    /**
+     * Print out a list of valid command words.
+     */
+    public void showCommands()
     {
-        Scanner reader;
-        String commandinput = new String();
-        do{
-            System.out.println("please enter a country ");
-            reader = new Scanner(System.in);
-            String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cword.isCommand(commandinput));
-        return null;
+        commands.showAll();
     }
-
 }

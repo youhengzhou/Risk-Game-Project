@@ -77,25 +77,8 @@ public class Game {
 	
 	private void attack(Command command)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to attack...
-            System.out.println("Attack where?");
-            return;
-        }
-        String attackingCountry = ""; // this is the country the player is attacking from
-        String attackCountry = command.getSecondWord(); // the country getting attacked, chosen by the player
-
-        System.out.println("Where are we attacking this from, General?");
-
-        boolean finished = false;
-        while (!finished) {
-            Command command2 = parser.getCommand();
-            attackingCountry = command2.getCommandWord(); // the country to attack from is chosen by the player here
-            finished = processCommand(command);
-        }
-
         // Try to attack another country.
-        ArrayList<Country> adjacentCountryList = attackingCountry.getAdjacentCountries();
+        /*ArrayList<Country> adjacentCountryList = attackingCountry.getAdjacentCountries();
         for(int i = adjacentCountryList.size(); i>=0 ; i--){
             Country adjacentCountry = adjacentCountryList.get(i);
             if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
@@ -104,7 +87,7 @@ public class Game {
                     System.out.println(adjacentCountry.printState());
                 }
             }
-        }
+        }*/
         System.out.println("This attack is not possible, General!"); // when all the conditions fail, the attack is not possible
     }
 	

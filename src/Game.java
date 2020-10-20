@@ -82,23 +82,24 @@ public class Game {
             System.out.println("Attack where?");
             return;
         }
+        String attackingCountry = ""; // this is the country the player is attacking from
         String attackCountry = command.getSecondWord(); // the country getting attacked, chosen by the player
 
         System.out.println("Where are we attacking this from, General?");
+
         boolean finished = false;
         while (!finished) {
             Command command2 = parser.getCommand();
-            String currentCountry = command2.getCommandWord(); // the country to attack from*/
+            attackingCountry = command2.getCommandWord(); // the country to attack from is chosen by the player here
             finished = processCommand(command);
         }
 
         // Try to attack another country.
-        ArrayList<Country> adjacentCountryList = currentCountry.getAdjacentCountries();
-
+        ArrayList<Country> adjacentCountryList = attackingCountry.getAdjacentCountries();
         for(int i = adjacentCountryList.size(); i>=0 ; i--){
             Country adjacentCountry = adjacentCountryList.get(i);
             if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
-                if((currentCountry.getTroopsNum()) > (attackCountry.getTroopsNum())) { // checks if the attacking side has enough dice
+                if((attackingCountry.getTroopsNum()) > (attackCountry.getTroopsNum())) { // checks if the attacking side has enough dice
                     System.out.print(new Battle(currentCountry, adjacentCountry).fight());
                     System.out.println(adjacentCountry.printState());
                 }

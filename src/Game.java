@@ -172,7 +172,7 @@ public class Game {
 
         //Add adjacent Countries
         //North America
-        //1
+        ///1
         Alaska.addAdjacentCountry(Kamchatka);
         Alaska.addAdjacentCountry(Alberta);
         Alaska.addAdjacentCountry(NorthwestTerritory);

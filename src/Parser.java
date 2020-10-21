@@ -25,7 +25,7 @@ public class Parser
             reader = new Scanner(System.in);
             String str = reader.nextLine();
             commandinput =str.replace(" ","");}while (!commands.isCommand(commandinput));
-        return commandinput;
+        return commandinput.toLowerCase();
     }
 
     public String getCountryName()
@@ -36,7 +36,7 @@ public class Parser
             reader = new Scanner(System.in);
             String str = reader.nextLine();
             commandinput =str.replace(" ","");
-        return commandinput;
+        return commandinput.toLowerCase();
     }
     /**
      * Print out a list of valid command words.

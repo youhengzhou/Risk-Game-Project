@@ -1,3 +1,5 @@
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.*;
 
 public class Game {
@@ -10,6 +12,7 @@ public class Game {
 	private Parser parser;
 	private Player currentPlayer;
 	private HashMap<String,Country> map;
+
     public Game() 
     {
 		parser = new Parser(); // parser for word checks
@@ -21,10 +24,13 @@ public class Game {
         initCountries();
         setNumOfPlayer();
         createPlayer();
+        currentPlayer = players.get(0);
 
         randomAssignCountry();
         randomAssignTroops();
         configurationTest();
+        printWelcome();
+        play();
     }
 
     public void configurationTest()
@@ -83,7 +89,7 @@ public class Game {
             printHelp();
         }
         else if (commandWord.equals("attack")) {
-            //attack(command);
+            attack(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -105,18 +111,25 @@ public class Game {
 	
 	private void attack(Command command)
     {
-        // Try to attack another country.
-        /*ArrayList<Country> adjacentCountryList = attackingCountry.getAdjacentCountries();
-        for(int i = adjacentCountryList.size(); i>=0 ; i--){
-            Country adjacentCountry = adjacentCountryList.get(i);
-            if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
-                if((attackingCountry.getTroopsNum()) > (attackCountry.getTroopsNum())) { // checks if the attacking side has enough dice
-                    System.out.print(new Battle(currentCountry, adjacentCountry).fight());
-                    System.out.println(adjacentCountry.printState());
-                }
+        Player player = currentPlayer;
+        String countryname;
+        Country attackCountry = null;
+
+        do{
+            System.out.println("you have those countrys, which one you want to use for attack?");
+            System.out.println("Please choose from the list");
+            player.printStatus();
+            countryname = parser.getCountryName();
+            if(!map.containsKey(countryname)) continue;
+            else{
+                attackCountry = map.get(countryname);
             }
-        }*/
-        System.out.println("This attack is not possible, General!"); // when all the conditions fail, the attack is not possible
+        }while(!player.getCountriesOwn().contains(attackCountry));
+
+       Country defendCountry = getDefendCountry(attackCountry);
+
+       new Battle(attackCountry, defendCountry);
+
     }
 	
 	private boolean quit(Command command) 
@@ -515,7 +528,7 @@ public class Game {
         }
     }
 
-    private Country getAttackCountry(Player p)
+    private Country getAttackCountry(Player p, Command command)
     {
         String countryname;
         Country potentialCountry = null;

@@ -49,7 +49,7 @@ public class Parser {
     public String getCountryName() {
         String commandinput;
 
-        System.out.println();
+        System.out.println("input your choice: ");
         reader = new Scanner(System.in);
         String str = reader.nextLine();
         commandinput = str.replace(" ", "");

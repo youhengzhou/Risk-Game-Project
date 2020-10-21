@@ -57,7 +57,7 @@ public class Country {
     public String printState() {
         //print name and troops
         String s = "";
-        s += getCountryName() + " (" + getTroopsNum() + " troops)";
+        s += countryName + " (" + troopsNum + " troops)";
         return s;
     }
 

@@ -19,39 +19,33 @@ public class Country {
         troopsNum+=num;
     }
 
-    public void removetroop(int num)
-    {
+    public void removetroop(int num) {
         //remove troops in the country
-        troopsNum-=num;
+        troopsNum -= num;
     }
 
 
-    public int getTroopsNum()
-    {
+    public int getTroopsNum() {
         //return total number of troops in the conutry
         return troopsNum;
     }
 
-    public String getCountryName()
-    {
+    public String getCountryName() {
         //return name of Country
         return countryName;
     }
 
-    public void changeOwner(Player newowner)
-    {
-        if(owner==null)
-        {
-            owner=newowner;
+    public void changeOwner(Player newowner) {
+        if (owner == null) {
+            owner = newowner;
             return;
         }
         //change owner of the country
         owner.removeCountry(this);
-        this.owner=newowner;
+        this.owner = newowner;
     }
 
-    public void addAdjacentCountry(Country adc)
-    {
+    public void addAdjacentCountry(Country adc) {
         //add adjacent countries to the AdjacentCountries list
         adjacentCountries.add(adc);
     }
@@ -62,9 +56,16 @@ public class Country {
 
     public String printState() {
         //print name and troops
-        String s="";
-        s+=getCountryName()+" ("+getTroopsNum()+" troops)";
-
+        String s = "";
+        s += getCountryName() + " (" + getTroopsNum() + " troops)";
         return s;
+    }
+
+    public void printAdjacentCountries() {
+        String s = "";
+        for (Country c : this.getAdjacentCountries()) {
+            s += c.printState();
+            s += "\n";
+        }
     }
 }

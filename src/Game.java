@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     private List<Player> players;
@@ -21,7 +18,29 @@ public class Game {
         hasWinner = false;
         map = new HashMap<>();
 
+        initCountries();
         setNumOfPlayer();
+        createPlayer();
+
+        randomAssignCountry();
+        randomAssignTroops();
+        configurationTest();
+    }
+
+    public void configurationTest()
+    {
+
+        System.out.println("in the test");
+        System.out.println("we have "+initialTroops+" when start");
+        for(Player p :players)
+        {
+            System.out.println(p.printStatus());
+        }
+
+    }
+
+    public static void main (String[] args){
+        Game game = new Game();
     }
 	
 	public void play() 
@@ -122,10 +141,6 @@ public class Game {
         int count = players.indexOf(this.currentPlayer);
         this.currentPlayer = players.get((count % players.size())); //this will iterate the list in a circle (Ex: 1, 2, 3, 1, 2, 3...)
         return false;
-    }
-
-    public static void main (String[] args){
-        Game game = new Game();
     }
 
     public void initCountries()
@@ -451,6 +466,11 @@ public class Game {
         map.put("westernAustralia",WesternAustralia  );
     }
 
+    /**
+     *to check if the user input number is in the range of Player
+     * @param num User input for the number of player
+     * @return True or False
+     */
     private boolean isValidNum(int num){
         if(num < 2 || num > 6) {
             System.out.println("Please input a valid number (from 2 to 6): ");
@@ -472,14 +492,116 @@ public class Game {
         switch(this.numOfPlayer){
             case 2:
                 this.initialTroops = 50;
+                break;
             case 3:
                 this.initialTroops = 35;
+                break;
             case 4:
                 this.initialTroops = 30;
+                break;
             case 5:
                 this.initialTroops = 25;
+                break;
             case 6:
                 this.initialTroops = 20;
+                break;
+        }
+    }
+
+    private void createPlayer() {
+        //create all player instance
+        for (int i = 0; i < numOfPlayer; i++) {
+            players.add(new Player("Player" + i));
+        }
+    }
+
+    private Country getAttackCountry(Player p)
+    {
+        String countryname;
+        Country potentialCountry = null;
+
+        do{
+            System.out.println("you have those countrys, which one you want to use for attack?");
+            System.out.println("Please choose from the list");
+            p.printStatus();
+            countryname = parser.getCountryName();
+            if(!map.containsKey(countryname)) continue;
+            else{
+                potentialCountry = map.get(countryname);
+            }
+        }while(!p.getCountriesOwn().contains(potentialCountry));
+        return potentialCountry;
+    }
+
+    private Country getDefendCountry(Country attackCountry)
+    {
+        String countryname;
+        Country potentialCountry = new Country("impossibleCountry");
+
+        do{
+            System.out.println("the country"+attackCountry.getCountryName()+"has"+attackCountry.getCountryName()+"troops");
+            System.out.println("adjacent to the following countries");
+            System.out.println("choose the country that you want to attack from the list:");
+//
+//            System.out.println("Please choose one from the list");
+            attackCountry.printAdjacentCountries();
+            countryname = parser.getCountryName();
+            if(!map.containsKey(countryname)) continue;
+            else{
+                potentialCountry = map.get(countryname);
+            }
+        }while(!attackCountry.getAdjacentCountries().contains(potentialCountry));
+        return potentialCountry;
+    }
+
+    public void randomAssignCountry() {
+        //randomly assign Country-Owner pairs
+        Set<String> keySet = map.keySet();
+        ArrayList<String> keyList = new ArrayList<String>();//convert to List structure in order to use .shuffle method in Collection.
+        for (String s : keySet) {
+            keyList.add(s);
+        }
+        Collections.shuffle(keyList);//Shuffle the keyList to get it randomized.
+        Country countrytemp;
+        double numCountryEach = Math.ceil((double) map.size() / players.size());
+        int listIndex = 0; //listIndex to keep track of the keyList.
+        for (Player p : players) {
+            for (int i = 0; i < numCountryEach; i++) {
+                try {
+                    countrytemp = map.get(keyList.get(listIndex));
+                } catch (Exception e) {
+                    break;
+                }
+                countrytemp.changeOwner(p);
+                p.addCountry(countrytemp);
+                listIndex++; //increment to access the next element in keyList.
+            }
+        }
+    }
+
+    public void randomAssignTroops() {
+        int avilableToop;
+        int troopGive;  //the number of troop gives to country.
+        Random r = new Random();
+        for (Player p : players) {
+            avilableToop = initialTroops; //total number of troops that each Player has when begin
+
+            for (Country c : p.getCountriesOwn()) {
+                //make sure each country at least has at least one troop
+                c.addtroops(1);
+                avilableToop -= 1; //decrement the available troops that a player left
+
+            }
+            for (Country c : p.getCountriesOwn()) {
+                //distributing the rest of troop to country randomly.
+                if (avilableToop <= 0) break; //stop when there are no more troops that available to be assigned.
+                troopGive = r.nextInt(10);
+
+                //if random number is too big, we just assign to the country with whatever amount of troops we have left
+                if (avilableToop - troopGive <= 0) troopGive = avilableToop;
+                c.addtroops(troopGive);
+                avilableToop -= troopGive; //decrement the available troops that a player left
+            }
         }
     }
 }

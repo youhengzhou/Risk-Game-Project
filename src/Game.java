@@ -1,3 +1,5 @@
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.*;
 
 public class Game {
@@ -7,25 +9,28 @@ public class Game {
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
-    private HashMap<String,Country> map;
-    private Parser parser;
-    public Game()
+	private Parser parser;
+	private Player currentPlayer;
+	private HashMap<String,Country> map;
+
+    public Game() 
     {
-        parser = new Parser(); // parser for word checks
+		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
         countries = new ArrayList<>();
         hasWinner = false;
-        map=new HashMap<>();
-        setNumOfPlayer();
-        initCountries();
+        map = new HashMap<>();
 
+        initCountries();
+        setNumOfPlayer();
         createPlayer();
+        currentPlayer = players.get(0);
 
         randomAssignCountry();
         randomAssignTroops();
         configurationTest();
-
-        System.out.println("Let's play the game, you can type 'help' to see how to play this game");
+        printWelcome();
+        play();
     }
 
     public void configurationTest()
@@ -40,18 +45,27 @@ public class Game {
 
     }
 
-    public void play()
-    {
+    public static void main (String[] args){
+        Game game = new Game();
+    }
+	
+	public void play() 
+    {            
         boolean finished = false;
-        while (! hasWinner) {
-
-
-
+        while (! finished) {
+            Command command = parser.getCommand();
+            finished = processCommand(command);
+            finished = checkWinner();
         }
         System.out.println("Thank you for playing. Good bye.");
     }
 
-    private void printWelcome()
+    public boolean checkWinner(){
+        if(players.size()>1) return false;
+        return true;
+    }
+	
+	private void printWelcome()
     {
         System.out.println();
         System.out.println("Welcome to the RISK!");
@@ -60,8 +74,8 @@ public class Game {
         System.out.println();
         //System.out.println(currentCountry.getLongDescription()); something that describes the current player situation
     }
-
-    private boolean processCommand(Command command)
+	
+	private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
 
@@ -75,56 +89,71 @@ public class Game {
             printHelp();
         }
         else if (commandWord.equals("attack")) {
-            //attack(command);
+            attack(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        } else if(commandWord.equals("pass")){
+            wantToQuit = pass(command);
         }
         // else command not recognised.
         return wantToQuit;
     }
-
-    private void printHelp()
+	
+	private void printHelp() 
     {
-        System.out.println("You are a general. You are leading your army to conquer the world");
-        System.out.println("around at the university.");
+        System.out.println("You are a general. You are leading your army to conquer the world!");
+        System.out.println("Ready your armies, for your enemies would be ready for you.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
-
-	/**private void attack(Command command)
+	
+	private void attack(Command command)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to attack...
-            System.out.println("Attack where?");
-            return;
-        }
-        String direction = command.getSecondWord();
-        // Try to leave current room.
-        Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
-        if (adjacentCountry == null) {
-            System.out.println("There is no adjacent country!");
-        }
-        else {
-            currentCountry = nextCountry;
-            System.out.println(currentCountry.getLongDescription());
-        }
-    }**/
+        Player player = currentPlayer;
+        String countryname;
+        Country attackCountry = null;
 
-    private boolean quit(Command command)
+        do{
+            System.out.println("you have those countrys, which one you want to use for attack?");
+            System.out.println("Please choose from the list");
+            player.printStatus();
+            countryname = parser.getCountryName();
+            if(!map.containsKey(countryname)) continue;
+            else{
+                attackCountry = map.get(countryname);
+            }
+        }while(!player.getCountriesOwn().contains(attackCountry));
+
+       Country defendCountry = getDefendCountry(attackCountry);
+
+       new Battle(attackCountry, defendCountry);
+
+    }
+	
+	private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
         }
-        else {
             return true;  // signal that we want to quit
-        }
     }
 
-    public static void main (String[] args){
-        Game game = new Game();
+    /**
+     * implementing for command "pass", to pass the turn from this player to next player
+     * @param command
+     * @return boolean
+     */
+    private boolean pass(Command command){
+        if(command.hasSecondWord()) {
+            System.out.println("Pass what?");
+            return false;
+        }
+        int count = players.indexOf(this.currentPlayer);
+        this.currentPlayer = players.get((count % players.size())); //this will iterate the list in a circle (Ex: 1, 2, 3, 1, 2, 3...)
+        return false;
     }
 
     public void initCountries()
@@ -185,7 +214,7 @@ public class Game {
 
         //Add adjacent Countries
         //North America
-        //1
+        ///1
         Alaska.addAdjacentCountry(Kamchatka);
         Alaska.addAdjacentCountry(Alberta);
         Alaska.addAdjacentCountry(NorthwestTerritory);
@@ -450,6 +479,11 @@ public class Game {
         map.put("westernAustralia",WesternAustralia  );
     }
 
+    /**
+     *to check if the user input number is in the range of Player
+     * @param num User input for the number of player
+     * @return True or False
+     */
     private boolean isValidNum(int num){
         if(num < 2 || num > 6) {
             System.out.println("Please input a valid number (from 2 to 6): ");
@@ -487,12 +521,14 @@ public class Game {
         }
     }
 
-    private String getCommandWord()
-    {
-        return parser.getCommandWord();
+    private void createPlayer() {
+        //create all player instance
+        for (int i = 0; i < numOfPlayer; i++) {
+            players.add(new Player("Player" + i));
+        }
     }
 
-    private Country getAttactFromCountry(Player p)
+    private Country getAttackCountry(Player p, Command command)
     {
         String countryname;
         Country potentialCountry = null;
@@ -510,103 +546,75 @@ public class Game {
         return potentialCountry;
     }
 
-    private Country getAttactToCountry(Country attactCountry)
+    private Country getDefendCountry(Country attackCountry)
     {
         String countryname;
         Country potentialCountry = new Country("impossibleCountry");
 
         do{
-            System.out.println("the country"+attactCountry.getCountryName()+"has"+attactCountry.getCountryName()+"troops");
-            System.out.println("adjacenting to the following countries");
-            System.out.println("choose one from the list that you want to attact:");
-
-            System.out.println("Please choose one from the list");
-            attactCountry.printAdjacentCountries();
+            System.out.println("the country"+attackCountry.getCountryName()+"has"+attackCountry.getCountryName()+"troops");
+            System.out.println("adjacent to the following countries");
+            System.out.println("choose the country that you want to attack from the list:");
+//
+//            System.out.println("Please choose one from the list");
+            attackCountry.printAdjacentCountries();
             countryname = parser.getCountryName();
             if(!map.containsKey(countryname)) continue;
             else{
                 potentialCountry = map.get(countryname);
             }
-        }while(!attactCountry.getAdjacentCountries().contains(potentialCountry));
+        }while(!attackCountry.getAdjacentCountries().contains(potentialCountry));
         return potentialCountry;
     }
 
-    private void createPlayer()
-    {
-        //create all player instance
-        for(int i =0;i<numOfPlayer;i++)
-        {
-            players.add(new Player("Player"+Integer.toString(i)));
-        }
-    }
-
-    public void randomAssignCountry()
-    {
+    public void randomAssignCountry() {
         //randomly assign Country-Owner pairs
-
-        HashMap<String,Country> maptemp = map;
-        Set<String> keyset = map.keySet();
+        Set<String> keySet = map.keySet();
         ArrayList<String> keyList = new ArrayList<String>();//convert to List structure in order to use .shuffle method in Collection.
-        for(String s:keyset)
-        {
+        for (String s : keySet) {
             keyList.add(s);
         }
         Collections.shuffle(keyList);//Shuffle the keyList to get it randomized.
         Country countrytemp;
-        double numCountryEach = Math.ceil((double)map.size()/players.size());
+        double numCountryEach = Math.ceil((double) map.size() / players.size());
         int listIndex = 0; //listIndex to keep track of the keyList.
-        for(Player p: players) {
+        for (Player p : players) {
             for (int i = 0; i < numCountryEach; i++) {
                 try {
-                    countrytemp = maptemp.get(keyList.get(listIndex));
-                }
-                catch(Exception e)
-                {
+                    countrytemp = map.get(keyList.get(listIndex));
+                } catch (Exception e) {
                     break;
                 }
                 countrytemp.changeOwner(p);
                 p.addCountry(countrytemp);
-
                 listIndex++; //increment to access the next element in keyList.
-
             }
         }
-
     }
 
-    public void randomAssignTroops()
-    {
+    public void randomAssignTroops() {
         int avilableToop;
-        int troopGive=0;  //the number of troop gives to country.
+        int troopGive;  //the number of troop gives to country.
         Random r = new Random();
-        for(Player p:players)
-        {
+        for (Player p : players) {
             avilableToop = initialTroops; //total number of troops that each Player has when begin
 
-            for(Country c:p.getCountriesOwn())
-        {
-            //make sure each country at least has at least one troop
-            c.addtroops(1);
-            avilableToop-=1; //decrement the available troops that a player left
+            for (Country c : p.getCountriesOwn()) {
+                //make sure each country at least has at least one troop
+                c.addtroops(1);
+                avilableToop -= 1; //decrement the available troops that a player left
 
-        }
-            for(Country c:p.getCountriesOwn())
-            {
+            }
+            for (Country c : p.getCountriesOwn()) {
                 //distributing the rest of troop to country randomly.
-                if(avilableToop<=0) break; //stop when there are no more troops that available to be assigned.
+                if (avilableToop <= 0) break; //stop when there are no more troops that available to be assigned.
                 troopGive = r.nextInt(10);
 
                 //if random number is too big, we just assign to the country with whatever amount of troops we have left
-                if (avilableToop-troopGive <= 0) troopGive = avilableToop;
+                if (avilableToop - troopGive <= 0) troopGive = avilableToop;
                 c.addtroops(troopGive);
-                avilableToop-=troopGive; //decrement the available troops that a player left
-
+                avilableToop -= troopGive; //decrement the available troops that a player left
             }
-
         }
     }
-
-
-
-
 }

@@ -1,4 +1,6 @@
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 public class Player {
     private List<Country> countriesOwn;
@@ -26,11 +28,8 @@ public class Player {
         return s;
     }
 
+
     public List<Country> getCountriesOwn() {
         return countriesOwn;
-    }
-
-    public String getName() {
-        return name;
     }
 }

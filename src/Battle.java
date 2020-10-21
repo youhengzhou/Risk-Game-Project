@@ -24,11 +24,12 @@ public class Battle {
 
     //this is for quick fight, just to make sure the game is up
     public Boolean fight(){
-        while(countryAttack.getTroopsNum() != 0 && countryDefend.getTroopsNum() != 0){
+        while(countryAttack.getTroopsNum() > 1 && countryDefend.getTroopsNum() != 0){
             Dice attackDice = new Dice(countryAttack.getTroopsNum());
             Dice defendDice = new Dice(countryDefend.getTroopsNum());
-
-            while(!attackDice.isempty() && !defendDice.isempty()){
+            System.out.println("attackTroops: " + countryAttack.getTroopsNum());
+            System.out.println("defendTroops: " + countryDefend.getTroopsNum());
+            while(attackDice.hasMoreThanOne() && !defendDice.isempty()){
                     if(attackDice.getNexdtHighest() > defendDice.getNexdtHighest()){
                         countryDefend.removetroop(1);
 
@@ -40,13 +41,14 @@ public class Battle {
 
             if(countryDefend.getTroopsNum() ==0) return true;
         }
+        System.out.println("attackTroops: " + countryAttack.getTroopsNum());
         return false;
     }
     public static void main (String[] args){
         Country canada = new Country( "canada");
         Country China = new Country( "china");
-        System.out.println("test");
-        System.out.println("test32");
+        canada.addtroops(10);
+        China.addtroops(14);
         System.out.print(new Battle(China, canada).fight());
     }
 }

@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 
 public class Dice {
 
-    PriorityQueue<Integer> diceGroup;
+    private PriorityQueue<Integer> diceGroup;
     public Dice(int diceNumber){
         //store values in the diceGroup,number of Integer added is depending on the diceNumber parameter passed in.
         diceGroup = new PriorityQueue<Integer>(Collections.reverseOrder());
@@ -41,6 +41,11 @@ public class Dice {
     {
         //test if the diceGroup is empty
         return diceGroup.isEmpty();
+    }
+
+    //to make sure the attackDice has one Troop left
+    public boolean hasMoreThanOne(){
+        return diceGroup.size() > 1;
     }
 
     public static void main(String[] args) {

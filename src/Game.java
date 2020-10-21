@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,16 +11,17 @@ public class Game {
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
+	private Player currentPlayer;
+	private HashMap<String,Country> map;
     public Game() 
     {
 		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
         countries = new ArrayList<>();
         hasWinner = false;
+        map = new HashMap<>();
 
         setNumOfPlayer();
-
-        System.out.println("Let's play the game, you can type 'help' to see how to play this game");
     }
 	
 	public void play() 
@@ -28,8 +30,14 @@ public class Game {
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            finished = checkWinner();
         }
         System.out.println("Thank you for playing. Good bye.");
+    }
+
+    public boolean checkWinner(){
+        if(players.size()>1) return false;
+        return true;
     }
 	
 	private void printWelcome()
@@ -60,6 +68,8 @@ public class Game {
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        } else if(commandWord.equals("pass")){
+            wantToQuit = pass(command);
         }
         // else command not recognised.
         return wantToQuit;
@@ -67,34 +77,28 @@ public class Game {
 	
 	private void printHelp() 
     {
-        System.out.println("You are a general. You are leading your army to conquer the world");
-        System.out.println("around at the university.");
+        System.out.println("You are a general. You are leading your army to conquer the world!");
+        System.out.println("Ready your armies, for your enemies would be ready for you.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
 	
-	/*private void attack(Command command) 
+	private void attack(Command command)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to attack...
-            System.out.println("Attack where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Country adjacentCountry = currentCountry.getAdjacentCountry(direction);
-
-        if (adjacentCountry == null) {
-            System.out.println("There is no adjacent country!");
-        }
-        else {
-            currentCountry = nextCountry;
-            System.out.println(currentCountry.getLongDescription());
-        }
-    }*/
+        // Try to attack another country.
+        /*ArrayList<Country> adjacentCountryList = attackingCountry.getAdjacentCountries();
+        for(int i = adjacentCountryList.size(); i>=0 ; i--){
+            Country adjacentCountry = adjacentCountryList.get(i);
+            if ((adjacentCountry.getCountryName()).equals(attackCountry)) {
+                if((attackingCountry.getTroopsNum()) > (attackCountry.getTroopsNum())) { // checks if the attacking side has enough dice
+                    System.out.print(new Battle(currentCountry, adjacentCountry).fight());
+                    System.out.println(adjacentCountry.printState());
+                }
+            }
+        }*/
+        System.out.println("This attack is not possible, General!"); // when all the conditions fail, the attack is not possible
+    }
 	
 	private boolean quit(Command command) 
     {
@@ -102,9 +106,22 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         }
-        else {
             return true;  // signal that we want to quit
+    }
+
+    /**
+     * implementing for command "pass", to pass the turn from this player to next player
+     * @param command
+     * @return boolean
+     */
+    private boolean pass(Command command){
+        if(command.hasSecondWord()) {
+            System.out.println("Pass what?");
+            return false;
         }
+        int count = players.indexOf(this.currentPlayer);
+        this.currentPlayer = players.get((count % players.size())); //this will iterate the list in a circle (Ex: 1, 2, 3, 1, 2, 3...)
+        return false;
     }
 
     public static void main (String[] args){
@@ -169,7 +186,7 @@ public class Game {
 
         //Add adjacent Countries
         //North America
-        //1
+        ///1
         Alaska.addAdjacentCountry(Kamchatka);
         Alaska.addAdjacentCountry(Alberta);
         Alaska.addAdjacentCountry(NorthwestTerritory);
@@ -385,6 +402,53 @@ public class Game {
         //4, 12
         WesternAustralia.addAdjacentCountry(EasternAustralia);
         WesternAustralia.addAdjacentCountry(Indonesia);
+
+        map.put("alberta",Alberta );
+        map.put("centralamerica ",CentralAmerica  );
+        map.put("easternunitedstates ",EasternUnitedStates  );
+        map.put("greenland ",Greenland  );
+        map.put("northwestterritory ",NorthwestTerritory  );
+        map.put("ontario ",Ontario  );
+        map.put("quebec ",Quebec  );
+        map.put("westernunitedstates ",WesternUnitedStates  );
+
+        map.put("argentina ",Argentina  );
+        map.put("brazil ",Brazil  );
+        map.put("peru ",Peru  );
+        map.put("venezuela ",Venezuela  );
+
+        map.put("greatbritain ",GreatBritain  );
+        map.put("iceland ",Iceland);
+        map.put("northerneurope ",NorthernEurope  );
+        map.put("scandinavia ",Scandinavia  );
+        map.put("southerneurope ",SouthernEurope  );
+        map.put("ukraine",Ukraine );
+        map.put("westerneurope ",WesternEurope);
+
+        map.put("congo",Congo );
+        map.put("eastafrica",EastAfrica );
+        map.put("egypt",Egypt );
+        map.put("madagascar",Madagascar );
+        map.put("northafrica",NorthAfrica );
+        map.put("southafrica",SouthAfrica );
+
+        map.put("afghanistan",Afghanistan );
+        map.put("china",China );
+        map.put("india  ",India );
+        map.put("irkutsk",Irkutsk  );
+        map.put("japan",Japan  );
+        map.put("kamchatka",Kamchatka  );
+        map.put("middleEast",MiddleEast  );
+        map.put("mongolia",Mongolia  );
+        map.put("siam",Siam   );
+        map.put("siberia",Siberia  );
+        map.put("ural",Ural  );
+        map.put("yakutsk",Yakutsk);
+
+        map.put("easternaustralia",EasternAustralia);
+        map.put("indonesia",Indonesia  );
+        map.put("newGuinea",NewGuinea  );
+        map.put("westernAustralia",WesternAustralia  );
     }
 
     private boolean isValidNum(int num){

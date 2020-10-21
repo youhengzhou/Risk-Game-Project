@@ -59,6 +59,15 @@ public class Country {
     public ArrayList<Country> getAdjacentCountries() {
         return adjacentCountries;
     }
+    public void printAdjacentCountries()
+    {
+        String s=new String("");
+        for(Country c:this.getAdjacentCountries())
+        {
+            s+=c.printState();
+            s+="\n";
+        }
+    }
 
     public String printState() {
         //print name and troops
@@ -66,5 +75,9 @@ public class Country {
         s+=getCountryName()+" ("+getTroopsNum()+" troops)";
 
         return s;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }

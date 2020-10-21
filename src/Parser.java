@@ -2,43 +2,47 @@ import java.util.Scanner;
 
 public class Parser
 {
-    CommandWords cword;
+    private CommandWords commands;  // holds all valid command words
+    private Scanner reader;         // source of command input
+
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser() 
+    public Parser()
     {
-        cword=new CommandWords();
     }
+
     /**
      * @return The next command from the user.
      */
-    public static void main(String[] args) {
-        Parser p = new Parser();
-    }
 
     public String getCommandWord()
     {
-        Scanner reader;
         String commandinput = new String();
         do{
+            System.out.println("what to do next?");
             System.out.println("please enter \" Attack\" or \"Move\"");
             reader = new Scanner(System.in);
             String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cword.isCommand(commandinput));
+            commandinput =str.replace(" ","");}while (!commands.isCommand(commandinput));
         return commandinput;
     }
 
-    public Country getCountryName()
+    public String getCountryName()
     {
-        Scanner reader;
         String commandinput = new String();
-        do{
-            System.out.println("please enter a country ");
+
+            System.out.println("");
             reader = new Scanner(System.in);
             String str = reader.nextLine();
-            commandinput =str.replace(" ","");}while (!cword.isCommand(commandinput));
-        return null;
+            commandinput =str.replace(" ","");
+        return commandinput;
     }
-
+    /**
+     * Print out a list of valid command words.
+     */
+    public void showCommands()
+    {
+        commands.showAll();
+    }
 }

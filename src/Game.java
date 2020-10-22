@@ -590,10 +590,10 @@ public class Game {
             else{
                 potentialCountry = map.get(countryname);
             }
-            if(potentialCountry.printEnemyCountry()=="") {
+            /*if(potentialCountry.printEnemyCountry()=="") {
                 System.out.println("no enemy country nearby, please choose another one");
                 continue;
-            }
+            }*/
 
         }while(!p.getCountriesOwn().contains(potentialCountry));
         System.out.println("country your choose is "+potentialCountry.getCountryName());

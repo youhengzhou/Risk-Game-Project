@@ -45,35 +45,40 @@ public class Game {
             pass = false;
             playerOnGoing=players.get(playerIndex%numOfPlayer);
             System.out.println("");
-            System.out.println("Now it is your turn" + playerOnGoing.getName());
+            System.out.println("Now it is your turn " + playerOnGoing.getName());
             while(!pass) {
 
-                Country AttactCountry = getAttackCountry(playerOnGoing, null);
-                Country DefendCountry = getDefendCountry(playerOnGoing,AttactCountry);
-                Battle battle = new Battle(AttactCountry, DefendCountry);
-                if (battle.fight()) {
-                    System.out.println("you win the battle! now " + DefendCountry.getCountryName() + " is yours");
-                }
-                else{
-                    System.out.println("unfortunately you lost the battle with "+DefendCountry.getCountryName());
-                }
+                System.out.println("what do you want to do now, please input your command");
 
-                String nextstep;
-                do {
-                    nextstep =nextStep();
-                    if (nextstep.toLowerCase().equals("pass")) {
-                        pass = true;
-                        break;
-                    } else if (!nextstep.toLowerCase().equals("attack")) {
-                        System.out.println("ensure that you only enter word Pass or Attack");
-                    }
-                }while(!nextstep.toLowerCase().equals("attack"));
-
+                processCommand(parser.getCommand());
             }
-            printPlayerEliminated();
-            playerIndex++;
-
-        }
+            }
+//                Country AttackCountry = getAttackCountry(playerOnGoing, null);
+//                Country DefendCountry = getDefendCountry(playerOnGoing,AttackCountry);
+//                Battle battle = new Battle(AttackCountry, DefendCountry);
+//                if (battle.fight()) {
+//                    System.out.println("you win the battle! now " + DefendCountry.getCountryName() + " is yours");
+//                }
+//                else{
+//                    System.out.println("unfortunately you lost the battle with "+DefendCountry.getCountryName());
+//                }
+//
+//                String nextstep;
+//                do {
+//                    nextstep =nextStep();
+//                    if (nextstep.toLowerCase().equals("pass")) {
+//                        pass = true;
+//                        break;
+//                    } else if (!nextstep.toLowerCase().equals("attack")) {
+//                        System.out.println("ensure that you only enter word Pass or Attack");
+//                    }
+//                }while(!nextstep.toLowerCase().equals("attack"));
+//
+//            }
+//            printPlayerEliminated();
+//            playerIndex++;
+//
+//        }
         System.out.println("Thank you for playing. Good bye.");
     }
 
@@ -146,7 +151,7 @@ public class Game {
         do{
             System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list");
-            player.printStatus();
+            System.out.println(player.printStatus());
             countryname = parser.getCountryName();
             if(!map.containsKey(countryname)) continue;
             else{
@@ -154,7 +159,31 @@ public class Game {
             }
         }while(!player.getCountriesOwn().contains(attackCountry));
 
-       Country defendCountry = getDefendCountry(player,attackCountry);
+        //Country defendCountry = getDefendCountry(player,attackCountry);
+
+        Country defendCountry = null;
+
+        do{
+
+            System.out.println("choose the enemy country that you want to attack from the list:");
+
+            System.out.println(attackCountry.printEnemyCountry());
+            countryname = parser.getCountryName();
+            if(!map.containsKey(countryname)) ;
+            else{
+                defendCountry = map.get(countryname);
+            }
+            if(player.getCountriesOwn().contains(defendCountry))
+            {
+                System.out.println(defendCountry.getCountryName()+"is your own country");
+                System.out.println(" please choose a different one");
+                continue;
+            }
+
+
+        }while(!attackCountry.getAdjacentCountries().contains(defendCountry));
+        System.out.println("the country your are attacking is "+attackCountry.getCountryName());
+
 
        new Battle(attackCountry, defendCountry);
 
@@ -567,8 +596,6 @@ public class Game {
 
             System.out.println(p.printStatus());
             countryname = parser.getCountryName();
-
-
 
             if(!map.containsKey(countryname));
             else{

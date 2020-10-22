@@ -12,6 +12,8 @@ public class Game {
 	private Parser parser;
 	private Player currentPlayer;
 	private HashMap<String,Country> map;
+    int playerIndex;
+    boolean pass;
 
     public Game() 
     {
@@ -24,6 +26,8 @@ public class Game {
         setNumOfPlayer();
         createPlayer();
         currentPlayer = players.get(0);
+        pass=false;
+        playerIndex=0;
 
         randomAssignCountry();
         randomAssignTroops();
@@ -38,8 +42,7 @@ public class Game {
 	public void play() 
     {            
         boolean finished = false;
-        int playerIndex=0;
-        boolean pass;
+
 
         while (! finished || !hasWinner()) {
             pass = false;
@@ -98,7 +101,7 @@ public class Game {
         else if (commandWord.equals("quit")) {
             quit(command);
         } else if(commandWord.equals("pass")){
-            pass(command);
+            pass();
         }
     }
 	
@@ -149,7 +152,15 @@ public class Game {
         }while(!attackCountry.getAdjacentCountries().contains(defendCountry));
         System.out.println("the country your are attacking is "+attackCountry.getCountryName());
 
-       new Battle(attackCountry, defendCountry);
+         Battle bt = new Battle(attackCountry, defendCountry);
+         if(bt.fight())
+         {
+             System.out.println("You win! now "+defendCountry.getCountryName()+"is yours");
+         }
+         else
+         {
+             System.out.println("Unfortunately you lose the battle with "+defendCountry.getCountryName());
+         }
     }
 	
 	private boolean quit(Command command) 
@@ -163,17 +174,12 @@ public class Game {
 
     /**
      * implementing for command "pass", to pass the turn from this player to next player
-     * @param command
+     * @param
      * @return boolean
      */
-    private boolean pass(Command command){
-        if(command.hasSecondWord()) {
-            System.out.println("Pass what?");
-            return false;
-        }
-        int count = players.indexOf(this.currentPlayer);
-        this.currentPlayer = players.get((count % players.size())); //this will iterate the list in a circle (Ex: 1, 2, 3, 1, 2, 3...)
-        return false;
+    private void pass(){
+        pass=true;
+        playerIndex++;
     }
 
     public void initCountries()

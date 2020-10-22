@@ -53,32 +53,7 @@ public class Game {
                 processCommand(parser.getCommand());
             }
             }
-//                Country AttackCountry = getAttackCountry(playerOnGoing, null);
-//                Country DefendCountry = getDefendCountry(playerOnGoing,AttackCountry);
-//                Battle battle = new Battle(AttackCountry, DefendCountry);
-//                if (battle.fight()) {
-//                    System.out.println("you win the battle! now " + DefendCountry.getCountryName() + " is yours");
-//                }
-//                else{
-//                    System.out.println("unfortunately you lost the battle with "+DefendCountry.getCountryName());
-//                }
-//
-//                String nextstep;
-//                do {
-//                    nextstep =nextStep();
-//                    if (nextstep.toLowerCase().equals("pass")) {
-//                        pass = true;
-//                        break;
-//                    } else if (!nextstep.toLowerCase().equals("attack")) {
-//                        System.out.println("ensure that you only enter word Pass or Attack");
-//                    }
-//                }while(!nextstep.toLowerCase().equals("attack"));
-//
-//            }
-//            printPlayerEliminated();
-//            playerIndex++;
-//
-//        }
+
         System.out.println("Thank you for playing. Good bye.");
     }
 
@@ -143,7 +118,7 @@ public class Game {
     }
 	
 	private void attack(Command command)
-    {
+            {
         Player player = currentPlayer;
         String countryname;
         Country attackCountry = null;

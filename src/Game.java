@@ -41,7 +41,7 @@ public class Game {
         int playerIndex=0;
         boolean pass;
 
-        while (! finished && !hasWinner()) {
+        while (! finished || !hasWinner()) {
             pass = false;
             playerOnGoing=players.get(playerIndex%numOfPlayer);
             System.out.println("");
@@ -53,7 +53,6 @@ public class Game {
                 processCommand(parser.getCommand());
             }
             }
-
         System.out.println("Thank you for playing. Good bye.");
     }
 
@@ -83,15 +82,12 @@ public class Game {
         System.out.println();
     }
 	
-	private boolean processCommand(Command command) 
+	private void processCommand(Command command)
     {
-        boolean wantToQuit = false;
-
         if(command.isUnknown()) {
             System.out.println("I don't know what you mean...");
-            return false;
+            return;
         }
-
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
             printHelp();
@@ -100,12 +96,10 @@ public class Game {
             attack(command);
         }
         else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
+            quit(command);
         } else if(commandWord.equals("pass")){
-            wantToQuit = pass(command);
+            pass(command);
         }
-        // else command not recognised.
-        return wantToQuit;
     }
 	
 	private void printHelp() 
@@ -118,7 +112,7 @@ public class Game {
     }
 	
 	private void attack(Command command)
-            {
+    {
         Player player = currentPlayer;
         String countryname;
         Country attackCountry = null;
@@ -645,27 +639,27 @@ public class Game {
     }
 
     public void randomAssignTroops() {
-        int avilableToop;
+        int avoidableTroop;
         int troopGive;  //the number of troop gives to country.
         Random r = new Random();
         for (Player p : players) {
-            avilableToop = initialTroops; //total number of troops that each Player has when begin
+            avoidableTroop = initialTroops; //total number of troops that each Player has when begin
 
             for (Country c : p.getCountriesOwn()) {
                 //make sure each country at least has at least one troop
                 c.addtroops(1);
-                avilableToop -= 1; //decrement the available troops that a player left
+                avoidableTroop -= 1; //decrement the available troops that a player left
 
             }
             for (Country c : p.getCountriesOwn()) {
                 //distributing the rest of troop to country randomly.
-                if (avilableToop <= 0) break; //stop when there are no more troops that available to be assigned.
+                if (avoidableTroop <= 0) break; //stop when there are no more troops that available to be assigned.
                 troopGive = r.nextInt(10);
 
                 //if random number is too big, we just assign to the country with whatever amount of troops we have left
-                if (avilableToop - troopGive <= 0) troopGive = avilableToop;
+                if (avoidableTroop - troopGive <= 0) troopGive = avoidableTroop;
                 c.addtroops(troopGive);
-                avilableToop -= troopGive; //decrement the available troops that a player left
+                avoidableTroop -= troopGive; //decrement the available troops that a player left
             }
         }
     }

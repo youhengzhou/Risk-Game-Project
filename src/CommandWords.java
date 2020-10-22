@@ -1,4 +1,4 @@
-
+import java.util.*;
 public class CommandWords
 {
     // a constant array that holds all valid command words
@@ -45,4 +45,31 @@ public class CommandWords
         System.out.println(cmd.isCommand("pass"));
         System.out.println(cmd.isCommand("help"));
     }
+
+    public static void compare(String[] args) {
+        ArrayList<String> al = new ArrayList<>();
+        //North America
+        al.add("Alaska");
+        al.add("Alberta");
+        al.add("CentralAmerica");
+        al.add("EasternUnitedStates");
+        al.add("Greenland");
+        al.add("NorthwestTerritory");
+        al.add("Ontario");
+        al.add("Quebec");
+        al.add("WesternUnitedStates");
+        //South America
+        al.add("Argentina");
+        al.add("Brazil");
+        al.add("Peru");
+        al.add("Venezuela");
+        //Europe
+        al.add("GreatBritain");
+        al.add("Iceland");
+
+
+
+    }
+
+
 }

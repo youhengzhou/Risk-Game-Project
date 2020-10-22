@@ -159,19 +159,16 @@ public class Game {
             }
         }while(!player.getCountriesOwn().contains(attackCountry));
 
-        //Country defendCountry = getDefendCountry(player,attackCountry);
-
         Country defendCountry = null;
-
+        String name;
         do{
-
             System.out.println("choose the enemy country that you want to attack from the list:");
 
             System.out.println(attackCountry.printEnemyCountry());
-            countryname = parser.getCountryName();
-            if(!map.containsKey(countryname)) ;
+            name = parser.getCountryName();
+            if(!map.containsKey(name)) ;
             else{
-                defendCountry = map.get(countryname);
+                defendCountry = map.get(name);
             }
             if(player.getCountriesOwn().contains(defendCountry))
             {
@@ -180,13 +177,10 @@ public class Game {
                 continue;
             }
 
-
         }while(!attackCountry.getAdjacentCountries().contains(defendCountry));
         System.out.println("the country your are attacking is "+attackCountry.getCountryName());
 
-
        new Battle(attackCountry, defendCountry);
-
     }
 	
 	private boolean quit(Command command) 

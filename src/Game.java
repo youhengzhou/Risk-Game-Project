@@ -6,7 +6,6 @@ import java.util.*;
 public class Game {
     private List<Player> players;
     private List<Country> countries;
-    private boolean hasWinner;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
@@ -19,7 +18,6 @@ public class Game {
 		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
         countries = new ArrayList<>();
-        hasWinner = false;
         map = new HashMap<>();
 
         initCountries();
@@ -29,22 +27,9 @@ public class Game {
 
         randomAssignCountry();
         randomAssignTroops();
-        //configurationTest();
         printWelcome();
         play();
     }
-
-   /** public void configurationTest()
-    {
-
-        System.out.println("in the test");
-        System.out.println("we have "+initialTroops+" when start");
-        for(Player p :players)
-        {
-            System.out.println(p.printStatus());
-        }
-
-    }**/
 
     public static void main (String[] args){
         Game game = new Game();
@@ -56,7 +41,7 @@ public class Game {
         int playerIndex=0;
         boolean pass;
 
-        while (! finished) {
+        while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing=players.get(playerIndex%numOfPlayer);
             System.out.println("");
@@ -70,7 +55,7 @@ public class Game {
                     System.out.println("you win the battle! now " + DefendCountry.getCountryName() + " is yours");
                 }
                 else{
-                    System.out.println("unfortunetely you lost the battle with "+DefendCountry.getCountryName());
+                    System.out.println("unfortunately you lost the battle with "+DefendCountry.getCountryName());
                 }
 
                 String nextstep;
@@ -80,7 +65,7 @@ public class Game {
                         pass = true;
                         break;
                     } else if (!nextstep.toLowerCase().equals("attack")) {
-                        System.out.println("ensure that you only enter word Pass or Attact");
+                        System.out.println("ensure that you only enter word Pass or Attack");
                     }
                 }while(!nextstep.toLowerCase().equals("attack"));
 
@@ -92,7 +77,7 @@ public class Game {
         System.out.println("Thank you for playing. Good bye.");
     }
 
-    public boolean checkWinner(){
+    public boolean hasWinner(){
         if(players.size()>1) return false;
         return true;
     }
@@ -116,7 +101,6 @@ public class Game {
         System.out.println("RISK is the Hasbro game of Global Domination");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        //System.out.println(currentCountry.getLongDescription()); something that describes the current player situation
     }
 	
 	private boolean processCommand(Command command) 
@@ -160,7 +144,7 @@ public class Game {
         Country attackCountry = null;
 
         do{
-            System.out.println("you have those countrys, which one you want to use for attack?");
+            System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list");
             player.printStatus();
             countryname = parser.getCountryName();
@@ -578,7 +562,7 @@ public class Game {
         Country potentialCountry = null;
 
         do{
-            System.out.println("you have those countrys, which one you want to use for attack?");
+            System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list");
 
             System.out.println(p.printStatus());
@@ -624,7 +608,7 @@ public class Game {
 
 
         }while(!attackCountry.getAdjacentCountries().contains(potentialCountry));
-        System.out.println("the country your are attacting is "+potentialCountry.getCountryName());
+        System.out.println("the country your are attacking is "+potentialCountry.getCountryName());
         return potentialCountry;
     }
 

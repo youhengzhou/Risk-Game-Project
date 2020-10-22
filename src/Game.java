@@ -1,5 +1,6 @@
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+
+import javax.crypto.spec.PSource;
 import java.util.*;
 
 public class Game {
@@ -28,12 +29,12 @@ public class Game {
 
         randomAssignCountry();
         randomAssignTroops();
-        configurationTest();
+        //configurationTest();
         printWelcome();
         play();
     }
 
-    public void configurationTest()
+   /** public void configurationTest()
     {
 
         System.out.println("in the test");
@@ -43,7 +44,7 @@ public class Game {
             System.out.println(p.printStatus());
         }
 
-    }
+    }**/
 
     public static void main (String[] args){
         Game game = new Game();
@@ -52,10 +53,41 @@ public class Game {
 	public void play() 
     {            
         boolean finished = false;
+        int playerIndex=0;
+        boolean pass;
+
         while (! finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
-            finished = checkWinner();
+            pass = false;
+            playerOnGoing=players.get(playerIndex%numOfPlayer);
+            System.out.println("");
+            System.out.println("Now it is your turn" + playerOnGoing.getName());
+            while(!pass) {
+
+                Country AttactCountry = getAttackCountry(playerOnGoing, null);
+                Country DefendCountry = getDefendCountry(playerOnGoing,AttactCountry);
+                Battle battle = new Battle(AttactCountry, DefendCountry);
+                if (battle.fight()) {
+                    System.out.println("you win the battle! now " + DefendCountry.getCountryName() + " is yours");
+                }
+                else{
+                    System.out.println("unfortunetely you lost the battle with "+DefendCountry.getCountryName());
+                }
+
+                String nextstep;
+                do {
+                    nextstep =nextStep();
+                    if (nextstep.toLowerCase().equals("pass")) {
+                        pass = true;
+                        break;
+                    } else if (!nextstep.toLowerCase().equals("attack")) {
+                        System.out.println("ensure that you only enter word Pass or Attact");
+                    }
+                }while(!nextstep.toLowerCase().equals("attack"));
+
+            }
+            printPlayerEliminated();
+            playerIndex++;
+
         }
         System.out.println("Thank you for playing. Good bye.");
     }
@@ -63,6 +95,18 @@ public class Game {
     public boolean checkWinner(){
         if(players.size()>1) return false;
         return true;
+    }
+
+    public void printPlayerEliminated()
+    {
+        for(Player p:players)
+        {
+            if(p.getCountriesOwn().size()==0)
+            {
+                System.out.println(p.getName()+"is eliminated");
+                players.remove(p);
+            }
+        }
     }
 	
 	private void printWelcome()
@@ -126,7 +170,7 @@ public class Game {
             }
         }while(!player.getCountriesOwn().contains(attackCountry));
 
-       Country defendCountry = getDefendCountry(attackCountry);
+       Country defendCountry = getDefendCountry(player,attackCountry);
 
        new Battle(attackCountry, defendCountry);
 
@@ -167,7 +211,7 @@ public class Game {
         Country NorthwestTerritory = new Country("Northwest Territory");
         Country Ontario = new Country("Ontario");
         Country Quebec = new Country("Quebec");
-        Country WesternUnitedStates = new Country("WesterUnitedState");
+        Country WesternUnitedStates = new Country("WesternUnitedState");
 
         //South America
         Country Argentina = new Country("Argentina");
@@ -432,26 +476,26 @@ public class Game {
         WesternAustralia.addAdjacentCountry(Indonesia);
 
         map.put("alberta",Alberta );
-        map.put("centralamerica ",CentralAmerica  );
-        map.put("easternunitedstates ",EasternUnitedStates  );
-        map.put("greenland ",Greenland  );
+        map.put("centralamerica",CentralAmerica  );
+        map.put("easternunitedstates",EasternUnitedStates  );
+        map.put("greenland",Greenland  );
         map.put("northwestterritory ",NorthwestTerritory  );
-        map.put("ontario ",Ontario  );
-        map.put("quebec ",Quebec  );
-        map.put("westernunitedstates ",WesternUnitedStates  );
+        map.put("ontario",Ontario  );
+        map.put("quebec",Quebec  );
+        map.put("westernunitedstates",WesternUnitedStates  );
 
-        map.put("argentina ",Argentina  );
-        map.put("brazil ",Brazil  );
-        map.put("peru ",Peru  );
-        map.put("venezuela ",Venezuela  );
+        map.put("argentina",Argentina  );
+        map.put("brazil",Brazil  );
+        map.put("peru",Peru  );
+        map.put("venezuela",Venezuela  );
 
-        map.put("greatbritain ",GreatBritain  );
-        map.put("iceland ",Iceland);
-        map.put("northerneurope ",NorthernEurope  );
-        map.put("scandinavia ",Scandinavia  );
-        map.put("southerneurope ",SouthernEurope  );
+        map.put("greatbritain",GreatBritain  );
+        map.put("iceland",Iceland);
+        map.put("northerneurope",NorthernEurope  );
+        map.put("scandinavia",Scandinavia  );
+        map.put("southerneurope",SouthernEurope  );
         map.put("ukraine",Ukraine );
-        map.put("westerneurope ",WesternEurope);
+        map.put("westerneurope",WesternEurope);
 
         map.put("congo",Congo );
         map.put("eastafrica",EastAfrica );
@@ -462,11 +506,11 @@ public class Game {
 
         map.put("afghanistan",Afghanistan );
         map.put("china",China );
-        map.put("india  ",India );
+        map.put("india",India );
         map.put("irkutsk",Irkutsk  );
         map.put("japan",Japan  );
         map.put("kamchatka",Kamchatka  );
-        map.put("middleEast",MiddleEast  );
+        map.put("middleeast",MiddleEast  );
         map.put("mongolia",Mongolia  );
         map.put("siam",Siam   );
         map.put("siberia",Siberia  );
@@ -475,8 +519,8 @@ public class Game {
 
         map.put("easternaustralia",EasternAustralia);
         map.put("indonesia",Indonesia  );
-        map.put("newGuinea",NewGuinea  );
-        map.put("westernAustralia",WesternAustralia  );
+        map.put("newguinea",NewGuinea  );
+        map.put("westernaustralia",WesternAustralia  );
     }
 
     /**
@@ -536,35 +580,63 @@ public class Game {
         do{
             System.out.println("you have those countrys, which one you want to use for attack?");
             System.out.println("Please choose from the list");
-            p.printStatus();
+
+            System.out.println(p.printStatus());
             countryname = parser.getCountryName();
-            if(!map.containsKey(countryname)) continue;
+
+
+
+            if(!map.containsKey(countryname));
             else{
                 potentialCountry = map.get(countryname);
             }
+            if(potentialCountry.printEnemyCountry()=="") {
+                System.out.println("no enemy country nearby, please choose another one");
+                continue;
+            }
+
         }while(!p.getCountriesOwn().contains(potentialCountry));
+        System.out.println("country your choose is "+potentialCountry.getCountryName());
         return potentialCountry;
     }
 
-    private Country getDefendCountry(Country attackCountry)
+    private Country getDefendCountry(Player attackPlayer, Country attackCountry)
     {
         String countryname;
         Country potentialCountry = new Country("impossibleCountry");
 
         do{
-            System.out.println("the country"+attackCountry.getCountryName()+"has"+attackCountry.getCountryName()+"troops");
-            System.out.println("adjacent to the following countries");
-            System.out.println("choose the country that you want to attack from the list:");
-//
-//            System.out.println("Please choose one from the list");
-            attackCountry.printAdjacentCountries();
+
+            System.out.println("choose the enemy country that you want to attack from the list:");
+
+            System.out.println(attackCountry.printEnemyCountry());
             countryname = parser.getCountryName();
-            if(!map.containsKey(countryname)) continue;
+            if(!map.containsKey(countryname)) ;
             else{
                 potentialCountry = map.get(countryname);
             }
+            if(attackPlayer.getCountriesOwn().contains(potentialCountry))
+            {
+                System.out.println(potentialCountry.getCountryName()+"is your own country");
+                System.out.println(" please choose a different one");
+                continue;
+            }
+
+
         }while(!attackCountry.getAdjacentCountries().contains(potentialCountry));
+        System.out.println("the country your are attacting is "+potentialCountry.getCountryName());
         return potentialCountry;
+    }
+
+    //ask uer what they want to do next, they can continue to attck or choose to pass to another player.
+    private String nextStep()
+    {
+        System.out.println("what do you want to do next, you can enter [Attack] to keep attacking or enter [Pass] to pass on to next player" );
+        Parser parser = new Parser();
+        Command cmd = parser.getCommand();
+        System.out.println(cmd.getCommandWord());
+
+        return cmd.getCommandWord();
     }
 
     public void randomAssignCountry() {

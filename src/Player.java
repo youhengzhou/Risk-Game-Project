@@ -28,6 +28,9 @@ public class Player {
         return s;
     }
 
+    public String getName() {
+        return name;
+    }
 
     public List<Country> getCountriesOwn() {
         return countriesOwn;

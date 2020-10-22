@@ -27,8 +27,6 @@ public class Battle {
         while(countryAttack.getTroopsNum() > 1 && countryDefend.getTroopsNum() != 0){
             Dice attackDice = new Dice(countryAttack.getTroopsNum());
             Dice defendDice = new Dice(countryDefend.getTroopsNum());
-            System.out.println("attackTroops: " + countryAttack.getTroopsNum());
-            System.out.println("defendTroops: " + countryDefend.getTroopsNum());
             while(attackDice.hasMoreThanOne() && !defendDice.isempty()){
                     if(attackDice.getNexdtHighest() > defendDice.getNexdtHighest()){
                         countryDefend.removetroop(1);
@@ -41,7 +39,7 @@ public class Battle {
 
             if(countryDefend.getTroopsNum() ==0) return true;
         }
-        System.out.println("attackTroops: " + countryAttack.getTroopsNum());
+
         return false;
     }
     public static void main (String[] args){

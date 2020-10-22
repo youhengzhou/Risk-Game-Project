@@ -33,6 +33,7 @@ public class Parser {
             }
         }
         if (commands.isCommand(word1)) {
+            System.out.println("word1 is "+word1);
             return new Command(word1, word2);
         } else {
             return new Command(null, word2);

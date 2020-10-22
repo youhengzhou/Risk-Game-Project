@@ -21,9 +21,9 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
+        for(String s : validCommands)
+        {
+            if(aString.toLowerCase().equals(s)) return true;
         }
         // if we get here, the string was not found in the commands
         return false;
@@ -35,5 +35,14 @@ public class CommandWords
             System.out.print(command + "  ");
         }
         System.out.println();
+    }
+
+    public static void main(String[] args) {
+        //simplly for testing
+        CommandWords cmd = new CommandWords();
+        System.out.println(cmd.isCommand("attack"));
+        System.out.println(cmd.isCommand("Attack"));
+        System.out.println(cmd.isCommand("pass"));
+        System.out.println(cmd.isCommand("help"));
     }
 }

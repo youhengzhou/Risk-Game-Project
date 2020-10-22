@@ -30,6 +30,10 @@ public class Country {
         return troopsNum;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
     public String getCountryName() {
         //return name of Country
         return countryName;
@@ -67,5 +71,17 @@ public class Country {
             s += c.printState();
             s += "\n";
         }
+        System.out.println(s);
+    }
+    public String printEnemyCountry()
+    {
+        String s = "";
+        for (Country c : this.getAdjacentCountries()) {
+            if(c.getOwner().equals(this.getOwner())) continue;
+            s += c.printState();
+            s += "\n";
+        }
+        return s;
+
     }
 }

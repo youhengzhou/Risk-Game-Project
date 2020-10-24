@@ -1,5 +1,3 @@
-
-
 import javax.crypto.spec.PSource;
 import java.util.*;
 
@@ -98,8 +96,7 @@ public class Game {
         }
         else if (commandWord.equals("attack")) {
             attack(command);
-        }
-        else if (commandWord.equals("quit")) {
+        } else if (commandWord.equals("quit")) {
             quit(command);
         } else if(commandWord.equals("pass")){
             pass();

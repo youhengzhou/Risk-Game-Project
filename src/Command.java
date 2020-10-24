@@ -1,4 +1,3 @@
-
 public class Command
 {
     private String commandWord;

@@ -9,7 +9,7 @@ public class Country {
     public Country(String name){
         //initializing troopnum,owner and countryName
         countryName=name;
-        adjacentCountries = new ArrayList<>();
+        adjacentCountries = new ArrayList<>(); // uses an ArrayList to store the adjacent countries
         owner=null;
 
     }
@@ -65,25 +65,22 @@ public class Country {
         return s;
     }
 
-    //public void printAdjacentCountries() {
+    //public void printAdjacentCountries() { // method for printing adjacent countries, is obsolete since printEnemyCountry was used
      //   String s = "";
     //    for (Country c : this.getAdjacentCountries()) {
     //        s += c.printState();
-   //         s += "\n";
+    //         s += "\n";
     //    }
     //    System.out.println(s);
-//    }
-    public String printEnemyCountry()
+    //    }
+
+    public String printEnemyCountry() // prints enemy country, by storing the countries to a list
     {
         String s = "";
         for (Country c : this.getAdjacentCountries()) {
-
-
-                if (c.getOwner().equals(this.getOwner())) continue;
-                s += c.printState();
-                s += "\n";
-
-
+            if (c.getOwner().equals(this.getOwner())) continue;
+            s += c.printState();
+            s += "\n";
         }
         return s;
 

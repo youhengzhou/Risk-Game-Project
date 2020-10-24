@@ -12,15 +12,18 @@ public class Game {
 	private Parser parser;
 	private Player currentPlayer;
 	private HashMap<String,Country> map;
+	private List<Player> playerDead;
     int playerIndex;
     boolean pass;
-
+    boolean finished=false;
     public Game() 
     {
+
 		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
-        countries = new ArrayList<>();
+
         map = new HashMap<>();
+
 
         initCountries();
         setNumOfPlayer();
@@ -29,30 +32,97 @@ public class Game {
         pass=false;
         playerIndex=0;
 
+
         randomAssignCountry();
         randomAssignTroops();
         printWelcome();
         play();
+
     }
+
+    /**public void test()
+    {
+        parser = parser = new Parser();
+        players= new ArrayList<>();
+        map = new HashMap<>();
+
+        Country China = new Country("China");
+        Country Japan = new Country ("japan");
+        Country Korea = new Country ("korea");
+        Country Canada = new Country ("Canada");
+        Country Russain = new Country("Russain");
+        Player P1 = new Player("p1");
+        Player P2 = new Player("p2");
+        Player P3 = new Player("p3");
+        players.add(P1);
+        players.add(P2);
+        players.add(P3);
+        map.put("china",China);
+        map.put("korea",Korea);
+        map.put("japan",Japan);
+        map.put("canada",Canada);
+        map.put("russain",Russain);
+        P1.addCountry(China);
+        P1.addCountry(Korea);
+        P1.addCountry(Russain);
+        P2.addCountry(Japan);
+        P3.addCountry(Canada);
+
+        China.addtroops(20);
+        China.addAdjacentCountry(Korea);
+        China.addAdjacentCountry(Russain);
+        China.addAdjacentCountry(Japan);
+        China.changeOwner(P1);
+
+        Korea.addtroops(5);
+        Korea.addAdjacentCountry(China);
+        Korea.changeOwner(P1);
+
+        Russain.addtroops(2);
+        Russain.addAdjacentCountry(China);
+        Russain.changeOwner(P1);
+
+        Japan.addtroops(7);
+        Japan.addAdjacentCountry(China);
+        Japan.addAdjacentCountry(Canada);
+        Japan.changeOwner(P2);
+
+        Canada.addAdjacentCountry(Japan);
+        Canada.addtroops(2);
+        Canada.changeOwner(P3);
+
+        numOfPlayer=3;
+        currentPlayer = players.get(0);
+        pass=false;
+        playerIndex=0;
+        printWelcome();
+        play();
+
+
+
+
+    }
+     **/
+
 
     public static void main (String[] args){
         Game game = new Game();
+
     }
 	
 	public void play() 
     {            
-        boolean finished = false;
 
 
-        while (! finished || !hasWinner()) {
+        while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing=players.get(playerIndex%numOfPlayer);
             System.out.println("");
             System.out.println("Now it is your turn " + playerOnGoing.getName());
-            while(!pass) {
+            while(!pass && !finished) {
 
                 System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [Attack], [Pass], [help]");
+                System.out.println("You can type [Attack], [Pass], [help],[quit]");
 
                 processCommand(parser.getCommand());
             }
@@ -65,17 +135,29 @@ public class Game {
         return true;
     }
 
-    public void printPlayerEliminated()
-    {
-        for(Player p:players)
-        {
-            if(p.getCountriesOwn().size()==0)
-            {
-                System.out.println(p.getName()+"is eliminated");
-                players.remove(p);
+    public void removePlayerWithNoCountry() {
+        Player beRemovedPlayer = new Player("impossible");
+        for (Player p : players) {
+            try {
+
+                if (p.getCountriesOwn().isEmpty()) {
+
+                    numOfPlayer--;
+                    beRemovedPlayer = p;
+
+                }
+
+            } catch (Exception e) {
             }
+
+        }
+        players.remove(beRemovedPlayer);
+        if (players.size() == 1) {
+            System.out.println("The winner is " + players.get(0).getName());
+            finished = true;
         }
     }
+
 	
 	private void printWelcome()
     {
@@ -117,7 +199,7 @@ public class Game {
 	
 	private void attack(Command command)
     {
-        Player player = currentPlayer;
+        Player player = playerOnGoing;
         String countryname;
         Country attackCountry = null;
 
@@ -179,6 +261,8 @@ public class Game {
         }while(true);
          Battle bt = new Battle(attackCountry, defendCountry,num);
         bt.fight();
+        removePlayerWithNoCountry();
+
     }
 	
 	private boolean quit(Command command) 
@@ -187,6 +271,8 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         }
+
+        finished =true;
             return true;  // signal that we want to quit
     }
 

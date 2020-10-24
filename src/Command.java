@@ -1,4 +1,4 @@
-public class Command
+public class Command // the Command class works in conjugation with Parser to take in user commands from the keyboard to strings
 {
     private String commandWord;
     private String secondWord;

@@ -1,5 +1,4 @@
-
-public class CommandWords
+public class CommandWords // the CommandWords class stores all the relevant commands, and is used to check whether a string input from the player is a valid command
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {

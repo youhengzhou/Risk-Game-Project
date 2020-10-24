@@ -1,7 +1,7 @@
 import javax.crypto.spec.PSource;
 import java.util.*;
 
-public class Game {
+public class Game { // the Game class is used to run and execute the game, it has lists for plaers and countries, and a parser built in for getting simple commands
     private List<Player> players;
     private List<Country> countries;
     private Player playerOnGoing;

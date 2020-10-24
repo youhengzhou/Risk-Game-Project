@@ -1,4 +1,4 @@
-public class Battle {
+public class Battle { // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles.
     private Country countryAttack;
     private Country countryDefend;
     private int AttackingTroops;
@@ -12,23 +12,23 @@ public class Battle {
 
     //this is for quick fight, just to make sure the game is up
     public Boolean fight() {
-        int attackTroopDeath = 0;
-        int defendTroopDeath=0;
+        int attackTroopDeath = 0; // counter for taking away troops later
+        int defendTroopDeath=0; // counter for taking away troops later
         Dice attackDice = new Dice(1);
         Dice defendDice=new Dice(1) ;
 
         while(AttackingTroops!=0 && countryDefend.getTroopsNum()!=0) {
-            attackDice = new Dice(AttackingTroops);
-            defendDice = new Dice(countryDefend.getTroopsNum());
+            attackDice = new Dice(AttackingTroops); // attack with troops picked from user
+            defendDice = new Dice(countryDefend.getTroopsNum()); // defend with all troops present from defender
 
-            while (!attackDice.isempty() && !defendDice.isempty()) {
-                int attacknum = attackDice.getNexdtHighest();
-                int defendnum = defendDice.getNexdtHighest();
+            while (!attackDice.isempty() && !defendDice.isempty()) { // make sure it is possible to attack and defend
+                int attacknum = attackDice.getNextHighest(); // choose the highest dice number to attack with
+                int defendnum = defendDice.getNextHighest(); // choose the highest dice number to defend with
                 if (attacknum > defendnum) {
-                    countryDefend.removetroop(1);
-                        defendTroopDeath++;
+                    countryDefend.removetroop(1); // if attacks win once, removes defending troop once
+                    defendTroopDeath++;
                 } else {
-                    AttackingTroops--;
+                    AttackingTroops--; // if attacks lost once, removes attacking troop once
                     attackTroopDeath++;
                 }
             }
@@ -50,11 +50,11 @@ public class Battle {
         return false;
     }
 
-    public static void main(String[] args) {
-        Country canada = new Country("canada");
-        Country China = new Country("china");
-        canada.addtroops(10);
-        China.addtroops(14);
-       // System.out.print(new Battle(China, canada).fight());
-    }
+    /*public static void main(String[] args) { // sample demonstrating how the code can be used to initiate a potential battle
+        Country northPole = new Country("north pole");
+        Country southPole = new Country("south pole");
+        northPole.addtroops(10);
+        southPole.addtroops(10);
+       // System.out.print(new Battle(northPole, southPole).fight());
+    }*/
 }

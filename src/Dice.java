@@ -56,4 +56,8 @@ public class Dice {
         System.out.println(d.getNexdtHighest());
         System.out.println(d.getNexdtHighest());//through Exception when no more dice in the queue
     }
+    public PriorityQueue<Integer> helper()
+    {
+        return diceGroup;
+    }
 }

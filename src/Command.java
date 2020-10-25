@@ -1,31 +1,39 @@
-public class Command // the Command class works in conjugation with Parser to take in user commands from the keyboard to strings
+/**
+ * the Command class works in conjugation with Parser to take in user commands from the keyboard to strings
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
+public class Command //
 {
     private String commandWord;
 
     /**
-     * Check whether a given String is a valid command word.
-     *
-     * @param word takes in the command word of the user
+     * Constructor of Command
+     * Command checks whether a given String is a valid command word
+     * @param word takes in the command word from users' input
      */
     public Command(String word) {
         commandWord = word;
     }
 
     /**
-     * Check whether a given String is a valid command word.
-     *
-     * @return returns the command word.
+     * Get the command word 
+     * getCommandWord checks if the given String is a valid command word
+     * @return return the commandWord
      */
-    public String getCommandWord() { // gets the command word
+    public String getCommandWord() { 
         return commandWord;
     }
 
     /**
-     * Checks if a command word is null
-     *
-     * @return True if the command word is null.
+     * isUnknown checks if a command word is null or not
+     * @return true if commandWord is null
      */
-    public boolean isUnknown() { // checks if the command word is null or not
+    public boolean isUnknown() { 
         return (commandWord == null);
     }
 }

@@ -5,10 +5,9 @@ public class CommandWords {
     };
 
     /**
-     * Check whether a given String is a valid command word.
-     *
-     * @return true if a given string is a valid command,
-     * false if it isn't.
+     * isCommand checks if users input is valid
+     * @param aString insert the users input and check if it is the valid
+     * @return true if a given string is a valid command, false if it isn't
      */
     public boolean isCommand(String aString) {
         for (String s : validCommands) {
@@ -19,14 +18,27 @@ public class CommandWords {
     }
 
     /**
-     * Shows all the possible commands
-     *
-     */
+    * show all the possibllities of the command words
+    */
     public String showAll() {
         String s = "";
         for (String command : validCommands) {
             s += ("[" + command + "]" + "  ");
         }
         return s + "\n";
+    }
+    
+    /**
+    * main function for command word gives new commansWords and a output
+    * @param args
+    * print out the command words when isCommand returns to true
+    */
+    public static void main(String[] args) {
+        //simply for testing
+        CommandWords cmd = new CommandWords();
+        System.out.println(cmd.isCommand("attack"));
+        System.out.println(cmd.isCommand("Attack"));
+        System.out.println(cmd.isCommand("pass"));
+        System.out.println(cmd.isCommand("help"));
     }
 }

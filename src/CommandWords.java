@@ -21,6 +21,7 @@ public class CommandWords {
     /**
      * Shows all the possible commands
      *
+     * @return returns a string that has all the commands enclosed in [ ] and separated by spaces
      */
     public String showAll() {
         String s = "";

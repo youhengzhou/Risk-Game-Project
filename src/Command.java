@@ -14,7 +14,7 @@ public class Command // the Command class works in conjugation with Parser to ta
     /**
      * Check whether a given String is a valid command word.
      *
-     * @return word returns the command word.
+     * @return returns the command word.
      */
     public String getCommandWord() { // gets the command word
         return commandWord;

@@ -12,6 +12,7 @@ public class Command //
     private String commandWord;
 
     /**
+     * Constructor of Command
      * Command checks whether a given String is a valid command word
      * @param word takes in the command word from users' input
      */

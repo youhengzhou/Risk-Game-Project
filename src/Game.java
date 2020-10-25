@@ -91,8 +91,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
 
     }
      **/
-
-
     public static void main (String[] args){
         Game game = new Game();
 
@@ -109,7 +107,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
             while (!pass && !finished) {
 
                 System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [Attack], [Pass], [help],[quit]");
+                System.out.println("You can type [Attack], [Pass],[State], [help],[quit]");
 
                 processCommand(parser.getCommand());
             }

@@ -18,7 +18,7 @@ public class CommandWords {
     }
 
     /**
-    * show all the possible of the command words
+    * show all the possibllities of the command words
     */
     public String showAll() {
         String s = "";

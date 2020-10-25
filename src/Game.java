@@ -95,13 +95,10 @@ public class Game { // the Game class is used to run and execute the game, it ha
 
     public static void main (String[] args){
         Game game = new Game();
-
     }
 	
 	public void play() 
-    {            
-
-
+    {
         while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing = players.get(playerIndex % numOfPlayer);
@@ -609,7 +606,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
 
             return false;
         }
-
         return true;
     }
 
@@ -665,7 +661,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
     }
 
     public void randomAssignCountry() {
-
         //randomly assign Country-Owner pairs
         Set<String> keySet = map.keySet();
         ArrayList<String> keyList = new ArrayList<String>();//convert to List structure in order to use .shuffle method in Collection.

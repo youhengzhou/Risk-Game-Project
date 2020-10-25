@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Player { // the Player class stores all the important details for the players, such as the list of countries they own, and their names
-    private List<Country> countriesOwn;
-    private String name;
+    private List<Country> countriesOwn; // the player's owned countries
+    private String name; // the player's name
 
     public Player(String name){
         this.name = name;
@@ -28,6 +27,10 @@ public class Player { // the Player class stores all the important details for t
         return s+"\n";
     }
 
+    public List<Country> getCountriesOwn() { // helper method used for getting all the available countries in a printable list for the player
+        return countriesOwn;
+    }
+
     public String getAvaliableCountries() {
         String s = "";
         s += "Player: " + this.name + " has countries:\n";
@@ -41,9 +44,5 @@ public class Player { // the Player class stores all the important details for t
 
     public String getName() {
         return name;
-    }
-
-    public List<Country> getCountriesOwn() {
-        return countriesOwn;
     }
 }

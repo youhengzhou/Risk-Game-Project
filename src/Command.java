@@ -14,4 +14,3 @@ public class Command // the Command class works in conjugation with Parser to ta
         return (commandWord == null);
     }
 }
-

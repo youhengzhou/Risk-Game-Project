@@ -18,20 +18,15 @@ public class CommandWords {
         return false;
     }
 
+    /**
+     * Shows all the possible commands
+     *
+     */
     public String showAll() {
         String s = "";
         for (String command : validCommands) {
             s += ("[" + command + "]" + "  ");
         }
         return s + "\n";
-    }
-
-    public static void main(String[] args) {
-        //simply for testing
-        CommandWords cmd = new CommandWords();
-        System.out.println(cmd.isCommand("attack"));
-        System.out.println(cmd.isCommand("Attack"));
-        System.out.println(cmd.isCommand("pass"));
-        System.out.println(cmd.isCommand("help"));
     }
 }

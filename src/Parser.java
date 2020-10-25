@@ -4,6 +4,10 @@ public class Parser {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
+    /**
+     * Constructor of Parser
+     * The parser is used to hold the valid command words and the scanner, and also to display all the country's names
+     */
     public Parser() {
         commands = new CommandWords();
         reader = new Scanner(System.in); // new scanner to read from terminal

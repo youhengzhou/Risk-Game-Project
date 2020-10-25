@@ -1,65 +1,110 @@
 import java.util.ArrayList;
 
+/**
+ * the Country class is used to store information of Country instance
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
 public class Country {
     private String countryName;
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
 
+    /**
+     * Constructor for Country,initializing troopsNum,owner and countryName
+     */
     public Country(String name) {
-        //initializing troopsNum,owner and countryName
+
         countryName = name;
         adjacentCountries = new ArrayList<>();
         owner = null;
 
     }
 
+    /**
+     * add troops to the country
+     * @param num the number of troops to be add.
+     */
     public void addTroops(int num) {
-        //add new troops to the country
         troopsNum += num;
     }
 
+    /**
+     * Remove troops from the country.
+     * @param num number of troops to be removed
+     */
     public void removeTroop(int num) {
-        //remove troops in the country
+
         troopsNum -= num;
     }
 
 
+    /**
+     * get number of troops on the country
+     * @return troopsNum number of troops on the country
+     */
     public int getTroopsNum() {
-        //return total number of troops in the conutry
-        return troopsNum;
+          return troopsNum;
     }
 
+    /**
+     * get the owner of the country
+     * @return  the owner of the country
+     */
     public Player getOwner() {
-        // return the name of the player that owns the Country
+
         return owner;
     }
 
+    /**
+     * get the name of the country
+     * @return countryName name of the country
+     */
     public String getCountryName() {
-        // return name of Country
+
         return countryName;
     }
 
+    /**
+     * Change the owner of the country
+     * @param newOwner the new owner of the country
+     */
     public void changeOwner(Player newOwner) {
         if (owner == null) {
             owner = newOwner;
             return;
         }
-        // change owner of the country
         owner.removeCountry(this);
         this.owner = newOwner;
     }
 
+    /**
+     * add adjacent countries to the AdjacentCountries list
+     * @param adc the adjacent country to be add.
+     */
     public void addAdjacentCountry(Country adc) {
-        // add adjacent countries to the AdjacentCountries list
+
         adjacentCountries.add(adc);
     }
 
+    /**
+     * get the list of the adjacent countries
+     * @return adjacentCountries Arraylist of the adjacent counties.
+     */
     public ArrayList<Country> getAdjacentCountries() {
-        // returns an ArrayList of all the adjacent countries
+
         return adjacentCountries;
     }
 
+    /**
+     * get the String of troops on this country
+     * @return  the String of troops on this country
+     */
     public String printState() {
         // print name and troops
         String s = "";
@@ -67,6 +112,10 @@ public class Country {
         return s;
     }
 
+    /**
+     * get the string of adjacent enemy countries.
+     * @return a string of adjacent enemy countries.
+     */
     public String printEnemyCountry() {
         String s = "";
         for (Country c : this.getAdjacentCountries()) {

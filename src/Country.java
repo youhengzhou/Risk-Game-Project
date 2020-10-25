@@ -68,13 +68,13 @@ public class Country {
     }
 
     //public void printAdjacentCountries() { // method for printing adjacent countries, is obsolete for the current milestone since printEnemyCountry was used, and move is not in place yet
-     //   String s = "";
+    //   String s = "";
     //    for (Country c : this.getAdjacentCountries()) {
     //        s += c.printState();
-   //         s += "\n";
+    //         s += "\n";
     //    }
     //    System.out.println(s);
-//    }
+    //    }
     public String printEnemyCountry()
     {
         String s = "";
@@ -84,10 +84,7 @@ public class Country {
                 if (c.getOwner().equals(this.getOwner())) continue;
                 s += c.printState();
                 s += "\n";
-
-
         }
         return s;
-
     }
 }

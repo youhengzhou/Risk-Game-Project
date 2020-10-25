@@ -16,7 +16,7 @@ public class Dice {
     private PriorityQueue<Integer> diceGroup;
     public Dice(int diceNumber){
         //store values in the diceGroup,number of Integer added is depending on the diceNumber parameter passed in.
-        diceGroup = new PriorityQueue<Integer>(Collections.reverseOrder());
+        diceGroup = new PriorityQueue<>(Collections.reverseOrder());
         for(int i=0;i<diceNumber;i++)
         {
             diceGroup.add(roll());

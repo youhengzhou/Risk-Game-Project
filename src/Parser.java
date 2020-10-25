@@ -1,5 +1,14 @@
 import java.util.Scanner;
 
+/**
+ * the Parser class is used to hold commands inputted by the user through a scanner, to verify whether they are allowed command words
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
 public class Parser {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input

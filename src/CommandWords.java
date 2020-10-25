@@ -1,5 +1,13 @@
+/**
+ * a constant array that holds all valid command words
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
 public class CommandWords {
-    // a constant array that holds all valid command words
     private static final String[] validCommands = {
             "attack", "help", "state", "pass", "quit"
     };

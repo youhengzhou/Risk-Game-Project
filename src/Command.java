@@ -1,4 +1,13 @@
-public class Command // the Command class works in conjugation with Parser to take in user commands from the keyboard to strings
+/**
+ * the Command class works in conjugation with Parser to take in user commands from the keyboard to strings
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
+public class Command //
 {
     private String commandWord;
 

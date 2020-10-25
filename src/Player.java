@@ -1,7 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player { // the Player class stores all the important details for the players, such as the list of countries they own, and their names
+/**
+ * the Player class stores all the important details for the players, such as the list of countries they own, and their names
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
+public class Player {
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
 

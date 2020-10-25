@@ -1,5 +1,6 @@
 # Risk-Game-Project
 The Hasbro Game Of Global Domination
+
 Authors: Defa Hu, Youheng Zhou, Shaopeng Liu, Shizhong Shang
 RISK, the 2-6 players game of global domination.
 

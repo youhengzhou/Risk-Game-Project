@@ -252,7 +252,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
 	
 	private boolean quit()
     {
-        finished =true;
+        finished = true;
         return true;  // signal that we want to quit
     }
 

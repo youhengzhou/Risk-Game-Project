@@ -41,14 +41,4 @@ public class Dice {
         //test if the diceGroup is empty
         return diceGroup.isEmpty();
     }
-
-
-    public boolean hasMoreThanOne() {
-        // to make sure the attackDice has one Troop left
-        return diceGroup.size() > 1;
-    }
-
-    public PriorityQueue<Integer> helper() {
-        return diceGroup;
-    }
 }

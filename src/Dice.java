@@ -30,14 +30,14 @@ public class Dice {
         return (int) Math.ceil(Math.random()*6);
     }
 
-    public int getNexdtHighest()
+    public int getNextHighest()
     {
         //get the next highest value in queue, if no more values in queue, throw NullPointerException.
-        if(isempty()) throw (new NullPointerException("no more dice"));
+        if(isEmpty()) throw (new NullPointerException("no more dice"));
         return diceGroup.poll();
     }
 
-    public boolean isempty()
+    public boolean isEmpty()
     {
         //test if the diceGroup is empty
         return diceGroup.isEmpty();

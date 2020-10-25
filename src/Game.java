@@ -9,7 +9,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
 	private HashMap<String,Country> map;
     int playerIndex;
     boolean pass;
-    boolean finished=false;
+    boolean finished = false;
     public Game() 
     {
 		parser = new Parser(); // parser for word checks

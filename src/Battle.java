@@ -11,7 +11,7 @@ public class Battle {
     }
 
     //this is for quick fight, just to make sure the game is up
-    public Boolean fight() {
+    public boolean fight() {
         int attackTroopDeath = 0;
         int defendTroopDeath=0;
 

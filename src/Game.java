@@ -1,6 +1,14 @@
 import java.util.*;
 
-public class Game { // the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
+/**
+ * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+public class Game {
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
@@ -11,6 +19,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
     boolean pass;
     boolean finished = false;
 
+    /**
+     * This constructor of Game
+     */
     public Game() {
         parser = new Parser(); // parser for word checks
         players = new ArrayList<>();
@@ -28,10 +39,17 @@ public class Game { // the Game class is used to run and execute the game, it ha
         play();
     }
 
+    /**
+     * create a new Game instance
+     * @param args
+     */
     public static void main(String[] args) {
         Game game = new Game();
     }
 
+    /**
+     * Print command instructions and get user command.
+     */
     public void play() {
         printWelcome();
         while (!finished && !hasWinner()) {
@@ -50,10 +68,17 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println("Thank you for playing. Good bye.");
     }
 
+    /**
+     *Method tells us if the game has a winner
+     * @return boolean return true if there's winner in the game, false if there are no winner yet
+     */
     public boolean hasWinner() {
         return players.size() <= 1;
     }
 
+    /**
+     * Method remove player with no more country from the players arraylist
+     */
     public void removePlayerWithNoCountry() {
         Player beRemovedPlayer = new Player("impossible");
         for (Player p : players) {
@@ -77,6 +102,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
     }
 
+    /**
+     * print welcome to users
+     */
     private void printWelcome() {
         System.out.println();
         System.out.println("Welcome to the RISK!");
@@ -85,6 +113,10 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println();
     }
 
+    /**
+     * Process command and invoke corresponding method.
+     * @param command the command get from user
+     */
     private void processCommand(Command command) {
         if (command.isUnknown()) {
             System.out.println("I don't know what you mean...");
@@ -110,6 +142,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
     }
 
+    /**
+     * print help to help the users to get known of the command words and their usages.
+     */
     private void printHelp() {
         String s = "";
         s += "You are a general. You are leading your army to conquer the world!\n";
@@ -124,6 +159,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println(s);
     }
 
+    /**
+     * attack from one country to another country
+     */
     private void attack() {
         Player player = playerOnGoing;
         String countryName;
@@ -134,7 +172,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
                 System.out.println("now, you don't have available countries can be used for attacking. So choose your next move again");
                 return;
             }
-            System.out.println("you have those countries, which one you want to use for attack?");
+            System.out.println("You have following country can be used to attack");
             System.out.println("Please choose from the list.");
             System.out.println(player.getAvailableCountries());
             System.out.println("You may also choose to change your mind about attacking for a strategic retreat, /n");
@@ -150,11 +188,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
                 System.out.println();
                 continue;
             }
-//            if(attackCountry.getTroopsNum()<=1)
-//            {
-//                System.out.println("You can't attack with country that has only 1 troop stationed on it, choose another one\n");
-//                continue;
-//            }
 
             if (attackCountry.printEnemyCountry().equals("")) {
                 System.out.println("The country you chose don't have any adjacent enemy country, choose another one\n");
@@ -190,6 +223,10 @@ public class Game { // the Game class is used to run and execute the game, it ha
         removePlayerWithNoCountry();
     }
 
+    /**
+     * invoke quit() method when user wants to quit the game
+     * @return  return true if user invoked the method
+     */
     private boolean quit() {
         finished = true;
         return true;  // signal that we want to quit
@@ -203,6 +240,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         playerIndex++;
     }
 
+    /**
+     * print the state of all the players,including their name, their country, and troops on the country.
+     */
     private void printState() {
         StringBuilder s = new StringBuilder();
         for (Player player : players) {
@@ -211,6 +251,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println(s);
     }
 
+    /**
+     * Initialize all countries in the game
+     */
     public void initCountries() {
         //North America
         Country Alaska = new Country("Alaska");
@@ -544,6 +587,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         return num >= 2 && num <= 6;
     }
 
+    /**
+     * set the number of players in the game and decide how many troops should each one of them have.
+     */
     private void setNumOfPlayer() {
         do {
             System.out.println("Please input the number of players (2 to 6): ");
@@ -575,6 +621,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
     }
 
+    /**
+     * create instances of all Player and add them into Arraylist players.
+     */
     private void createPlayer() {
         //create all player instance
         for (int i = 0; i < numOfPlayer; i++) {
@@ -582,6 +631,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
     }
 
+    /**
+     * randomly assign players with their initial country, and assign country with their owner.
+     */
     public void randomAssignCountry() {
 
         //randomly assign Country-Owner pairs
@@ -607,6 +659,9 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
     }
 
+    /**
+     * Randomly assign initial troops to countries.
+     */
     public void randomAssignTroops() {
         int avoidableTroop;
         int troopGive;  //the number of troop gives to country.

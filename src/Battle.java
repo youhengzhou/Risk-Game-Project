@@ -1,16 +1,37 @@
-public class Battle { // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles
+/**
+ * the Battle class performs the fight between two countries and display the battle result, modifies the state of country owner of the attack country and
+ * defend country according to the result.
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
+
+public class Battle {
+    // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles
     private Country countryAttack;
     private Country countryDefend;
     private int AttackingTroops;
 
-    public Battle(Country attack, Country defend, int troopSent) { // initialize battle
+    /**
+     * Constructor of Battle
+     * @param attack the attacking country
+     * @param defend the defending country
+     * @param troopSent number of troops bing sent from attacking country
+     */
+    public Battle(Country attack, Country defend, int troopSent) {
         this.countryAttack = attack;
         this.countryDefend = defend;
         AttackingTroops = troopSent;
         countryAttack.removeTroop(AttackingTroops);
     }
 
-    //this is for quick fight, just to make sure the game is up
+    /**
+     * performs the fight, display battle result, change owner of the defend Country to the attacking country owner if
+     * the attacker wins the battle.
+     */
+
     public void fight() {
         int attackTroopDeath = 0; // counter for taking away troops later
         int defendTroopDeath = 0; // counter for taking away troops later

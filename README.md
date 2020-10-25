@@ -1,11 +1,12 @@
 # Risk-Game-Project
 The Hasbro Game Of Global Domination
-
+Authors: Defa Hu, Youheng Zhou, Shaopeng Liu, Shizhong Shang
 RISK, the 2-6 players game of global domination.
 
 This game is written in Java with a team of four students using IntelliJ IDEA with Java and Git/Github for version control.
 
-For the first milestone of the project, a text based version of the game will be created with the source code and compiled code being put in a .jar. The game will feature simplified features of the classic strategy game RISK, skipping a few elements such as the army placing phase and the bonus card mechanics that the fully featured RISK game has. In addition, a readme file listing the explanation of the rest of deliverables, the names of the authors, and known issues will be created.
+DESCRIPTION:
+  For the first milestone of the project, a text based version of the game will be created with the source code and compiled code being put in a .jar. The game will feature       simplified features of the classic strategy game RISK, skipping a few elements such as the army placing phase and the bonus card mechanics that the fully featured RISK game     has. In addition, a readme file listing the explanation of the rest of deliverables, the names of the authors, and known issues will be created.
 
 Before starting the work on the project, the group members met up together on the steam game version of RISK as the source of inspiration where they disscussed and analyzed the features and detail mechanics of the game. Some notable insights were found on the dice roll mechanics of RISK, where the player can choose to either fight one on one dice rolls or in the style of three dice versus three dice rolls, opening up to different avenues of attacks for the players.
 

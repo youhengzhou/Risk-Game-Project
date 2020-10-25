@@ -100,8 +100,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
 	
 	public void play() 
     {            
-
-
+        printWelcome();
         while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing = players.get(playerIndex % numOfPlayer);
@@ -213,6 +212,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
                 System.out.println("The country you choose don't have adjacent enemy counry, coose another one\n");
                 continue;
             }
+
 
             else break;
 

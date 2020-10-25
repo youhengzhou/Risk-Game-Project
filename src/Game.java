@@ -106,13 +106,11 @@ public class Game { // the Game class is used to run and execute the game, it ha
             playerOnGoing = players.get(playerIndex % numOfPlayer);
             System.out.println();
             System.out.println("Now it is your turn " + playerOnGoing.getName());
-            while (!pass && !finished) {
-
-                System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [Attack], [Pass], [help],[quit]");
-
-                processCommand(parser.getCommand());
-            }
+                while (!pass && !finished) {
+                    System.out.println("what do you want to do now, please input your command");
+                    System.out.println("You can type [Attack], [Pass], [help], [quit]");
+                    processCommand(parser.getCommand());
+                }
             }
         System.out.println("Thank you for playing. Good bye.");
     }

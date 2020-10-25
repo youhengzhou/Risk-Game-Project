@@ -22,7 +22,7 @@ public class Command //
     /**
      * Get the command word 
      * getCommandWord checks if the given String is a valid command word
-     * @return returns the command word
+     * @return return the commandWord
      */
     public String getCommandWord() { 
         return commandWord;

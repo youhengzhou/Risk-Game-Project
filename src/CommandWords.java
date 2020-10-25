@@ -1,4 +1,3 @@
-
 public class CommandWords
 {
     // a constant array that holds all valid command words

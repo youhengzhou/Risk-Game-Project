@@ -213,7 +213,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
                 continue;
             }
 
-
             else break;
 
         }while(true);

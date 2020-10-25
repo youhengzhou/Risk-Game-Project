@@ -1,4 +1,4 @@
-public class Battle { // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles.
+public class Battle { // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles
     private Country countryAttack;
     private Country countryDefend;
     private int AttackingTroops;
@@ -11,11 +11,11 @@ public class Battle { // the Battle class mainly treats the battle portion of th
     }
 
     //this is for quick fight, just to make sure the game is up
-    public Boolean fight() {
+    public void fight() {
         int attackTroopDeath = 0; // counter for taking away troops later
         int defendTroopDeath=0; // counter for taking away troops later
-        Dice attackDice = new Dice(1);
-        Dice defendDice=new Dice(1) ;
+        Dice attackDice;
+        Dice defendDice;
 
         while(AttackingTroops!=0 && countryDefend.getTroopsNum()!=0) {
             attackDice = new Dice(AttackingTroops); // attack with troops picked from user
@@ -44,9 +44,8 @@ public class Battle { // the Battle class mainly treats the battle portion of th
             countryAttack.getOwner().addCountry(countryDefend);//add CountryDefend into the attaker CountryOwner
             System.out.println("You win! Now "+countryDefend.getCountryName()+"is yours.");
             System.out.println("Surviving "+troopSurvive+" troops has moved from "+countryAttack.getCountryName()+" to "+countryDefend.getCountryName()+"\n\n");
-            return true;
+            return;
         }
         System.out.println("Unfortunately you lose the battle with "+countryDefend.getCountryName());
-        return false;
     }
 }

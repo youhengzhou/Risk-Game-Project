@@ -6,20 +6,20 @@ public class Country {
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
 
-    public Country(String name){
-        //initializing troopnum,owner and countryName
-        countryName=name;
+    public Country(String name) {
+        //initializing troopsNum,owner and countryName
+        countryName = name;
         adjacentCountries = new ArrayList<>();
-        owner=null;
+        owner = null;
 
     }
-    public void addtroops(int num)
-    {
+
+    public void addTroops(int num) {
         //add new troops to the country
-        troopsNum+=num;
+        troopsNum += num;
     }
 
-    public void removetroop(int num) {
+    public void removeTroop(int num) {
         //remove troops in the country
         troopsNum -= num;
     }
@@ -40,14 +40,14 @@ public class Country {
         return countryName;
     }
 
-    public void changeOwner(Player newowner) {
+    public void changeOwner(Player newOwner) {
         if (owner == null) {
-            owner = newowner;
+            owner = newOwner;
             return;
         }
         // change owner of the country
         owner.removeCountry(this);
-        this.owner = newowner;
+        this.owner = newOwner;
     }
 
     public void addAdjacentCountry(Country adc) {
@@ -67,23 +67,14 @@ public class Country {
         return s;
     }
 
-    //public void printAdjacentCountries() { // method for printing adjacent countries, is obsolete for the current milestone since printEnemyCountry was used, and move is not in place yet
-    //   String s = "";
-    //    for (Country c : this.getAdjacentCountries()) {
-    //        s += c.printState();
-    //         s += "\n";
-    //    }
-    //    System.out.println(s);
-    //    }
-    public String printEnemyCountry()
-    {
+    public String printEnemyCountry() {
         String s = "";
         for (Country c : this.getAdjacentCountries()) {
 
 
-                if (c.getOwner().equals(this.getOwner())) continue;
-                s += c.printState();
-                s += "\n";
+            if (c.getOwner().equals(this.getOwner())) continue;
+            s += c.printState();
+            s += "\n";
         }
         return s;
     }

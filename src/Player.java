@@ -5,16 +5,16 @@ public class Player { // the Player class stores all the important details for t
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name;
         this.countriesOwn = new ArrayList<>();
     }
 
-    public void addCountry(Country country){
+    public void addCountry(Country country) {
         this.countriesOwn.add(country);
     }
 
-    public void removeCountry(Country country){
+    public void removeCountry(Country country) {
         this.countriesOwn.remove(country);
     }
 
@@ -24,7 +24,7 @@ public class Player { // the Player class stores all the important details for t
         for (Country country : countriesOwn) {
             s += "  " + country.printState() + "\n";
         }
-        return s+"\n";
+        return s + "\n";
     }
 
     public List<Country> getCountriesOwn() { // helper method used for getting all the available countries in a printable list for the player

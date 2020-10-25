@@ -1,20 +1,18 @@
-public class CommandWords
-{
+public class CommandWords {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "attack", "help", "state", "pass", "quit"
+            "attack", "help", "state", "pass", "quit"
     };
 
     /**
-     * Check whether a given String is a valid command word. 
+     * Check whether a given String is a valid command word.
+     *
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
-    public boolean isCommand(String aString)
-    {
-        for(String s : validCommands)
-        {
-            if(aString.toLowerCase().equals(s)) return true;
+    public boolean isCommand(String aString) {
+        for (String s : validCommands) {
+            if (aString.toLowerCase().equals(s)) return true;
         }
         // if we get here, the string was not found in the commands
         return false;
@@ -29,7 +27,7 @@ public class CommandWords
     }
 
     public static void main(String[] args) {
-        //simplly for testing
+        //simply for testing
         CommandWords cmd = new CommandWords();
         System.out.println(cmd.isCommand("attack"));
         System.out.println(cmd.isCommand("Attack"));

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Game { // the Game class is used to run and execute the game, it has lists for plaers and countries, and a parser built in for getting simple commands
+public class Game { // the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
@@ -85,15 +85,10 @@ public class Game { // the Game class is used to run and execute the game, it ha
         playerIndex=0;
         printWelcome();
         play();
-
-
-
-
     }
      **/
     public static void main (String[] args){
         Game game = new Game();
-
     }
 	
 	public void play() 
@@ -188,9 +183,15 @@ public class Game { // the Game class is used to run and execute the game, it ha
 
         do{
             System.out.println("you have those countries, which one you want to use for attack?");
-            System.out.println("Please choose from the list");
+            System.out.println("Please choose from the list.");
             System.out.println(player.getAvaliableCountries());
+            System.out.println("You may also choose to change your mind about attacking for a strategic retreat, /n");
+            System.out.println("retreat by choosing to pass for this turn General.");
             countryname = parser.getCountryName();
+            if (countryname.equals("pass")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
+                pass();
+                return;
+            }
             if(!map.containsKey(countryname)) continue;  //verify country exist
             attackCountry = map.get(countryname); //get the Country and store it into attackCountry
             if(!player.getCountriesOwn().contains(attackCountry))
@@ -201,13 +202,13 @@ public class Game { // the Game class is used to run and execute the game, it ha
             }
             if(attackCountry.getTroopsNum()<=1)
             {
-                System.out.println("You can't attack with country that has only 1 troop, choose another one\n");
+                System.out.println("You can't attack with country that has only 1 troop stationed on it, choose another one\n");
                 continue;
             }
 
             if(attackCountry.printEnemyCountry().equals(""))
             {
-                System.out.println("The country you choose don't have adjacent enemy counry, coose another one\n");
+                System.out.println("The country you chose don't have any adjacent enemy country, choose another one\n");
                 continue;
             }
 
@@ -244,7 +245,6 @@ public class Game { // the Game class is used to run and execute the game, it ha
          Battle bt = new Battle(attackCountry, defendCountry,num);
         bt.fight();
         removePlayerWithNoCountry();
-
     }
 	
 	private boolean quit(Command command) 
@@ -665,7 +665,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
 
         //randomly assign Country-Owner pairs
         Set<String> keySet = map.keySet();
-        ArrayList<String> keyList = new ArrayList<String>();//convert to List structure in order to use .shuffle method in Collection.
+        ArrayList<String> keyList = new ArrayList<String>(); //convert to List structure in order to use .shuffle method in Collection.
         for (String s : keySet) {
             keyList.add(s);
         }

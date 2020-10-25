@@ -18,7 +18,6 @@ public class Parser {
     public Command getCommand() {
         String inputLine;   // will hold the full input line
         String word1 = null;
-        String word2 = null;
 
         System.out.print("> ");     // print prompt
 
@@ -28,15 +27,11 @@ public class Parser {
         Scanner tokenizer = new Scanner(inputLine);
         if (tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
-            if (tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-            }
         }
         if (commands.isCommand(word1)) {
-
-            return new Command(word1, word2);
+            return new Command(word1);
         } else {
-            return new Command(null, word2);
+            return new Command(null);
         }
     }
 
@@ -49,7 +44,6 @@ public class Parser {
 
     public String getCountryName() {
         String commandinput;
-
         System.out.println("input your choice: ");
         reader = new Scanner(System.in);
         String str = reader.nextLine();

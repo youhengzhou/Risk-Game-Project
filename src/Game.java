@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Game {
+public class Game { // the Game class is used to run and execute the game, it has lists for plaers and countries, and a parser built in for getting simple commands
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
@@ -92,16 +92,17 @@ public class Game {
     }
      **/
 
+
     public static void main (String[] args){
         Game game = new Game();
 
     }
 	
 	public void play() 
-    {
-        printWelcome();
+    {            
 
-        while (!finished && !hasWinner()) {
+
+        while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing = players.get(playerIndex % numOfPlayer);
             System.out.println();
@@ -109,7 +110,7 @@ public class Game {
             while (!pass && !finished) {
 
                 System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [Attack], [Pass], [State], [help], [quit]");
+                System.out.println("You can type [Attack], [Pass], [help],[quit]");
 
                 processCommand(parser.getCommand());
             }
@@ -210,6 +211,7 @@ public class Game {
             if(attackCountry.printEnemyCountry().equals(""))
             {
                 System.out.println("The country you choose don't have adjacent enemy counry, coose another one\n");
+                continue;
             }
 
             else break;
@@ -250,13 +252,8 @@ public class Game {
 	
 	private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-
         finished =true;
-            return true;  // signal that we want to quit
+        return true;  // signal that we want to quit
     }
 
     /**

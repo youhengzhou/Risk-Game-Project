@@ -33,31 +33,23 @@ public class Dice {
     public int getNexdtHighest()
     {
         //get the next highest value in queue, if no more values in queue, throw NullPointerException.
-        if(isEmpty()) throw (new NullPointerException("no more dice"));
+        if(isempty()) throw (new NullPointerException("no more dice"));
         return diceGroup.poll();
     }
 
-    public boolean isEmpty()
+    public boolean isempty()
     {
         //test if the diceGroup is empty
         return diceGroup.isEmpty();
     }
 
-    //to make sure the attackDice has one Troop left
-    public boolean hasMoreThanOne(){
+
+    public boolean hasMoreThanOne() {
+        // to make sure the attackDice has one Troop left
         return diceGroup.size() > 1;
     }
 
-    public static void main(String[] args) {
-        //for pure testing
-        Dice d = new Dice(3);//creating a Dice group of three
-        System.out.println(d.getNexdtHighest());//print the highest
-        System.out.println(d.getNexdtHighest());
-        System.out.println(d.getNexdtHighest());
-        System.out.println(d.getNexdtHighest());//through Exception when no more dice in the queue
-    }
-    public PriorityQueue<Integer> helper()
-    {
+    public PriorityQueue<Integer> helper() {
         return diceGroup;
     }
 }

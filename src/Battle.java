@@ -26,8 +26,8 @@ public class Battle {
 
                 while (!attackDice.isEmpty() && !defendDice.isEmpty()) {
 
-                    int attacknum = attackDice.getNexdtHighest();
-                    int defendnum = defendDice.getNexdtHighest();
+                    int attacknum = attackDice.getNextHighest();
+                    int defendnum = defendDice.getNextHighest();
 
 
                         if (attacknum > defendnum) {
@@ -59,14 +59,5 @@ public class Battle {
 
         System.out.println("Unfortunately you lose the battle with "+countryDefend.getCountryName());
         return false;
-    }
-
-
-    public static void main(String[] args) {
-        Country canada = new Country("canada");
-        Country China = new Country("china");
-        canada.addtroops(10);
-        China.addtroops(14);
-       // System.out.print(new Battle(China, canada).fight());
     }
 }

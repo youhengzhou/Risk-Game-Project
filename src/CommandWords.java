@@ -44,6 +44,5 @@ public class CommandWords
         System.out.println(cmd.isCommand("Attack"));
         System.out.println(cmd.isCommand("pass"));
         System.out.println(cmd.isCommand("help"));
-        System.out.println(cmd.isCommand("state"));
     }
 }

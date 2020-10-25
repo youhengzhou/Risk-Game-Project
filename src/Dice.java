@@ -12,11 +12,12 @@ import java.util.PriorityQueue;
  * Implemented getNextHighest(), isempty(),
  */
 
-public class Dice {
+public class Dice { // the Dice class is used to calculate the dice rolls and multiple dice rolls in groups
 
-    private PriorityQueue<Integer> diceGroup;
+    private PriorityQueue<Integer> diceGroup; // calculates dice rolls of group dice by using a PriorityQueue of dice
+
     public Dice(int diceNumber){
-        //store values in the diceGroup,number of Integer added is depending on the diceNumber parameter passed in.
+        // store values in the diceGroup,number of Integer added is depending on the diceNumber parameter passed in.
         diceGroup = new PriorityQueue<Integer>(Collections.reverseOrder());
         for(int i=0;i<diceNumber;i++)
         {
@@ -26,38 +27,30 @@ public class Dice {
 
     public int roll()
     {
-        //generate a random value from 1 to 6 inclusive.
+        // generate a random value from 1 to 6 inclusive.
         return (int) Math.ceil(Math.random()*6);
     }
 
-    public int getNexdtHighest()
+    public int getNextHighest()
     {
-        //get the next highest value in queue, if no more values in queue, throw NullPointerException.
+        // get the next highest value in queue, if no more values in queue, throw NullPointerException.
         if(isempty()) throw (new NullPointerException("no more dice"));
         return diceGroup.poll();
     }
 
     public boolean isempty()
     {
-        //test if the diceGroup is empty
+        // test if the diceGroup is empty
         return diceGroup.isEmpty();
     }
 
-    //to make sure the attackDice has one Troop left
-    public boolean hasMoreThanOne(){
+
+    public boolean hasMoreThanOne() {
+        // to make sure the attackDice has one Troop left
         return diceGroup.size() > 1;
     }
 
-    public static void main(String[] args) {
-        //for pure testing
-        Dice d = new Dice(3);//creating a Dice group of three
-        System.out.println(d.getNexdtHighest());//print the highest
-        System.out.println(d.getNexdtHighest());
-        System.out.println(d.getNexdtHighest());
-        System.out.println(d.getNexdtHighest());//through Exception when no more dice in the queue
-    }
-    public PriorityQueue<Integer> helper()
-    {
+    public PriorityQueue<Integer> helper() {
         return diceGroup;
     }
 }

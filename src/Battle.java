@@ -61,7 +61,6 @@ public class Battle {
         return false;
     }
 
-
     public static void main(String[] args) {
         Country canada = new Country("canada");
         Country China = new Country("china");

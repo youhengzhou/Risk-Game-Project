@@ -1,8 +1,8 @@
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-public class Player {
+
+public class Player { // the Player class stores all the important details for the players, such as the list of countries they own, and their names
     private List<Country> countriesOwn;
     private String name;
 

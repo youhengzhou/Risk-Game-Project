@@ -22,5 +22,7 @@ We hope through this project we will experience, learn, and share many insights 
 And we hope you, the person reading this, whether you are a teaching assistant, professor, code enthusiast, fellow student, to be as delighted as us when we created this project.
 
 From yours truly,
+
 SYSC 3110 Group Avengers
+
 (Earth's mightiest programmers)

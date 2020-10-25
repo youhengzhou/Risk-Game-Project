@@ -24,7 +24,7 @@ public class Battle {
                 defendDice = new Dice(countryDefend.getTroopsNum());
 
 
-                while (!attackDice.isempty() && !defendDice.isempty()) {
+                while (!attackDice.isEmpty() && !defendDice.isEmpty()) {
 
                     int attacknum = attackDice.getNexdtHighest();
                     int defendnum = defendDice.getNexdtHighest();

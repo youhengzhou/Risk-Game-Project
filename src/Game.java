@@ -1,43 +1,31 @@
-
-
-import javax.crypto.spec.PSource;
 import java.util.*;
 
 public class Game {
     private List<Player> players;
-    private List<Country> countries;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
 	private Parser parser;
-	private Player currentPlayer;
 	private HashMap<String,Country> map;
-	private List<Player> playerDead;
     int playerIndex;
     boolean pass;
     boolean finished=false;
     public Game() 
     {
-
 		parser = new Parser(); // parser for word checks
         players= new ArrayList<>();
 
         map = new HashMap<>();
 
-
         initCountries();
         setNumOfPlayer();
         createPlayer();
-        currentPlayer = players.get(0);
         pass=false;
         playerIndex=0;
 
-
         randomAssignCountry();
         randomAssignTroops();
-        printWelcome();
         play();
-
     }
 
     /**public void test()
@@ -104,25 +92,24 @@ public class Game {
     }
      **/
 
-
     public static void main (String[] args){
         Game game = new Game();
 
     }
 	
 	public void play() 
-    {            
+    {
+        printWelcome();
 
-
-        while (! finished && !hasWinner()) {
+        while (!finished && !hasWinner()) {
             pass = false;
-            playerOnGoing=players.get(playerIndex%numOfPlayer);
-            System.out.println("");
+            playerOnGoing = players.get(playerIndex % numOfPlayer);
+            System.out.println();
             System.out.println("Now it is your turn " + playerOnGoing.getName());
-            while(!pass && !finished) {
+            while (!pass && !finished) {
 
                 System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [Attack], [Pass], [help],[quit]");
+                System.out.println("You can type [Attack], [Pass], [State], [help], [quit]");
 
                 processCommand(parser.getCommand());
             }
@@ -148,8 +135,8 @@ public class Game {
                 }
 
             } catch (Exception e) {
+                e.printStackTrace();
             }
-
         }
         players.remove(beRemovedPlayer);
         if (players.size() == 1) {
@@ -158,7 +145,6 @@ public class Game {
         }
     }
 
-	
 	private void printWelcome()
     {
         System.out.println();
@@ -167,7 +153,7 @@ public class Game {
         System.out.println("Type 'help' if you need help.");
         System.out.println();
     }
-	
+
 	private void processCommand(Command command)
     {
         if(command.isUnknown()) {
@@ -175,26 +161,25 @@ public class Game {
             return;
         }
         String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("attack")) {
-            attack(command);
-        }
-        else if (commandWord.equals("quit")) {
-            quit(command);
-        } else if(commandWord.equals("pass")){
-            pass();
-        }
+        if (commandWord.equals("help")) printHelp();
+        else if (commandWord.equals("attack")) attack(command);
+        else if (commandWord.equals("quit")) quit(command);
+        else if (commandWord.equals("pass")) pass();
+        else if (commandWord.equals("state")) printState();
     }
-	
-	private void printHelp() 
-    {
-        System.out.println("You are a general. You are leading your army to conquer the world!");
-        System.out.println("Ready your armies, for your enemies would be ready for you.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        parser.showCommands();
+
+    private void printHelp() {
+        String s = "";
+        s += "You are a general. You are leading your army to conquer the world!\n";
+        s += "Ready your armies, for your enemies would be ready for you.\n\n";
+        s += "You can input these command words: ";
+        s += parser.showCommands();
+        s += "[Attack]: can let you choose an enemy country to attack\n";
+        s += "[Pass]: use this command when you finish your turn\n";
+        s += "[State]: print out the State of the Map (i.e., which player is in which country and with how many armies\n";
+        s += "[help]: well, this is going to tell you how to play this game\n";
+        s += "[quit]: use this command when you tire of this game\n";
+        System.out.println(s);
     }
 	
 	private void attack(Command command)
@@ -206,7 +191,7 @@ public class Game {
         do{
             System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list");
-            System.out.println(player.printStatus());
+            System.out.println(player.getAvaliableCountries());
             countryname = parser.getCountryName();
             if(!map.containsKey(countryname)) continue;  //verify country exist
             attackCountry = map.get(countryname); //get the Country and store it into attackCountry
@@ -222,10 +207,9 @@ public class Game {
                 continue;
             }
 
-            if(attackCountry.printEnemyCountry()=="")
+            if(attackCountry.printEnemyCountry().equals(""))
             {
                 System.out.println("The country you choose don't have adjacent enemy counry, coose another one\n");
-                continue;
             }
 
             else break;
@@ -239,7 +223,7 @@ public class Game {
 
             System.out.println(attackCountry.printEnemyCountry());
             name = parser.getCountryName();
-            if(!map.containsKey(name)) ;
+            if(!map.containsKey(name)) continue;
             else{
                 defendCountry = map.get(name);
             }
@@ -251,8 +235,7 @@ public class Game {
         do{
             System.out.println("how many troops do you want to send to attack from "+attackCountry.getCountryName()+" (Maximum "+(attackCountry.getTroopsNum()-1)+")");
             Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
-            num = Integer.parseInt(input);
+            num = sc.nextInt();
             if(num<attackCountry.getTroopsNum()) break;
             else
             {
@@ -284,6 +267,14 @@ public class Game {
     private void pass(){
         pass=true;
         playerIndex++;
+    }
+
+    private void printState(){
+        String s = "";
+        for(Player player: players){
+            s += player.getStatus();
+        }
+        System.out.println(s);
     }
 
     public void initCountries()
@@ -626,8 +617,6 @@ public class Game {
     }
 
     private void setNumOfPlayer(){
-
-
         do {
             System.out.println("Please input the number of players (2 to 6): ");
             Scanner sc = new Scanner(System.in);
@@ -640,7 +629,6 @@ public class Game {
                 System.out.println("please only enter valid number input");
                 continue;
             }
-
 
         }while(!isValidNum(this.numOfPlayer));
         switch(this.numOfPlayer){
@@ -668,62 +656,6 @@ public class Game {
             players.add(new Player("Player" + i));
         }
     }
-
-   /** private Country getAttackCountry(Player p, Command command)
-    {
-        String countryname;
-        Country potentialCountry = null;
-
-        do{
-            System.out.println("you have those countries, which one you want to use for attack?");
-            System.out.println("Please choose from the list");
-
-            System.out.println(p.printStatus());
-            countryname = parser.getCountryName();
-
-            if(!map.containsKey(countryname));
-            else{
-                potentialCountry = map.get(countryname);
-            }
-            /*if(potentialCountry.printEnemyCountry()=="") {
-                System.out.println("no enemy country nearby, please choose another one");
-                continue;
-            }
-
-        }while(!p.getCountriesOwn().contains(potentialCountry));
-        System.out.println("country your choose is "+potentialCountry.getCountryName());
-        return potentialCountry;
-    }
-
-    private Country getDefendCountry(Player attackPlayer, Country attackCountry)
-    {
-        String countryname;
-        Country potentialCountry = new Country("impossibleCountry");
-
-        do{
-
-            System.out.println("choose the enemy country that you want to attack from the list:");
-
-            System.out.println(attackCountry.printEnemyCountry());
-            countryname = parser.getCountryName();
-            if(!map.containsKey(countryname)) ;
-            else{
-                potentialCountry = map.get(countryname);
-            }
-            if(attackPlayer.getCountriesOwn().contains(potentialCountry))
-            {
-                System.out.println(potentialCountry.getCountryName()+"is your own country");
-                System.out.println(" please choose a different one");
-                continue;
-            }
-
-
-        }while(!attackCountry.getAdjacentCountries().contains(potentialCountry));
-        System.out.println("the country your are attacking is "+potentialCountry.getCountryName());
-        return potentialCountry;
-    }
-    **/
-
     //ask uer what they want to do next, they can continue to attck or choose to pass to another player.
     private String nextStep()
     {

@@ -41,10 +41,10 @@ public class Parser {
     }
 
     /**
-     * Print out a list of valid command words.
+     * get a list of valid command words.
      */
-    public void showCommands() {
-        commands.showAll();
+    public String showCommands() {
+        return commands.showAll();
     }
 
     public String getCountryName() {

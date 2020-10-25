@@ -3,7 +3,7 @@ public class CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "attack", "help", "move", "pass","quit"
+        "attack", "help", "state", "pass","quit"
     };
 
     /**
@@ -29,12 +29,12 @@ public class CommandWords
         return false;
     }
 
-    public void showAll()
-    {
-        for(String command: validCommands) {
-            System.out.print(command + "  ");
+    public String showAll() {
+        String s = "";
+        for (String command : validCommands) {
+            s += ("[" + command + "]" + "  ");
         }
-        System.out.println();
+        return s + "\n";
     }
 
     public static void main(String[] args) {
@@ -44,5 +44,6 @@ public class CommandWords
         System.out.println(cmd.isCommand("Attack"));
         System.out.println(cmd.isCommand("pass"));
         System.out.println(cmd.isCommand("help"));
+        System.out.println(cmd.isCommand("state"));
     }
 }

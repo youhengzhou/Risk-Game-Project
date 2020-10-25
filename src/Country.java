@@ -73,19 +73,14 @@ public class Country {
     //    }
     //    System.out.println(s);
 //    }
-    public String printEnemyCountry()
-    {
+    public String printEnemyCountry() {
         String s = "";
         for (Country c : this.getAdjacentCountries()) {
-
-
-                if (c.getOwner().equals(this.getOwner())) continue;
-                s += c.printState();
-                s += "\n";
-
-
+            if (c.getOwner().equals(this.getOwner())) continue;
+            s += c.printState();
+            s += "\n";
         }
         return s;
-
     }
+
 }

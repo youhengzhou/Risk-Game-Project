@@ -19,11 +19,22 @@ public class Player {
         this.countriesOwn.remove(country);
     }
 
-    public String printStatus(){
+    public String getStatus() {
         String s = "";
-        s += "Player: "+ this.name + " has countries:\n";
-        for(Country country: countriesOwn){
-            s += "  "+ country.printState() + "\n";
+        s += "Player: " + this.name + " has countries:\n";
+        for (Country country : countriesOwn) {
+            s += "  " + country.printState() + "\n";
+        }
+        return s+"\n";
+    }
+
+    public String getAvaliableCountries() {
+        String s = "";
+        s += "Player: " + this.name + " has countries:\n";
+        for (Country country : countriesOwn) {
+            if (country.getTroopsNum() > 1) {
+                s += "  " + country.printState() + "\n";
+            }
         }
         return s;
     }

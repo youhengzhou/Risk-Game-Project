@@ -97,11 +97,10 @@ public class Game { // the Game class is used to run and execute the game, it ha
         while (! finished && !hasWinner()) {
             pass = false;
             playerOnGoing = players.get(playerIndex % numOfPlayer);
-            System.out.println();
             System.out.println("Now it is your turn " + playerOnGoing.getName());
                 while (!pass && !finished) {
 
-                    System.out.println("what do you want to do now, please input your command");
+                    System.out.println("what do you want to do now? Please input your command:");
                     System.out.println("You can type [attack], [pass], [state], [help], [quit]");
 
                     processCommand(parser.getCommand());
@@ -189,8 +188,8 @@ public class Game { // the Game class is used to run and execute the game, it ha
             System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list.");
             System.out.println(player.getAvailableCountries());
-            System.out.println("You may also choose to change your mind about attacking for a strategic retreat, /n");
-            System.out.println("retreat by choosing to 'back' for this turn General.");
+            System.out.println("You may also choose to change your mind about attacking for a strategic retreat,");
+            System.out.println("retreat by choosing to 'back' for this turn General.\n");
             countryname = parser.getCountryName();
             if (countryname.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
                 return;
@@ -223,9 +222,12 @@ public class Game { // the Game class is used to run and execute the game, it ha
         String name;
         do{
             System.out.println("choose the enemy country that you want to attack from the list:");
-
+            System.out.println("(press 'back' if you change your mind about attacking here)");
             System.out.println(attackCountry.printEnemyCountry());
             name = parser.getCountryName();
+            if (name.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
+                return;
+            }
             if(!map.containsKey(name)) continue;
             else{
                 defendCountry = map.get(name);

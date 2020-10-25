@@ -2,16 +2,8 @@ public class CommandWords // the CommandWords class stores all the relevant comm
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "attack", "help", "move", "pass","quit"
+        "attack", "help", "move", "pass", "quit"
     };
-
-    /**
-     * Constructor - initialise the command words.
-     */
-    public CommandWords()
-    {
-        // nothing to do at the moment...
-    }
 
     /**
      * Check whether a given String is a valid command word. 
@@ -34,14 +26,5 @@ public class CommandWords // the CommandWords class stores all the relevant comm
             System.out.print(command + "  ");
         }
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-        //simplly for testing
-        CommandWords cmd = new CommandWords();
-        System.out.println(cmd.isCommand("attack"));
-        System.out.println(cmd.isCommand("Attack"));
-        System.out.println(cmd.isCommand("pass"));
-        System.out.println(cmd.isCommand("help"));
     }
 }

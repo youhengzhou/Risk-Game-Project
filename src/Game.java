@@ -264,13 +264,8 @@ public class Game { // the Game class is used to run and execute the game, it ha
 	
 	private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-
         finished =true;
-            return true;  // signal that we want to quit
+        return true;  // signal that we want to quit
     }
 
     /**

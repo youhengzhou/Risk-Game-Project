@@ -8,15 +8,15 @@
  */
 
 public class CommandWords {
+    // a constant array that holds all valid command words
     private static final String[] validCommands = {
             "attack", "help", "state", "pass", "quit"
     };
 
     /**
-     * Check whether a given String is a valid command word.
-     *
-     * @return true if a given string is a valid command,
-     * false if it isn't.
+     * Constructor of isCommand
+     * @param aString insert the users input and check if it is the valid
+     * @return true if a given string is a valid command, false if it isn't
      */
     public boolean isCommand(String aString) {
         for (String s : validCommands) {

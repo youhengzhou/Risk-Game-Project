@@ -17,9 +17,9 @@ The next major phase would be to write up the codes for the Java game. Though wh
 
 Through the process of writing, editing, and re-editing, this phase will lead up to producing the final deliverables of Milestone 1, with all the necessary changes and steps towards perfection being delivered before the Sunday October 25th due date.
 
-We hope through this project we will experience, learn, and share many insights and great moments in the project life cycle of a software programmer in the modern era.
+We hope through this project we will experience, learn, and share many insights and great moments, and most imporantly learn from this experience in partaking through the project life cycle of a software programmer in the modern era.
 
-And we hope you, the person reading this, whether you are a teaching assistant, professor, code enthusiast, fellow student, to be as delighted as us when we created this project.
+And we hope you, the person reading this, whether you are a teaching assistant, professor, code enthusiast, fellow student, or a beginner in learning how to code, to be as delighted as us when we created this project.
 
 From yours truly,
 

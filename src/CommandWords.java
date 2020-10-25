@@ -1,12 +1,3 @@
-/**
- * a constant array that holds all valid command words
- *
- * @auther Avengers
- * @version 1.0
- * @since  2020-10-25
- *
- */
-
 public class CommandWords {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
@@ -14,7 +5,7 @@ public class CommandWords {
     };
 
     /**
-     * Constructor of isCommand
+     * isCommand checks if users input is valid
      * @param aString insert the users input and check if it is the valid
      * @return true if a given string is a valid command, false if it isn't
      */
@@ -27,15 +18,27 @@ public class CommandWords {
     }
 
     /**
-     * Shows all the possible commands
-     *
-     * @return returns a string that has all the commands enclosed in [ ] and separated by spaces
-     */
+    * show all the possible of the command words
+    */
     public String showAll() {
         String s = "";
         for (String command : validCommands) {
             s += ("[" + command + "]" + "  ");
         }
         return s + "\n";
+    }
+    
+    /**
+    * main function for command word gives new commansWords and a output
+    * @param args
+    * print out the command words when isCommand returns to true
+    */
+    public static void main(String[] args) {
+        //simply for testing
+        CommandWords cmd = new CommandWords();
+        System.out.println(cmd.isCommand("attack"));
+        System.out.println(cmd.isCommand("Attack"));
+        System.out.println(cmd.isCommand("pass"));
+        System.out.println(cmd.isCommand("help"));
     }
 }

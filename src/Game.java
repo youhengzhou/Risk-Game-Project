@@ -155,8 +155,8 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) printHelp();
-        else if (commandWord.equals("attack")) attack(command);
-        else if (commandWord.equals("quit")) quit(command);
+        else if (commandWord.equals("attack")) attack();
+        else if (commandWord.equals("quit")) quit();
         else if (commandWord.equals("pass")) pass();
         else if (commandWord.equals("state")) printState();
     }
@@ -175,7 +175,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println(s);
     }
 	
-	private void attack(Command command)
+	private void attack()
     {
         Player player = playerOnGoing;
         String countryname;
@@ -247,7 +247,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
         removePlayerWithNoCountry();
     }
 	
-	private boolean quit(Command command) 
+	private boolean quit()
     {
         finished =true;
         return true;  // signal that we want to quit

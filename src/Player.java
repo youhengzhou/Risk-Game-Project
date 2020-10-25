@@ -31,11 +31,11 @@ public class Player { // the Player class stores all the important details for t
         return countriesOwn;
     }
 
-    public String getAvaliableCountries() {
+    public String getAvailableCountries() {
         String s = "";
         s += "Player: " + this.name + " has countries:\n";
         for (Country country : countriesOwn) {
-            if (country.getTroopsNum() > 1) {
+            if (country.getTroopsNum() > 1 && !country.printEnemyCountry().equals("")) {
                 s += "  " + country.printState() + "\n";
             }
         }

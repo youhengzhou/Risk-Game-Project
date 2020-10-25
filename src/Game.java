@@ -155,8 +155,8 @@ public class Game { // the Game class is used to run and execute the game, it ha
         }
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) printHelp();
-        else if (commandWord.equals("attack")) attack(command);
-        else if (commandWord.equals("quit")) quit(command);
+        else if (commandWord.equals("attack")) attack();
+        else if (commandWord.equals("quit")) quit();
         else if (commandWord.equals("pass")) pass();
         else if (commandWord.equals("state")) printState();
     }
@@ -175,21 +175,24 @@ public class Game { // the Game class is used to run and execute the game, it ha
         System.out.println(s);
     }
 	
-	private void attack(Command command)
+	private void attack()
     {
         Player player = playerOnGoing;
         String countryname;
         Country attackCountry = null;
 
         do{
+            if(player.getAvailableCountries().equals("Player: " + player.getName() + " has countries:\n")){
+                System.out.println("now, you don't have available countries can be used for attacking. So choose your next move again");
+                return;
+            }
             System.out.println("you have those countries, which one you want to use for attack?");
             System.out.println("Please choose from the list.");
-            System.out.println(player.getAvaliableCountries());
+            System.out.println(player.getAvailableCountries());
             System.out.println("You may also choose to change your mind about attacking for a strategic retreat, /n");
-            System.out.println("retreat by choosing to pass for this turn General.");
+            System.out.println("retreat by choosing to 'back' for this turn General.");
             countryname = parser.getCountryName();
-            if (countryname.equals("pass")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
-                pass();
+            if (countryname.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
                 return;
             }
             if(!map.containsKey(countryname)) continue;  //verify country exist
@@ -200,11 +203,11 @@ public class Game { // the Game class is used to run and execute the game, it ha
                 System.out.println();
                 continue;
             }
-            if(attackCountry.getTroopsNum()<=1)
-            {
-                System.out.println("You can't attack with country that has only 1 troop stationed on it, choose another one\n");
-                continue;
-            }
+//            if(attackCountry.getTroopsNum()<=1)
+//            {
+//                System.out.println("You can't attack with country that has only 1 troop stationed on it, choose another one\n");
+//                continue;
+//            }
 
             if(attackCountry.printEnemyCountry().equals(""))
             {
@@ -247,7 +250,7 @@ public class Game { // the Game class is used to run and execute the game, it ha
         removePlayerWithNoCountry();
     }
 	
-	private boolean quit(Command command) 
+	private boolean quit()
     {
         finished =true;
         return true;  // signal that we want to quit

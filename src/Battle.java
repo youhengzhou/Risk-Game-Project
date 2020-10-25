@@ -26,8 +26,8 @@ public class Battle {
 
                 while (!attackDice.isempty() && !defendDice.isempty()) {
 
-                    int attacknum = attackDice.getNexdtHighest();
-                    int defendnum = defendDice.getNexdtHighest();
+                    int attacknum = attackDice.getNextHighest();
+                    int defendnum = defendDice.getNextHighest();
 
 
                         if (attacknum > defendnum) {

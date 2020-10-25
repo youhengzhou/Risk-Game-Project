@@ -7,14 +7,6 @@ public class CommandWords
     };
 
     /**
-     * Constructor - initialise the command words.
-     */
-    public CommandWords()
-    {
-        // nothing to do at the moment...
-    }
-
-    /**
      * Check whether a given String is a valid command word. 
      * @return true if a given string is a valid command,
      * false if it isn't.

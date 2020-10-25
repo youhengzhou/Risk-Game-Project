@@ -4,50 +4,41 @@ public class Parser {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
-    /**
-     * Create a parser to read from the terminal window.
-     */
     public Parser() {
         commands = new CommandWords();
-        reader = new Scanner(System.in);
+        reader = new Scanner(System.in); // new scanner to read from terminal
     }
 
-    /**
-     * @return The next command from the user.
-     */
-    public Command getCommand() {
-        String inputLine;   // will hold the full input line
-        String word1 = null;
+    public Command getCommand() { // return the next command
+        String inputLine;   // will hold the full input line that the user inputs
+        String word = null;
 
-        System.out.print("> ");     // print prompt
+        System.out.print("> ");     // print prompt for the user
 
         inputLine = reader.nextLine();
 
-        // Find up to two words on the line.
+        // find the first word inputted
         Scanner tokenizer = new Scanner(inputLine);
         if (tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
+            word = tokenizer.next();      // get first word
         }
-        if (commands.isCommand(word1)) {
-            return new Command(word1);
+        if (commands.isCommand(word)) {
+            return new Command(word);
         } else {
             return new Command(null);
         }
     }
 
-    /**
-     * get a list of valid command words.
-     */
-    public String showCommands() {
+    public String showCommands() { // show all valid command words
         return commands.showAll();
     }
 
-    public String getCountryName() {
-        String commandinput;
+    public String getCountryName() { // gets the country's name
+        String commandInput;
         System.out.println("input your choice: ");
         reader = new Scanner(System.in);
         String str = reader.nextLine();
-        commandinput = str.replace(" ", "");
-        return commandinput.toLowerCase();
+        commandInput = str.replace(" ", "");
+        return commandInput.toLowerCase();
     }
 }

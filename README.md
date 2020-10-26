@@ -2,6 +2,7 @@
 The Hasbro Game Of Global Domination
 
 Authors: Defa Hu, Youheng Zhou, Shaopeng Liu, Shizhong Shang
+
 the GitHub UTL is : https://github.com/youhengzhou/Risk-Game-Project
 
 RISK, the 2-6 players game of global domination.

@@ -9,10 +9,15 @@ This game is written in Java with a team of four students using IntelliJ IDEA wi
 
 Description of Deliverables:
 
-Risk-Game Project.jar       The .jar file featuring the source code and executable of the game.
-UML Class Diagram           The UML Class diagram of the game
-2 Sequence Diagrams         2 sequence diagrams of fight(), and 
-Readme.md                   Readme file containing key information about the game and the user manual
+          1. Game: used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
+          2. Parser: used to hold commands inputted by the user through a scanner, to verify whether they are allowed command words
+          3. Player: stores all the important details for the players, such as the list of countries they own, and their names
+          4. Dice: used for random number generations and putting numbers in integer queues for multiple dice rolls
+          5. Country: used to store information of Country instance
+          6. CommandWords: used to store the all valid commands
+          7. Command: works in conjugation with Parser to take in user commands from the keyboard to strings
+          8. Battle: performs the fight between two countries and display the battle result, modifies the state of country owner of the attack country and
+             defend country according to the result.
 
 User Manual for Game:
 

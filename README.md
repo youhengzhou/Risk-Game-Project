@@ -9,9 +9,10 @@ This game is written in Java with a team of four students using IntelliJ IDEA wi
 
 Description of Deliverables:
 
-       For the first milestone of the project, a text based version of the game will be created with the source code and compiled code being put in a .jar. 
-       The game will feature simplified features of the classic strategy game RISK, skipping a few elements such as the army placing phase and the bonus card mechanics that the fully featured RISK game has. 
-       In addition, a readme file listing the explanation of the rest of deliverables, the names of the authors, and known issues will be created.
+Risk-Game Project.jar       The .jar file featuring the source code and executable of the game.
+UML Class Diagram           The UML Class diagram of the game
+2 Sequence Diagrams         2 sequence diagrams of fight(), and 
+Readme.md                   Readme file containing key information about the game and the user manual
 
 User Manual for Game:
 
@@ -22,6 +23,8 @@ User Manual for Game:
           5. [quit]: use this command when you tire of this game
           6. [Pass]: use this command when you finish your turn
           7. Also, during the attack process. If you don't want to attack anymore, you can just type "back" to get out of attack process
+
+For the first milestone of the project, a text based version of the game will be created with the source code and compiled code being put in a .jar. The game will feature simplified features of the classic strategy game RISK, skipping a few elements such as the army placing phase and the bonus card mechanics that the fully featured RISK game has. In addition, a readme file listing the explanation of the rest of deliverables, the names of the authors, and known issues will be created.
 
 Before starting the work on the project, the group members used the steam game version of RISK as the main source of inspiration where they disscussed and analyzed the features and detail mechanics of the game. Some notable insights were found on the dice roll mechanics of RISK, where the player can choose to either fight one on one dice rolls or in the style of three dice versus three dice rolls, opening up to different avenues of attacks for the players.
 

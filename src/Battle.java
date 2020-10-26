@@ -7,7 +7,6 @@
  * @since  2020-10-25
  *
  */
-
 public class Battle {
     // the Battle class mainly treats the battle portion of the game, where country name and troop numbers are taken and used for battles
     private Country countryAttack;

@@ -6,7 +6,6 @@
  * @since  2020-10-25
  *
  */
-
 public class Command //
 {
     private String commandWord;

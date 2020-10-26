@@ -1,3 +1,6 @@
+/**
+ * used to store the all valid commands
+ */
 public class CommandWords {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
@@ -18,7 +21,7 @@ public class CommandWords {
     }
 
     /**
-    * show all the possibllities of the command words
+    * show all the possibilities of the command words
     */
     public String showAll() {
         String s = "";
@@ -29,7 +32,7 @@ public class CommandWords {
     }
     
     /**
-    * main function for command word gives new commansWords and a output
+    * main function for command word gives new commandsWords and a output
     * @param args
     * print out the command words when isCommand returns to true
     */

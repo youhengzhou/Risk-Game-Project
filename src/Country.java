@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * @since  2020-10-25
  *
  */
-
 public class Country {
     private String countryName;
     private Player owner;

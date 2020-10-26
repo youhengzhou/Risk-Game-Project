@@ -9,7 +9,6 @@ import java.util.List;
  * @since  2020-10-25
  *
  */
-
 public class Player {
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
@@ -38,7 +37,7 @@ public class Player {
     }
 
     /**
-    * get all the countries names from the coutriesOwn array list 
+    * get all the countries names from the countriesOwn array list
     * @ return a list of the owner's countries
     */
     public String getStatus() {

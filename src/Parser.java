@@ -8,7 +8,6 @@ import java.util.Scanner;
  * @since  2020-10-25
  *
  */
-
 public class Parser {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input

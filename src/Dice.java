@@ -9,7 +9,6 @@ import java.util.PriorityQueue;
  * @since  2020-10-25
  *
  */
-
 public class Dice {
 
     private PriorityQueue<Integer> diceGroup;

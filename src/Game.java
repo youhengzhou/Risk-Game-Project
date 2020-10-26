@@ -175,7 +175,7 @@ public class Game {
             System.out.println("You have following country can be used to attack");
             System.out.println("Please choose from the list.");
             System.out.println(player.getAvailableCountries());
-            System.out.println("You may also choose to change your mind about attacking for a strategic retreat, /n");
+            System.out.println("You may also choose to change your mind about attacking for a strategic retreat,");
             System.out.println("retreat by choosing to 'back' for this turn General.");
             countryName = parser.getCountryName();
             if (countryName.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking

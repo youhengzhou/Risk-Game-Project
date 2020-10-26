@@ -14,6 +14,9 @@ public class Dice {
 
     private PriorityQueue<Integer> diceGroup;
 
+    /**
+    * @ param diceNumber in the diceGroup one by one
+    */
     public Dice(int diceNumber) {
         //store values in the diceGroup,number of Integer added is depending on the diceNumber parameter passed in.
         diceGroup = new PriorityQueue<>(Collections.reverseOrder());
@@ -22,19 +25,27 @@ public class Dice {
         }
     }
 
+    /**
+    * @ return to a random value from 1 to 6
+    */
     public int roll() {
-        //generate a random value from 1 to 6 inclusive.
         return (int) Math.ceil(Math.random() * 6);
     }
 
+    /**
+    * get the next highest value in queue, if no more values in queue, throw NullPointerException
+    * @ return diceGroup.isEmpty()
+    */
     public int getNextHighest() {
-        //get the next highest value in queue, if no more values in queue, throw NullPointerException.
         if (isEmpty()) throw (new NullPointerException("no more dice"));
         return diceGroup.poll();
     }
 
+    /**
+    * test if the diceGroup is empty
+    * @ reutrn diceGroup.isEmpty()
+    */
     public boolean isEmpty() {
-        //test if the diceGroup is empty
         return diceGroup.isEmpty();
     }
 }

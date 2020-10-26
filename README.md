@@ -2,6 +2,7 @@
 The Hasbro Game Of Global Domination
 
 Authors: Defa Hu, Youheng Zhou, Shaopeng Liu, Shizhong Shang
+
 RISK, the 2-6 players game of global domination.
 
 This game is written in Java with a team of four students using IntelliJ IDEA with Java and Git/Github for version control.

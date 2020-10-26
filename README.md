@@ -16,7 +16,7 @@ Beginning the project, the group will first begin a rough draft of the workflow 
 
 This is because it is important to first design the guidelines of the project workflow and gain understanding of the design requirements because mistakes can usually happen if the project members jump into the coding portions of the project first thing without having a complete understanding of the requirements.
 
-The next major phase would be to write up the codes for the Java game. Though when we are in this phase of writing the code, we do not constrain ourselves to simply writing the codes, as the coding process also work in parallel with the UML team, changing requirements to better fit the project stakeholder (the course)’s expectations and editing the code to better fit the requirements when a conflict of requirements was found.
+The next major phase would be to write up the codes for the Java game. Though when we are in this phase of writing the code, we do not constrain ourselves to simply writing the codes, as the coding process also work in parallel with the UML design process, changing the requirements during the process of programming to better fit the project stakeholder (the course)’s expectations and editing the code to better fit the requirements when a conflict of requirements was found.
 
 Through the process of writing, editing, and re-editing, this phase will lead up to producing the final deliverables of Milestone 1, with all the necessary changes and steps towards perfection being delivered before the Sunday October 25th due date.
 

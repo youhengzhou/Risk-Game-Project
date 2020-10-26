@@ -6,13 +6,13 @@ RISK, the 2-6 players game of global domination.
 
 This game is written in Java with a team of four students using IntelliJ IDEA with Java and Git/Github for version control.
 
-DESCRIPTION:
+DESCRIPTION of Deliverables:
 
        For the first milestone of the project, a text based version of the game will be created with the source code and compiled code being put in a .jar. 
        The game will feature simplified features of the classic strategy game RISK, skipping a few elements such as the army placing phase and the bonus card mechanics that the fully featured RISK game has. 
        In addition, a readme file listing the explanation of the rest of deliverables, the names of the authors, and known issues will be created.
 
-UserManual:
+User Manual for Game:
 
           1. you can type these Commands: [attack], [help], [state], [quit], [pass] to control what to do in the game
           2. [Attack]: can let you choose an enemy country to attack

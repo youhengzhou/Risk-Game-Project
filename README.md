@@ -52,3 +52,15 @@ From yours truly,
 SYSC 3110 Group Avengers
 
 (Earth's mightiest programmers)
+
+
+
+
+
+Known Bugs:
+
+If the user inputs an empty input then the program might crash at certain points. We chose not to address this issue of the user inputting illegal commands for Milestone 1 as we would later move on to GUI implementations.
+
+To do in the future, full GUI implementation and the removal of the keyboard commands.
+
+

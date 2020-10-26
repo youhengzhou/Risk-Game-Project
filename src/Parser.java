@@ -22,6 +22,11 @@ public class Parser {
         reader = new Scanner(System.in); // new scanner to read from terminal
     }
 
+    /**
+    * getCommand checks if the user's input is valid 
+    * @ return to the command word if ture
+    * @ return to null if false
+    */
     public Command getCommand() { // return the next command
         String inputLine;   // will hold the full input line that the user inputs
         String word = null;
@@ -42,10 +47,17 @@ public class Parser {
         }
     }
 
+    /**
+    * @ return all the valid command words 
+    */
     public String showCommands() { // show all valid command words
         return commands.showAll();
     }
 
+    /**
+    * getCountryName asks the input of command words from the user and changes all of them into lower cases
+    * @ return users command input to lower cases
+    */
     public String getCountryName() { // gets the country's name
         String commandInput;
         System.out.println("input your choice: ");

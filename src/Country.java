@@ -38,7 +38,7 @@ public class Country {
      * Remove troops from the country.
      * @param num number of troops to be removed
      */
-    public void removeTroop(int num) {
+    public void removeTroops(int num) {
 
         troopsNum -= num;
     }

@@ -24,7 +24,7 @@ public class Battle {
         this.countryAttack = attack;
         this.countryDefend = defend;
         AttackingTroops = troopSent;
-        countryAttack.removeTroop(AttackingTroops);
+        countryAttack.removeTroops(AttackingTroops);
     }
 
     /**
@@ -46,7 +46,7 @@ public class Battle {
                 int attackNum = attackDice.getNextHighest(); // choose the highest dice number to attack with
                 int defendNum = defendDice.getNextHighest(); // choose the highest dice number to defend with
                 if (attackNum > defendNum) {
-                    countryDefend.removeTroop(1); // if attacks win once, removes defending troop once
+                    countryDefend.removeTroops(1); // if attacks win once, removes defending troop once
                     defendTroopDeath++;
                 } else {
                     AttackingTroops--; // if attacks lost once, removes attacking troop once

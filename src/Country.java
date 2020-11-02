@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +15,7 @@ public class Country {
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
-
+    private ArrayList<JButton> countryButtons;
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
      */
@@ -25,6 +27,10 @@ public class Country {
 
     }
 
+    public void setCountryButtons(ArrayList<JButton> countryButtons)
+    {
+        this.countryButtons =   countryButtons;
+    }
     /**
      * add troops to the country
      * @param num the number of troops to be add.
@@ -40,6 +46,13 @@ public class Country {
     public void removeTroops(int num) {
 
         troopsNum -= num;
+    }
+    public void changeColor()
+    {
+        for(JButton b: this.countryButtons)
+        {
+            b.setBackground(Color.GREEN);
+        }
     }
 
 

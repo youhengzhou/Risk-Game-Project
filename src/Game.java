@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -8,7 +9,7 @@ import java.util.*;
  * @since  2020-10-25
  *
  */
-public class Game {
+public class Game extends DefaultListModel<Country> {
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
@@ -36,7 +37,8 @@ public class Game {
 
         randomAssignCountry();
         randomAssignTroops();
-        play();
+        playerOnGoing = players.get(playerIndex % numOfPlayer);
+       // play();
     }
 
     /**
@@ -686,6 +688,12 @@ public class Game {
                 c.addTroops(troopGive);
                 avoidableTroop -= troopGive; //decrement the available troops that a player left
             }
+        }
+    }
+
+    public void updateList(){
+        for(Country country: playerOnGoing.getCountriesOwn()){
+            this.addElement(country);
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.*;
  * @since  2020-10-25
  *
  */
-public class Game extends DefaultListModel<Country> {
+public class Risk_Model extends DefaultListModel<Country> {
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
@@ -19,15 +19,13 @@ public class Game extends DefaultListModel<Country> {
     int playerIndex;
     boolean pass;
     boolean finished = false;
-    private RiskView view;
 
     /**
      * This constructor of Game
      */
-    public Game(RiskView v) {
+    public Risk_Model() {
         parser = new Parser(); // parser for word checks
         players = new ArrayList<>();
-
         map = new HashMap<>();
 
         initCountries();
@@ -39,7 +37,6 @@ public class Game extends DefaultListModel<Country> {
         randomAssignCountry();
         randomAssignTroops();
         playerOnGoing = players.get(playerIndex % numOfPlayer);
-        view = v;
        // play();
     }
 
@@ -47,9 +44,9 @@ public class Game extends DefaultListModel<Country> {
      * create a new Game instance
      * @param args
      */
-    //public static void main(String[] args) {
-    //    Game game = new Game();
-   // }
+    public static void main(String[] args) {
+        Risk_Model riskModel = new Risk_Model();
+    }
 
     /**
      * Print command instructions and get user command.
@@ -76,13 +73,6 @@ public class Game extends DefaultListModel<Country> {
      *Method tells us if the game has a winner
      * @return boolean return true if there's winner in the game, false if there are no winner yet
      */
-    public void countrySelected(String countryName)
-    {
-        Country c = map.get(countryName);
-
-        view.countrySelectedNotify(c);
-
-    }
     public boolean hasWinner() {
         return players.size() <= 1;
     }
@@ -645,12 +635,6 @@ public class Game extends DefaultListModel<Country> {
     /**
      * randomly assign players with their initial country, and assign country with their owner.
      */
-
-    public void setCountryButtons(String countryName, ArrayList<JButton> b)
-    {
-        Country c = map.get(countryName);
-        c.setCountryButtons(b);
-    }
     public void randomAssignCountry() {
 
         //randomly assign Country-Owner pairs
@@ -707,8 +691,13 @@ public class Game extends DefaultListModel<Country> {
     }
 
     public void updateList(){
+        this.clear();
         for(Country country: playerOnGoing.getCountriesOwn()){
             this.addElement(country);
         }
+    }
+
+    public Player getPlayerOnGoing(){
+        return this.playerOnGoing;
     }
 }

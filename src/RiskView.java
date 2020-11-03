@@ -13,17 +13,35 @@ public class RiskView extends JFrame {
 //    private JButton button;
     private JPanel textPanel;
     private JList<Country> countriesOwn;
-    private Game game;
+    private JList<Country> adjacentCountries;
+    private JTextField countriesOwnText;
+    private JTextField adjacentCountriesText;
 
     public RiskView (){
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-        contentPane = new CustomPanel();
+        this.contentPane = new CustomPanel();
+        this.textPanel = new JPanel();
+        this.countriesOwnText = new JTextField();
+        this.countriesOwn = new JList<>();
+        this.adjacentCountries = new JList<>();
+        this.adjacentCountriesText = new JTextField();
 
-        textPanel = new JPanel();
-        countriesOwn = new JList<>();
+        adjacentCountriesText.setFont(new Font("Arial", Font.BOLD, 15));
+        countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
+        countriesOwnText.setEditable(false);
+        countriesOwnText.setSize(50,20);
+
+        countriesOwn.setSize(textPanel.getWidth(),300);
+
+        textPanel.setLayout(new BorderLayout());
+        textPanel.add(countriesOwnText,BorderLayout.NORTH);
         textPanel.add(countriesOwn);
+        textPanel.add(adjacentCountriesText, FlowLayout.TRAILING);
+
+        countriesOwn.setSize(textPanel.getSize());
+        countriesOwn.setSelectionMode(ListSelectionModel.);
 //        textPanel.add(countriesOwn);
 //        button = new JButton("hello,testing");
 //        contentPane.setLayout(null);
@@ -36,7 +54,7 @@ public class RiskView extends JFrame {
 //        textPanel.add(button);
 //        button.setSize(textPanel.getMaximumSize());
         this.add(contentPane, BorderLayout.WEST);
-        this.add(textPanel, BorderLayout.EAST);
+        this.add(textPanel);
 
        // this.setContentPane(contentPane);
        // this.pack();
@@ -55,13 +73,17 @@ public class RiskView extends JFrame {
        EventQueue.invokeLater(runnable);
     }
 
-    public void setUpList(DefaultListModel model){
-        this.countriesOwn = new JList<>(model);
-        this.contentPane.add(countriesOwn);
+    public JTextField getCountriesOwnText(){
+        return this.countriesOwnText;
     }
 
     public JList<Country> getList(){
         return this.countriesOwn;
+    }
+
+    //used to update the color of the textField when Player switch
+    public void upDateTextFieldColor(Color color){
+        this.countriesOwnText.setBackground(color);
     }
 }
 
@@ -71,7 +93,7 @@ class CustomPanel extends JPanel{
 
     public CustomPanel(){
         setOpaque(true);
-        setBorder(BorderFactory.createLineBorder(Color.black,5));
+        setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
             Inputimage = ImageIO.read(getClass().getResource("/RiskMap.jpg"));

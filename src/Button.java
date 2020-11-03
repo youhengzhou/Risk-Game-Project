@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-public class Button extends JFrame
+public class Button extends JPanel
 {
 
     public void button() {

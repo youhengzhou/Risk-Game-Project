@@ -9,12 +9,12 @@ import java.util.zip.CheckedOutputStream;
  * @version 1.0
  * @since  2020-10-25
  *
- */
-public class Risk_Model {
-    private DefaultListModel<Country> countriesOwnList;
+ */public class Risk_Model {
+
+        private DefaultListModel<Country> countriesOwnList;
     private DefaultListModel<Country> adjacentCountriesList;
     private List<Player> players;
-//    private Player playerOnGoing;
+    private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
     private Parser parser;
@@ -84,28 +84,28 @@ public class Risk_Model {
 //    /**
 //     * Method remove player with no more country from the players arraylist
 //     */
-//    public void removePlayerWithNoCountry() {
-//        Player beRemovedPlayer = new Player("impossible");
-//        for (Player p : players) {
-//            try {
-//
-//                if (p.getCountriesOwn().isEmpty()) {
-//
-//                    numOfPlayer--;
-//                    beRemovedPlayer = p;
-//
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        players.remove(beRemovedPlayer);
-//        if (players.size() == 1) {
-//            System.out.println("The winner is " + players.get(0).getName());
-//            finished = true;
-//        }
-//    }
+    public void removePlayerWithNoCountry() {
+       Player beRemovedPlayer = new Player("impossible");
+       for (Player p : players) {
+           try {
+
+                if (p.getCountriesOwn().isEmpty()) {
+
+                    numOfPlayer--;
+                    beRemovedPlayer = p;
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+       }
+        players.remove(beRemovedPlayer);
+        if (players.size() == 1) {
+            System.out.println("The winner is " + players.get(0).getName());
+            finished = true;
+        }
+   }
 
     /**
      * print welcome to users
@@ -709,7 +709,7 @@ public class Risk_Model {
             adjacentCountriesList.addElement(c);
         }
     }
-    public DefaultListModel<Country> getList(){return this.list;}
+    public DefaultListModel<Country> getList(){return countriesOwnList;}
 
     public Player getPlayerOnGoing(){
         return this.playerOnGoing;

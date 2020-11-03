@@ -211,7 +211,7 @@ public class RiskView extends JFrame {
     public void countrySelectedNotify(Country c)
     {
         textArea.append("\n"+c.getCountryName()+" is selected\nOwner: "+c.getOwner().getName()+" \nTroops: "+c.getTroopsNum()+"\n_________________________");
-        c.changeColor();
+
     }
 
     public void setUpList(DefaultListModel model){

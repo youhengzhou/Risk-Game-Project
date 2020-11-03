@@ -47,13 +47,6 @@ public class Country {
 
         troopsNum -= num;
     }
-    public void changeColor()
-    {
-        for(JButton b: this.countryButtons)
-        {
-            b.setBackground(Color.GREEN);
-        }
-    }
 
 
     /**

@@ -79,7 +79,7 @@ public class Game extends DefaultListModel<Country> {
     public void countrySelected(String countryName)
     {
         Country c = map.get(countryName);
-        c.changeColor();
+
         view.countrySelectedNotify(c);
 
     }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.*;
+import java.util.zip.CheckedOutputStream;
 
 /**
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
@@ -9,9 +10,11 @@ import java.util.*;
  * @since  2020-10-25
  *
  */
-public class Risk_Model extends DefaultListModel<Country> {
+public class Risk_Model {
+    private DefaultListModel<Country> countriesOwnList;
+    private DefaultListModel<Country> adjacentCountriesList;
     private List<Player> players;
-    private Player playerOnGoing;
+//    private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
     private Parser parser;
@@ -24,20 +27,21 @@ public class Risk_Model extends DefaultListModel<Country> {
      * This constructor of Game
      */
     public Risk_Model() {
+//        list = new DefaultListModel<>();
         parser = new Parser(); // parser for word checks
-        players = new ArrayList<>();
+//        players = new ArrayList<>();
         map = new HashMap<>();
 
         initCountries();
         setNumOfPlayer();
-        createPlayer();
+//        createPlayer();
         pass = false;
         playerIndex = 0;
 
         randomAssignCountry();
         randomAssignTroops();
-        playerOnGoing = players.get(playerIndex % numOfPlayer);
-       // play();
+
+//        play();
     }
 
     /**
@@ -48,60 +52,60 @@ public class Risk_Model extends DefaultListModel<Country> {
         Risk_Model riskModel = new Risk_Model();
     }
 
-    /**
-     * Print command instructions and get user command.
-     */
-    public void play() {
-        printWelcome();
-        while (!finished && !hasWinner()) {
-            pass = false;
-            playerOnGoing = players.get(playerIndex % numOfPlayer);
-            System.out.println();
-            System.out.println("Now it is your turn " + playerOnGoing.getName());
-            while (!pass && !finished) {
+//    /**
+//     * Print command instructions and get user command.
+//     */
+//    public void play() {
+//        printWelcome();
+//        while (!finished && !hasWinner()) {
+//            pass = false;
+//            playerOnGoing = players.get(playerIndex % numOfPlayer);
+//            System.out.println();
+//            System.out.println("Now it is your turn " + playerOnGoing.getName());
+//            while (!pass && !finished) {
+//
+//                System.out.println("what do you want to do now, please input your command");
+//                System.out.println("You can type [attack], [pass], [state], [help], [quit]");
+//
+//                processCommand(parser.getCommand());
+//            }
+//        }
+//        System.out.println("Thank you for playing. Good bye.");
+//    }
 
-                System.out.println("what do you want to do now, please input your command");
-                System.out.println("You can type [attack], [pass], [state], [help], [quit]");
+//    /**
+//     *Method tells us if the game has a winner
+//     * @return boolean return true if there's winner in the game, false if there are no winner yet
+//     */
+//    public boolean hasWinner() {
+//        return players.size() <= 1;
+//    }
 
-                processCommand(parser.getCommand());
-            }
-        }
-        System.out.println("Thank you for playing. Good bye.");
-    }
-
-    /**
-     *Method tells us if the game has a winner
-     * @return boolean return true if there's winner in the game, false if there are no winner yet
-     */
-    public boolean hasWinner() {
-        return players.size() <= 1;
-    }
-
-    /**
-     * Method remove player with no more country from the players arraylist
-     */
-    public void removePlayerWithNoCountry() {
-        Player beRemovedPlayer = new Player("impossible");
-        for (Player p : players) {
-            try {
-
-                if (p.getCountriesOwn().isEmpty()) {
-
-                    numOfPlayer--;
-                    beRemovedPlayer = p;
-
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        players.remove(beRemovedPlayer);
-        if (players.size() == 1) {
-            System.out.println("The winner is " + players.get(0).getName());
-            finished = true;
-        }
-    }
+//    /**
+//     * Method remove player with no more country from the players arraylist
+//     */
+//    public void removePlayerWithNoCountry() {
+//        Player beRemovedPlayer = new Player("impossible");
+//        for (Player p : players) {
+//            try {
+//
+//                if (p.getCountriesOwn().isEmpty()) {
+//
+//                    numOfPlayer--;
+//                    beRemovedPlayer = p;
+//
+//                }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        players.remove(beRemovedPlayer);
+//        if (players.size() == 1) {
+//            System.out.println("The winner is " + players.get(0).getName());
+//            finished = true;
+//        }
+//    }
 
     /**
      * print welcome to users
@@ -622,15 +626,15 @@ public class Risk_Model extends DefaultListModel<Country> {
         }
     }
 
-    /**
-     * create instances of all Player and add them into Arraylist players.
-     */
-    private void createPlayer() {
-        //create all player instance
-        for (int i = 0; i < numOfPlayer; i++) {
-            players.add(new Player("Player" + i));
-        }
-    }
+//    /**
+//     * create instances of all Player and add them into Arraylist players.
+//     */
+//    private void createPlayer() {
+//        //create all player instance
+//        for (int i = 0; i < numOfPlayer; i++) {
+//            players.add(new Player("Player" + i));
+//        }
+//    }
 
     /**
      * randomly assign players with their initial country, and assign country with their owner.
@@ -690,12 +694,22 @@ public class Risk_Model extends DefaultListModel<Country> {
         }
     }
 
-    public void updateList(){
-        this.clear();
-        for(Country country: playerOnGoing.getCountriesOwn()){
-            this.addElement(country);
+    public int getNumOfPlayer(){return this.numOfPlayer;}
+
+    public void updateCountriesOwnList(Player player){
+        countriesOwnList.clear();
+        for(Country country: player.getCountriesOwn()){
+            countriesOwnList.addElement(country);
         }
     }
+
+    public void updateAdjacentCountriesList(Country country){
+        adjacentCountriesList.clear();
+        for(Country c: country.getAdjacentCountries()){
+            adjacentCountriesList.addElement(c);
+        }
+    }
+    public DefaultListModel<Country> getList(){return this.list;}
 
     public Player getPlayerOnGoing(){
         return this.playerOnGoing;

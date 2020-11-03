@@ -3,7 +3,6 @@ import jdk.internal.util.xml.impl.Input;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -12,18 +11,57 @@ public class RiskView extends JFrame {
     private CustomPanel contentPane;
 //    private JButton button;
     private JPanel textPanel;
+    private JPanel adjacentTextPanel;
+    private JPanel buttonPanel;
     private JList<Country> countriesOwn;
-    private Game game;
+    private JList<Country> ADJCountries;
+    private JTextField countriesOwnText;
+    private JTextField adjacentCountriesText;
+    private JButton attackButton;
+    private JButton passButton;
+    private JButton helpButton;
+    private JButton quitButton;
 
     public RiskView (){
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-        contentPane = new CustomPanel();
+        this.contentPane = new CustomPanel();
+        this.textPanel = new JPanel();
+        this.adjacentTextPanel = new JPanel();
+        this.buttonPanel = new JPanel();
+        this.countriesOwnText = new JTextField();
+        this.countriesOwn = new JList<>();
+        this.ADJCountries = new JList<>();
+        this.adjacentCountriesText = new JTextField();
+        this.attackButton = new JButton("ATTACK");
+        this.passButton = new JButton("PASS");
+        this.helpButton = new JButton("HELP");
+        this.quitButton = new JButton("QUIT");
 
-        textPanel = new JPanel();
-        countriesOwn = new JList<>();
+        //setup for adjacentTextPanel
+        adjacentTextPanel.setPreferredSize(new Dimension(160,this.getHeight()));
+        adjacentCountriesText.setFont(new Font("Arial", Font.BOLD, 15));
+        adjacentCountriesText.setText("AdjacentCountries: ");
+        adjacentCountriesText.setEditable(false);
+        adjacentTextPanel.add(adjacentCountriesText, BorderLayout.NORTH);
+        adjacentTextPanel.add(ADJCountries,BorderLayout.CENTER);
+
+
+        //setup for textPanel
+        countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
+        countriesOwnText.setEditable(false);
+        textPanel.setLayout(new BorderLayout());
+        textPanel.add(countriesOwnText, BorderLayout.PAGE_START);
         textPanel.add(countriesOwn);
+
+        //setup for buttonPanel
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(helpButton,FlowLayout.LEFT);
+        buttonPanel.add(quitButton,FlowLayout.RIGHT);
+        buttonPanel.add(attackButton);
+        buttonPanel.add(passButton);
+
 //        textPanel.add(countriesOwn);
 //        button = new JButton("hello,testing");
 //        contentPane.setLayout(null);
@@ -35,12 +73,11 @@ public class RiskView extends JFrame {
 //        button.setBorderPainted(false);
 //        textPanel.add(button);
 //        button.setSize(textPanel.getMaximumSize());
-        this.add(contentPane, BorderLayout.WEST);
+        this.add(contentPane, BorderLayout.CENTER);
+        this.add(adjacentTextPanel, BorderLayout.WEST);
         this.add(textPanel, BorderLayout.EAST);
-
-       // this.setContentPane(contentPane);
-       // this.pack();
-        this.setSize(1300,800);
+        this.add(buttonPanel, BorderLayout.SOUTH);
+        this.setSize(1400,800);
         this.setLocationByPlatform(true);
         this.setVisible(true);
     }
@@ -55,14 +92,22 @@ public class RiskView extends JFrame {
        EventQueue.invokeLater(runnable);
     }
 
-    public void setUpList(DefaultListModel model){
-        this.countriesOwn = new JList<>(model);
-        this.contentPane.add(countriesOwn);
+    public JTextField getCountriesOwnText(){
+        return this.countriesOwnText;
     }
 
-    public JList<Country> getList(){
+    public JList<Country> getCountriesOwnList(){
         return this.countriesOwn;
     }
+
+    public JList<Country> getAdjacentCountriesList(){return this.ADJCountries;}
+
+    //used to update the color of the textField when Player switch
+    public void upDateTextFieldColor(Color color){
+        this.countriesOwnText.setBackground(color);
+    }
+
+    public void addPassButtonListener(ActionListener ac){this.passButton.addActionListener(ac);}
 }
 
 class CustomPanel extends JPanel{
@@ -71,7 +116,7 @@ class CustomPanel extends JPanel{
 
     public CustomPanel(){
         setOpaque(true);
-        setBorder(BorderFactory.createLineBorder(Color.black,5));
+        setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
             Inputimage = ImageIO.read(getClass().getResource("/RiskMap.jpg"));

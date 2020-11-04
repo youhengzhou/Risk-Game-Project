@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.util.*;
-import java.util.zip.CheckedOutputStream;
 
 /**
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
@@ -10,11 +9,11 @@ import java.util.zip.CheckedOutputStream;
  * @since  2020-10-25
  *
  */
-public class RiskModel {
+public class Risk_Model {
     private DefaultListModel<Country> countriesOwnList;
     private DefaultListModel<Country> adjacentCountriesList;
     private List<Player> players;
-//    private Player playerOnGoing;
+    private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
     private Parser parser;
@@ -26,18 +25,20 @@ public class RiskModel {
     /**
      * This constructor of Game
      */
-    public RiskModel() {
+    public Risk_Model() {
 //        list = new DefaultListModel<>();
         parser = new Parser(); // parser for word checks
-//        players = new ArrayList<>();
+        players = new ArrayList<>();
         map = new HashMap<>();
+        countriesOwnList = new DefaultListModel<>();
+        adjacentCountriesList = new DefaultListModel<>();
 
         initCountries();
         setNumOfPlayer();
-//        createPlayer();
+        createPlayer();
         pass = false;
         playerIndex = 0;
-
+        playerOnGoing = players.get(playerIndex%numOfPlayer);
         randomAssignCountry();
         randomAssignTroops();
 
@@ -49,7 +50,7 @@ public class RiskModel {
      * @param args
      */
     public static void main(String[] args) {
-        RiskModel riskModel = new RiskModel();
+        Risk_Model riskModel = new Risk_Model();
     }
 
 //    /**
@@ -73,39 +74,39 @@ public class RiskModel {
 //        System.out.println("Thank you for playing. Good bye.");
 //    }
 
-//    /**
-//     *Method tells us if the game has a winner
-//     * @return boolean return true if there's winner in the game, false if there are no winner yet
-//     */
-//    public boolean hasWinner() {
-//        return players.size() <= 1;
-//    }
+    /**
+     *Method tells us if the game has a winner
+     * @return boolean return true if there's winner in the game, false if there are no winner yet
+     */
+    public boolean hasWinner() {
+        return players.size() <= 1;
+    }
 
-//    /**
-//     * Method remove player with no more country from the players arraylist
-//     */
-//    public void removePlayerWithNoCountry() {
-//        Player beRemovedPlayer = new Player("impossible");
-//        for (Player p : players) {
-//            try {
-//
-//                if (p.getCountriesOwn().isEmpty()) {
-//
-//                    numOfPlayer--;
-//                    beRemovedPlayer = p;
-//
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        players.remove(beRemovedPlayer);
-//        if (players.size() == 1) {
-//            System.out.println("The winner is " + players.get(0).getName());
-//            finished = true;
-//        }
-//    }
+    /**
+     * Method remove player with no more country from the players arraylist
+     */
+    public void removePlayerWithNoCountry() {
+        Player beRemovedPlayer = new Player("impossible");
+        for (Player p : players) {
+            try {
+
+                if (p.getCountriesOwn().isEmpty()) {
+
+                    numOfPlayer--;
+                    beRemovedPlayer = p;
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        players.remove(beRemovedPlayer);
+        if (players.size() == 1) {
+            System.out.println("The winner is " + players.get(0).getName());
+            finished = true;
+        }
+    }
 
     /**
      * print welcome to users
@@ -626,15 +627,15 @@ public class RiskModel {
         }
     }
 
-//    /**
-//     * create instances of all Player and add them into Arraylist players.
-//     */
-//    private void createPlayer() {
-//        //create all player instance
-//        for (int i = 0; i < numOfPlayer; i++) {
-//            players.add(new Player("Player" + i));
-//        }
-//    }
+    /**
+     * create instances of all Player and add them into Arraylist players.
+     */
+    private void createPlayer() {
+        //create all player instance
+        for (int i = 0; i < numOfPlayer; i++) {
+            players.add(new Player("Player" + i));
+        }
+    }
 
     /**
      * randomly assign players with their initial country, and assign country with their owner.
@@ -709,7 +710,7 @@ public class RiskModel {
             adjacentCountriesList.addElement(c);
         }
     }
-    public DefaultListModel<Country> getList(){return this.list;}
+    public DefaultListModel<Country> getList(){return this.countriesOwnList;}
 
     public Player getPlayerOnGoing(){
         return this.playerOnGoing;

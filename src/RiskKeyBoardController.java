@@ -2,8 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RiskKeyBoardController implements ActionListener {
-    private RiskModel rm;
-    public RiskKeyBoardController(RiskModel rm){
+    private Risk_Model rm;
+    public RiskKeyBoardController(Risk_Model rm){
         this.rm = rm;
     }
 

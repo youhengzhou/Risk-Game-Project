@@ -2,8 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RiskMouseController implements ActionListener {
-    private RiskModel rm;
-    public RiskMouseController(RiskModel rm){
+    private Risk_Model rm;
+    public RiskMouseController(Risk_Model rm){
         this.rm = rm;
     }
 

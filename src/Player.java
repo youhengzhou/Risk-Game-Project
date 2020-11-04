@@ -56,6 +56,14 @@ public class Player {
         return countriesOwn;
     }
 
+    public String getCountriesInString(){
+        String s="";
+        for(Country c: countriesOwn){
+            s += c.toString();
+        }
+        return s;
+    }
+
     /**
     * getAvailableCountries checks of the country has more than 1 troops, if true print out the countries' name
     * @ return a list of available countries

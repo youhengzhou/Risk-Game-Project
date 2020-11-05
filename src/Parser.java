@@ -1,59 +1,68 @@
 import java.util.Scanner;
 
+/**
+ * the Parser class is used to hold commands inputted by the user through a scanner, to verify whether they are allowed command words
+ *
+ * @auther Avengers
+ * @version 1.0
+ * @since  2020-10-25
+ *
+ */
 public class Parser {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
-     * Create a parser to read from the terminal window.
+     * Constructor of Parser
+     * The parser is used to hold the valid command words and the scanner, and also to display all the country's names
      */
     public Parser() {
         commands = new CommandWords();
-        reader = new Scanner(System.in);
+        reader = new Scanner(System.in); // new scanner to read from terminal
     }
 
     /**
-     * @return The next command from the user.
-     */
-    public Command getCommand() {
-        String inputLine;   // will hold the full input line
-        String word1 = null;
-        String word2 = null;
+    * getCommand checks if the user's input is valid 
+    * @ return to the command word if ture
+    * @ return to null if false
+    */
+    public Command getCommand() { // return the next command
+        String inputLine;   // will hold the full input line that the user inputs
+        String word = null;
 
-        System.out.print("> ");     // print prompt
+        System.out.print("> ");     // print prompt for the user
 
         inputLine = reader.nextLine();
 
-        // Find up to two words on the line.
+        // find the first word inputted
         Scanner tokenizer = new Scanner(inputLine);
         if (tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
-            if (tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-            }
+            word = tokenizer.next();      // get first word
         }
-        if (commands.isCommand(word1)) {
-            System.out.println("word1 is "+word1);
-            return new Command(word1, word2);
+        if (commands.isCommand(word)) {
+            return new Command(word);
         } else {
-            return new Command(null, word2);
+            return new Command(null);
         }
     }
 
     /**
-     * Print out a list of valid command words.
-     */
-    public void showCommands() {
-        commands.showAll();
+    * @ return all the valid command words 
+    */
+    public String showCommands() { // show all valid command words
+        return commands.showAll();
     }
 
-    public String getCountryName() {
-        String commandinput;
-
+    /**
+    * getCountryName asks the input of command words from the user and changes all of them into lower cases
+    * @ return users command input to lower cases
+    */
+    public String getCountryName() { // gets the country's name
+        String commandInput;
         System.out.println("input your choice: ");
         reader = new Scanner(System.in);
         String str = reader.nextLine();
-        commandinput = str.replace(" ", "");
-        return commandinput.toLowerCase();
+        commandInput = str.replace(" ", "");
+        return commandInput.toLowerCase();
     }
 }

@@ -126,6 +126,24 @@ class CustomPanel extends JPanel{
         TextField field = new TextField();
         field.setText("X:" + e.getX()+ " Y:" + e.getY());
     }
+    
+    /**String path="/risk_map_withname.png";
+
+    ImageIcon image1=new ImageIcon(path);// get picture
+
+    ImageIcon image2=change(image1,0.5);
+
+    public ImageIcon change(ImageIcon image,double i){
+
+        int width=(int) (image.getIconWidth()*i);
+        int height=(int) (image.getIconHeight()*i);
+        Image img=image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);
+        ImageIcon image2=new ImageIcon(img);
+
+        return image2;
+
+    }
+     **/
 
 
 }

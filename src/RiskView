@@ -22,6 +22,7 @@ public class RiskView extends JFrame {
     private JButton passButton;
     private JButton helpButton;
     private JButton quitButton;
+    static TextField field;
 
     public RiskView (){
         super("view");
@@ -79,6 +80,8 @@ public class RiskView extends JFrame {
         this.setLocationByPlatform(true);
         this.setVisible(true);
 
+        field = new TextField();
+        this.add(field,BorderLayout.NORTH);
     }
 
     public JTextArea getCountriesOwnText(){
@@ -117,6 +120,11 @@ class CustomPanel extends JPanel{
         g.drawImage(Inputimage,0,0,500,600,null);
         //g.drawImage(Inputimage,0,0,500,600,null);
 //        g.dispose();
+    }
+    public void mouseMoved(MouseEvent e)
+    {
+        TextField field = new TextField();
+        field.setText("X:" + e.getX()+ " Y:" + e.getY());
     }
 
 

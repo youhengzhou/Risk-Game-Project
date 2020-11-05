@@ -1,19 +1,21 @@
-import jdk.internal.util.xml.impl.Input;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 public class RiskView extends JFrame {
 
     private CustomPanel contentPane;
     private JPanel textPanel;
-    private JPanel adjacentTextPanel;
     private JPanel buttonPanel;
     private JTextArea countriesOwnText;
     private JTextArea adjacentCountriesText;
+    private JTextArea consoleText;
     private JButton attackButton;
     private JButton passButton;
     private JButton helpButton;
@@ -25,16 +27,26 @@ public class RiskView extends JFrame {
         this.setLayout(new BorderLayout());
         this.contentPane = new CustomPanel();
         this.textPanel = new JPanel();
-        this.adjacentTextPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.countriesOwnText = new JTextArea("",10,1);
-//        this.countriesOwn = new JList<>();
-//        this.ADJCountries = new JList<>();
         this.adjacentCountriesText = new JTextArea("",5,1);
+        this.consoleText = new JTextArea();
         this.attackButton = new JButton("ATTACK");
         this.passButton = new JButton("PASS");
         this.helpButton = new JButton("HELP");
         this.quitButton = new JButton("QUIT");
+
+        //setup for console
+        System.setOut(new PrintStream(new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                consoleText.append(String.valueOf((char) b));
+            }
+        }));
+        consoleText.setBackground(Color.BLACK);
+        consoleText.setCaretColor(Color.WHITE);
+        JScrollPane consoleScrollPane = new JScrollPane(consoleText);
+        consoleScrollPane.setPreferredSize(new Dimension(400,700));
 
         //setup for textPanel
         countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
@@ -42,15 +54,12 @@ public class RiskView extends JFrame {
         adjacentCountriesText.setFont(new Font("Arial", Font.BOLD, 15));
         adjacentCountriesText.setEditable(false);
         textPanel.setLayout(new BorderLayout());
-//        textPanel.add(countriesOwnText, BorderLayout.NORTH);
-//        textPanel.add(adjacentCountriesText, BorderLayout.SOUTH);
-        JScrollPane js = new JScrollPane(countriesOwnText);
-        js.setPreferredSize(new Dimension(350,350));
-        JScrollPane jp = new JScrollPane(adjacentCountriesText);
-        jp.setPreferredSize(new Dimension(350,350));
-        textPanel.add(js, BorderLayout.NORTH);
-        textPanel.add(jp, BorderLayout.SOUTH);
-
+        JScrollPane countriesOwnSP = new JScrollPane(countriesOwnText);
+        countriesOwnSP.setPreferredSize(new Dimension(400,700));
+        JScrollPane adjacentCountriesSP = new JScrollPane(adjacentCountriesText);
+        adjacentCountriesSP.setPreferredSize(new Dimension(400,700));
+        textPanel.add(countriesOwnSP, BorderLayout.NORTH);
+        textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);
 
         //setup for buttonPanel
         buttonPanel.setLayout(new FlowLayout());
@@ -59,12 +68,12 @@ public class RiskView extends JFrame {
         buttonPanel.add(attackButton);
         buttonPanel.add(passButton);
 
-       // this.add(new JScrollPane(countriesOwnText,JScrollPane.VERTICAL_SCROLLBAR));
+        this.add(consoleScrollPane, BorderLayout.WEST);
         this.add(contentPane, BorderLayout.CENTER);
-//        this.add(adjacentTextPanel, BorderLayout.WEST);
         this.add(textPanel, BorderLayout.EAST);
         this.add(buttonPanel, BorderLayout.SOUTH);
-        this.setSize(1400,800);
+
+        this.setSize(2000,1500);
         this.setLocationByPlatform(true);
         this.setVisible(true);
     }
@@ -85,15 +94,13 @@ public class RiskView extends JFrame {
 
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
-    //private BufferedImage outputimage;
 
     public CustomPanel(){
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
-            Inputimage = ImageIO.read(getClass().getResource("/RiskMap.jpg"));
-//            outputimage = new BufferedImage(1,1, BufferedImage.TYPE_INT_ARGB);
+            Inputimage = ImageIO.read(getClass().getResource("/risk_map_withname.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,16 +108,10 @@ class CustomPanel extends JPanel{
     }
 
     @Override
-    public Dimension getPreferredSize(){
-        return(new Dimension(1000, 700));
-    }
-
-    @Override
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        //g.drawImage(image, 0, 0, this);
-        g.drawImage(Inputimage,0,0,1000,700,null);
-        g.dispose();
+        g.drawImage(Inputimage,0,0,1200,1400,null);
+//        g.dispose();
     }
 }

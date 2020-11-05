@@ -1,11 +1,8 @@
-import javax.swing.*;
-import java.util.List;
-
-public class Risk_Controller {
-    private Risk_Model model;
+public class RiskController {
+    private RiskModel model;
     private RiskView view;
 
-    public Risk_Controller(Risk_Model model, RiskView view){
+    public RiskController(RiskModel model, RiskView view){
         this.model = model;
         this.view = view;
        // model.updateList(playerOnGoing);
@@ -17,10 +14,10 @@ public class Risk_Controller {
     }
 
     public static void main(String[] args){
-        Risk_Model riskModel = new Risk_Model();
+        RiskModel riskModel = new RiskModel();
         RiskView view = new RiskView();
 
-        Risk_Controller controller = new Risk_Controller(riskModel, view);
+        RiskController controller = new RiskController(riskModel, view);
 
     }
 }

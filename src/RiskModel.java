@@ -9,7 +9,7 @@ import java.util.*;
  * @since  2020-10-25
  *
  */
-public class Risk_Model {
+public class RiskModel {
     private DefaultListModel<Country> countriesOwnList;
     private DefaultListModel<Country> adjacentCountriesList;
     private List<Player> players;
@@ -25,7 +25,7 @@ public class Risk_Model {
     /**
      * This constructor of Game
      */
-    public Risk_Model() {
+    public RiskModel() {
 //        list = new DefaultListModel<>();
         parser = new Parser(); // parser for word checks
         players = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Risk_Model {
      * @param args
      */
     public static void main(String[] args) {
-        Risk_Model riskModel = new Risk_Model();
+        RiskModel riskModel = new RiskModel();
     }
 
 //    /**

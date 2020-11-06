@@ -41,8 +41,8 @@ public class RiskView extends JFrame {
         this.passButton = new JButton("PASS");
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
-        int screenX = (int) screenSize.getWidth();
-        int screenY = (int) screenSize.getHeight();
+        int frameSize_Width = 1350;
+        int frameSize_Height = 800;
 
         //setup for console
         System.setOut(new PrintStream(new OutputStream() {
@@ -54,7 +54,7 @@ public class RiskView extends JFrame {
         consoleText.setBackground(Color.BLACK);
         consoleText.setDisabledTextColor(Color.WHITE);
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
-        consoleScrollPane.setPreferredSize(new Dimension(screenX/8, screenY/8));
+        consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
 
         //setup for textPanel
         countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
@@ -66,7 +66,7 @@ public class RiskView extends JFrame {
         JScrollPane adjacentCountriesSP = new JScrollPane(adjacentCountriesText);
         textPanel.add(countriesOwnSP, BorderLayout.CENTER);
         textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);
-        textPanel.setPreferredSize(new Dimension(screenX/8, screenY/8));
+        textPanel.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
 
         //setup for buttonPanel
         buttonPanel.setLayout(new FlowLayout());
@@ -78,13 +78,29 @@ public class RiskView extends JFrame {
 //        buttonPanel.setPreferredSize(new Dimension(screenX/20, screenY/20));
 
         //setup test Button
-        testButton = new JButton("test");
+        testButton = new JButton("");
         imagePanel.setLayout(null);
         imagePanel.add(testButton);
-        testButton.setBounds(23,50,50,50);
+        testButton.setBounds(23,35,15,8);
+
+        //set up alaskaButton For testing
+        JButton alaskaButton = new JButton("");
+        imagePanel.add(alaskaButton);
+        alaskaButton.setBounds(23,190,15,8);
+        alaskaButton.setBackground(Color.GREEN);
+
+        //set up easterAustraliaButton
+        JButton easterAustraliaButton = new JButton("");
+        imagePanel.add(easterAustraliaButton);
+        easterAustraliaButton.setBounds(800,600,15,8);
+        easterAustraliaButton.setBackground(Color.GREEN);
+
+
+
+
         testButton.setVisible(true);
 
-        imagePanel.setPreferredSize(new Dimension(screenX/2, screenY/2));
+        imagePanel.setPreferredSize(new Dimension(900, 750));
 
         //seting background
 //        testPanel = new JPanel();
@@ -106,7 +122,7 @@ public class RiskView extends JFrame {
         this.add(textPanel, BorderLayout.EAST);
         this.add(buttonPanel, BorderLayout.SOUTH);
 
-        this.setPreferredSize(new Dimension(3*screenX/4,3 * screenY/4));
+        this.setPreferredSize(new Dimension(frameSize_Width,frameSize_Height));
         this.setLocationByPlatform(true);
         this.setVisible(true);
         this.pack();
@@ -157,8 +173,9 @@ class CustomPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g)
     {
+
         super.paintComponent(g);
-        g.drawImage(Inputimage,0,0,(int)screenSize.getWidth()/2,(int)screenSize.getHeight()/2,null);
+        g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
     }
 }

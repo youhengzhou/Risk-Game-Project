@@ -1,4 +1,4 @@
-import jdk.internal.util.xml.impl.Input;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,9 +44,9 @@ public class RiskView extends JFrame {
         textPanel.setLayout(new BorderLayout());
 //        textPanel.add(countriesOwnText, BorderLayout.NORTH);
 //        textPanel.add(adjacentCountriesText, BorderLayout.SOUTH);
-        JScrollPane js = new JScrollPane(countriesOwnText);
+        JScrollPane js = new JScrollPane(countriesOwnText); //js is used to display country owned
         js.setPreferredSize(new Dimension(350,350));
-        JScrollPane jp = new JScrollPane(adjacentCountriesText);
+        JScrollPane jp = new JScrollPane(adjacentCountriesText);  //jp used to display adjacent country info
         jp.setPreferredSize(new Dimension(350,350));
         textPanel.add(js, BorderLayout.NORTH);
         textPanel.add(jp, BorderLayout.SOUTH);
@@ -62,7 +62,7 @@ public class RiskView extends JFrame {
        // this.add(new JScrollPane(countriesOwnText,JScrollPane.VERTICAL_SCROLLBAR));
         this.add(contentPane, BorderLayout.CENTER);
 //        this.add(adjacentTextPanel, BorderLayout.WEST);
-        this.add(textPanel, BorderLayout.EAST);
+        this.add(textPanel,BorderLayout.EAST);
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.setSize(1400,800);
         this.setLocationByPlatform(true);

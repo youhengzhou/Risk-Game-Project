@@ -1,3 +1,6 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class RiskController {
     private RiskModel model;
     private RiskView view;
@@ -11,6 +14,9 @@ public class RiskController {
 
         view.getCountriesOwnText().setText("Player 0 owns these countries: \n"+model.getPlayerOnGoing().getCountriesInString());
         view.getAdjacentCountriesText().setText(model.getPlayerOnGoing().getCountriesInString());
+        view.addTestListener(new TestListener());
+        view.addHelpButtonListener(new helpButtonListener());
+        view.addConfirmButtonListener(new quitButtonListener());
     }
 
     public static void main(String[] args){
@@ -20,4 +26,28 @@ public class RiskController {
         RiskController controller = new RiskController(riskModel, view);
 
     }
+
+    class TestListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("sadasdsadasddasdsd");
+        }
+    }
+
+    class helpButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.showHelp(model.printHelp());
+        }
+    }
+
+    class quitButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
 }
+
+

@@ -60,6 +60,10 @@ public class Country {
         return owner;
     }
 
+    public boolean hasOwner(){
+        return !owner.equals(null);
+    }
+
     /**
      * get the name of the country
      * @return countryName name of the country

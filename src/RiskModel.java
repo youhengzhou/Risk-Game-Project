@@ -10,31 +10,33 @@ import java.util.*;
  *
  */
 public class RiskModel {
-    private DefaultListModel<Country> countriesOwnList;
-    private DefaultListModel<Country> adjacentCountriesList;
+    public static enum Phase {PENDING,ATTACK,RESIGN,FORTIFY,DRAFTING};
+    private Phase State;
     private List<Player> players;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
     private Parser parser;
-    private HashMap<String, Country> map;
+    public HashMap<String, Country> map;
     int playerIndex;
     boolean pass;
     boolean finished = false;
+
+    private Country firstSelected = null;
+    private Country secondSelected = null;
 
     /**
      * This constructor of Game
      */
     public RiskModel() {
-//        list = new DefaultListModel<>();
         parser = new Parser(); // parser for word checks
         players = new ArrayList<>();
         map = new HashMap<>();
-        countriesOwnList = new DefaultListModel<>();
-        adjacentCountriesList = new DefaultListModel<>();
+        this.State = Phase.PENDING;
+
 
         initCountries();
-        setNumOfPlayer();
+        setNumOfPlayer(2);
         createPlayer();
         pass = false;
         playerIndex = 0;
@@ -134,7 +136,7 @@ public class RiskModel {
                 printHelp();
                 break;
             case "attack":
-                attack();
+//                attack();
                 break;
             case "quit":
                 quit();
@@ -151,7 +153,7 @@ public class RiskModel {
     /**
      * print help to help the users to get known of the command words and their usages.
      */
-    private void printHelp() {
+    public String printHelp() {
         String s = "";
         s += "You are a general. You are leading your army to conquer the world!\n";
         s += "Ready your armies, for your enemies would be ready for you.\n\n";
@@ -162,72 +164,77 @@ public class RiskModel {
         s += "[State]: print out the State of the Map (i.e., which player is in which country and with how many armies\n";
         s += "[help]: well, this is going to tell you how to play this game\n";
         s += "[quit]: use this command when you tire of this game\n";
-        System.out.println(s);
+        return s;
     }
+
+//    public boolean attack(){
+//
+//        if()
+//    }
 
     /**
      * attack from one country to another country
      */
-    private void attack() {
-        Player player = playerOnGoing;
-        String countryName;
-        Country attackCountry;
-
-        do {
-            if (player.getAvailableCountries().equals("Player: " + player.getName() + " has countries:\n")) {
-                System.out.println("now, you don't have available countries can be used for attacking. So choose your next move again");
-                return;
-            }
-            System.out.println("You have following country can be used to attack");
-            System.out.println("Please choose from the list.");
-            System.out.println(player.getAvailableCountries());
-            System.out.println("You may also choose to change your mind about attacking for a strategic retreat,");
-            System.out.println("retreat by choosing to 'back' for this turn General.");
-            countryName = parser.getCountryName();
-            if (countryName.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
-                return;
-            }
-            if (!map.containsKey(countryName)) continue;  //verify country exist
-            attackCountry = map.get(countryName); //get the Country and store it into attackCountry
-            if (!player.getCountriesOwn().contains(attackCountry)) {
-                System.out.println("you don't own this country, please select another country from the list");
-                System.out.println();
-                continue;
-            }
-
-            if (attackCountry.printEnemyCountry().equals("")) {
-                System.out.println("The country you chose don't have any adjacent enemy country, choose another one\n");
-            } else break;
-
-        } while (true);
-
-        Country defendCountry = null;
-        String name;
-        do {
-            System.out.println("choose the enemy country that you want to attack from the list:");
-
-            System.out.println(attackCountry.printEnemyCountry());
-            name = parser.getCountryName();
-            if (map.containsKey(name)) {
-                defendCountry = map.get(name);
-            }
-
-        } while (!attackCountry.getAdjacentCountries().contains(defendCountry));
-        System.out.println("the country your are attacking is " + defendCountry.getCountryName());
-        //asking general how many troops he want to send to attack
-        int num;
-        do {
-            System.out.println("how many troops do you want to send to attack from " + attackCountry.getCountryName() + " (Maximum " + (attackCountry.getTroopsNum() - 1) + ")");
-            Scanner sc = new Scanner(System.in);
-            num = sc.nextInt();
-            if (num < attackCountry.getTroopsNum()) break;
-            else {
-                System.out.println("you only have " + (attackCountry.getTroopsNum() - 1) + " troops can use to attack on " + attackCountry.getCountryName());
-            }
-        } while (true);
-        new Battle(attackCountry, defendCountry, num).fight();
-        removePlayerWithNoCountry();
-    }
+//    private void attack() {
+//        Player player = playerOnGoing;
+//        String countryName;
+//        Country attackCountry;
+//
+//        do {
+//            if (player.getAvailableCountries().equals("Player: " + player.getName() + " has countries:\n")) {
+//                System.out.println("now, you don't have available countries can be used for attacking. So choose your next move again");
+//                return;
+//            }
+//            System.out.println("You have following country can be used to attack");
+//            System.out.println("Please choose from the list.");
+//            System.out.println(player.getAvailableCountries());
+//            System.out.println("You may also choose to change your mind about attacking for a strategic retreat,");
+//            System.out.println("retreat by choosing to 'back' for this turn General.");
+//            countryName = parser.getCountryName();
+//            if (countryName.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
+//                return;
+//            }
+//            if (!map.containsKey(countryName)) continue;  //verify country exist
+//            attackCountry = map.get(countryName); //get the Country and store it into attackCountry
+//            if (!player.getCountriesOwn().contains(attackCountry)) {
+//                System.out.println("you don't own this country, please select another country from the list");
+//                System.out.println();
+//                continue;
+//            }
+//
+//            if (attackCountry.printEnemyCountry().equals("")) {
+//                System.out.println("The country you chose don't have any adjacent enemy country, choose another one\n");
+//            } else break;
+//
+//        } while (true);
+//
+//        Country defendCountry = null;
+//        String name;
+//        do {
+//            System.out.println("choose the enemy country that you want to attack from the list:");
+//
+//            System.out.println(attackCountry.printEnemyCountry());
+//            name = parser.getCountryName();
+//            if (map.containsKey(name)) {
+//                defendCountry = map.get(name);
+//            }
+//
+//        } while (!attackCountry.getAdjacentCountries().contains(defendCountry));
+//        System.out.println("the country your are attacking is " + defendCountry.getCountryName());
+//        //asking general how many troops he want to send to attack
+//        int num;
+//        do {
+//            System.out.println("how many troops do you want to send to attack from " + attackCountry.getCountryName() + " (Maximum " + (attackCountry.getTroopsNum() - 1) + ")");
+//            Scanner sc = new Scanner(System.in);
+//            num = sc.nextInt();
+//            if (num < attackCountry.getTroopsNum()) break;
+//            else {
+//                System.out.println("you only have " + (attackCountry.getTroopsNum() - 1) + " troops can use to attack on " + attackCountry.getCountryName());
+//            }
+//        } while (true);
+//        new Battle(attackCountry, defendCountry, num).fight();
+//        removePlayerWithNoCountry();
+//    }
 
     /**
      * invoke quit() method when user wants to quit the game
@@ -596,18 +603,10 @@ public class RiskModel {
     /**
      * set the number of players in the game and decide how many troops should each one of them have.
      */
-    private void setNumOfPlayer() {
-        do {
-            System.out.println("Please input the number of players (2 to 6): ");
-            Scanner sc = new Scanner(System.in);
+    public boolean setNumOfPlayer(int num) {
 
-            try {
-                this.numOfPlayer = sc.nextInt();
-            } catch (Exception e) {
-                System.out.println("please only enter valid number input");
-            }
-        } while (!isValidNum(this.numOfPlayer));
-
+        if(!isValidNum(num))return false;
+        this.numOfPlayer = num;
         switch (this.numOfPlayer) {
             case 2:
                 this.initialTroops = 50;
@@ -625,6 +624,7 @@ public class RiskModel {
                 this.initialTroops = 20;
                 break;
         }
+        return true;
     }
 
     /**
@@ -697,22 +697,29 @@ public class RiskModel {
 
     public int getNumOfPlayer(){return this.numOfPlayer;}
 
-    public void updateCountriesOwnList(Player player){
-        countriesOwnList.clear();
-        for(Country country: player.getCountriesOwn()){
-            countriesOwnList.addElement(country);
-        }
-    }
-
-    public void updateAdjacentCountriesList(Country country){
-        adjacentCountriesList.clear();
-        for(Country c: country.getAdjacentCountries()){
-            adjacentCountriesList.addElement(c);
-        }
-    }
-    public DefaultListModel<Country> getList(){return this.countriesOwnList;}
-
     public Player getPlayerOnGoing(){
         return this.playerOnGoing;
+    }
+
+    public Country getFirstSelected() {
+        return firstSelected;
+    }
+
+    public Country getSecondSelected() {
+        return secondSelected;
+    }
+
+    public void updateState(Phase phase) {
+        this.State = phase;
+    }
+
+    public void setSelected(Country country) {
+        if(!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)){
+            firstSelected = country;
+        }else if(!firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))){
+            secondSelected = country;
+        } else if(firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))){
+            firstSelected = country;
+        }
     }
 }

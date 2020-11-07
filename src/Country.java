@@ -111,6 +111,10 @@ public class Country {
         return adjacentCountries;
     }
 
+    public JButton getCountryButton(){
+        return this.countryButton;
+    }
+
     /**
      * get the String of troops on this country
      * @return  the String of troops on this country

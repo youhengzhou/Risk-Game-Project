@@ -85,7 +85,7 @@ public class RiskView extends JFrame {
 
 
 
-         namepane = new JTextPane();
+        namepane = new JTextPane();
         namepane.setFont(new Font("Arial", Font.BOLD, 15));
 
         namepane.setPreferredSize(new Dimension(200,30));

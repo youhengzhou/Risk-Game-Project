@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.html.parser.Parser;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -36,7 +37,6 @@ public class RiskModel {
         players = new ArrayList<>();
         map = new HashMap<>();
         this.State = Phase.PENDING;
-
 
         initCountries();
         setNumOfPlayer(6);

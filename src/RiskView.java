@@ -329,13 +329,29 @@ public class RiskView extends JFrame {
         buttonList.add(yakutskButton);
 
         //Australia Buttons
+        JButton easternaustraliaButton = new JButton("");
+        imagePanel.add(easternaustraliaButton);
+        easternaustraliaButton.setBounds(810,600,15,8);
+        easternaustraliaButton.setActionCommand("easternaustralia");
+        buttonList.add(easternaustraliaButton);
 
-        //set up easterAustraliaButton
-        JButton easterAustraliaButton = new JButton("");
-        imagePanel.add(easterAustraliaButton);
-        easterAustraliaButton.setBounds(800,600,15,8);
-        easterAustraliaButton.setBackground(Color.GREEN);
+        JButton indonesiaButton = new JButton("");
+        imagePanel.add(indonesiaButton);
+        indonesiaButton.setBounds(709,437,15,8);
+        indonesiaButton.setActionCommand("indonesia");
+        buttonList.add(indonesiaButton);
 
+        JButton newguineaButton = new JButton("");
+        imagePanel.add(newguineaButton);
+        newguineaButton.setBounds(841,447,15,8);
+        newguineaButton.setActionCommand("newguinea");
+        buttonList.add(newguineaButton);
+
+        JButton westernaustraliaButton = new JButton("");
+        imagePanel.add(westernaustraliaButton);
+        westernaustraliaButton.setBounds(721,558,15,8);
+        westernaustraliaButton.setActionCommand("westernaustralia");
+        buttonList.add(westernaustraliaButton);
 
         imagePanel.setPreferredSize(new Dimension(900, 750));
 

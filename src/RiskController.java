@@ -7,19 +7,22 @@ public class RiskController {
     private RiskView view;
 
     public RiskController(RiskModel model, RiskView view){
-        this.model = model;
         this.view = view;
+        this.model = model;
+
         this.updatePlayerInfo(model.getPlayerOnGoing());
         this.addButtonListener();
         this.setButtonInfo();
         view.addHelpButtonListener(new helpButtonListener());
         view.addConfirmButtonListener(new confirmButtonListener());
         view.addAttackButtonListener(new attackButtonListener());
+        view.addPassButtonListener(new passButtonListener());
     }
 
     public static void main(String[] args){
-        RiskModel riskModel = new RiskModel();
         RiskView view = new RiskView();
+        RiskModel riskModel = new RiskModel();
+
 
         RiskController controller = new RiskController(riskModel, view);
 
@@ -29,6 +32,13 @@ public class RiskController {
         for(JButton button: view.getButtonList()){
             model.assignButtonToCountry(button);
         }
+    }
+
+    public void setNumOfPlayer(){
+        int num = 0;
+        do{
+        num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player"));
+        } while(num < 2 || num > 6);
     }
 
     public void updatePlayerInfo(Player player)
@@ -50,11 +60,11 @@ public class RiskController {
         }
     }
 
-    class TestListener implements ActionListener{
-
+    class passButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            model.pass();
+            updatePlayerInfo(model.getPlayerOnGoing());
         }
     }
 

@@ -6,14 +6,13 @@ import java.util.List;
 /**
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
  *
- * @auther Avengers
  * @version 1.0
- * @since  2020-10-25
- *
+ * @auther Avengers
+ * @since 2020-10-25
  */
 public class RiskModel {
 
-    public static enum Phase {PENDING,ATTACK,RESIGN,FORTIFY,DRAFTING};
+    public static enum Phase {PENDING, ATTACK, RESIGN, FORTIFY, DRAFTING}
     private Phase State;
     private List<Player> players;
     private Player playerOnGoing;
@@ -37,14 +36,13 @@ public class RiskModel {
         players = new ArrayList<>();
         map = new HashMap<>();
         this.State = Phase.PENDING;
-
+        showDialog();
 
         initCountries();
-        setNumOfPlayer(2);
         createPlayer();
         pass = false;
         playerIndex = 0;
-        playerOnGoing = players.get(playerIndex%numOfPlayer);
+        playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
         randomAssignTroops();
 
@@ -53,6 +51,7 @@ public class RiskModel {
 
     /**
      * create a new Game instance
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -81,7 +80,8 @@ public class RiskModel {
 //    }
 
     /**
-     *Method tells us if the game has a winner
+     * Method tells us if the game has a winner
+     *
      * @return boolean return true if there's winner in the game, false if there are no winner yet
      */
     public boolean hasWinner() {
@@ -127,6 +127,7 @@ public class RiskModel {
 
     /**
      * Process command and invoke corresponding method.
+     *
      * @param command the command get from user
      */
     private void processCommand(Command command) {
@@ -171,12 +172,12 @@ public class RiskModel {
         return s;
     }
 
-    public boolean attack(){
+    public boolean attack() {
         //setAttackTroops(firstSelected.getTroopsNum()-1);
-        if(firstSelected.equals(null) || secondSelected.equals(null)) return false;
-        if(!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
-        if(!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
-        new Battle(firstSelected,secondSelected,attackTroops);
+        if (firstSelected.equals(null) || secondSelected.equals(null)) return false;
+        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
+        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
+        new Battle(firstSelected, secondSelected, attackTroops);
         removePlayerWithNoCountry();
         return true;
     }
@@ -247,7 +248,8 @@ public class RiskModel {
 
     /**
      * invoke quit() method when user wants to quit the game
-     * @return  return true if user invoked the method
+     *
+     * @return return true if user invoked the method
      */
     private boolean quit() {
         finished = true;
@@ -257,10 +259,12 @@ public class RiskModel {
     /**
      * implementing for command "pass", to pass the turn from this player to next player
      */
-    private void pass() {
+    public void pass() {
         pass = true;
         playerIndex++;
+        playerOnGoing =   players.get(playerIndex % numOfPlayer);
     }
+
 
     /**
      * print the state of all the players,including their name, their country, and troops on the country.
@@ -609,12 +613,20 @@ public class RiskModel {
         return num >= 2 && num <= 6;
     }
 
+    public void showDialog(){
+        int num = 0;
+        do{
+            num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player (between 2 to 6)"));
+        } while(num < 2 || num > 6);
+        setNumOfPlayer(num);
+    }
+
     /**
      * set the number of players in the game and decide how many troops should each one of them have.
      */
     public boolean setNumOfPlayer(int num) {
 
-        if(!isValidNum(num))return false;
+        if (!isValidNum(num)) return false;
         this.numOfPlayer = num;
         switch (this.numOfPlayer) {
             case 2:
@@ -641,9 +653,9 @@ public class RiskModel {
      */
     private void createPlayer() {
         //create all player instance
-        Color[] colors ={ Color.pink,Color.ORANGE,Color.BLUE,Color.GREEN,Color.MAGENTA,Color.gray};
+        Color[] colors = {Color.pink, Color.ORANGE, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.gray};
         for (int i = 0; i < numOfPlayer; i++) {
-            Player p = new Player("Player"+i);
+            Player p = new Player("Player" + i);
             p.addColor(colors[i]);
             players.add(p);
         }
@@ -707,9 +719,11 @@ public class RiskModel {
         }
     }
 
-    public int getNumOfPlayer(){return this.numOfPlayer;}
+    public int getNumOfPlayer() {
+        return this.numOfPlayer;
+    }
 
-    public Player getPlayerOnGoing(){
+    public Player getPlayerOnGoing() {
         return this.playerOnGoing;
     }
 
@@ -729,8 +743,8 @@ public class RiskModel {
         return this.State;
     }
 
-    public boolean setAttackTroops(int num){
-        if(num < firstSelected.getTroopsNum()) {
+    public boolean setAttackTroops(int num) {
+        if (num < firstSelected.getTroopsNum()) {
             this.attackTroops = num;
             return true;
         }
@@ -738,37 +752,29 @@ public class RiskModel {
     }
 
     public void setSelected(Country country) {
-        if(!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)){
+        if (!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)) {
             firstSelected = country;
-        }else if(!firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))){
+        } else if (!firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
             secondSelected = country;
-        } else if(firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))){
+        } else if (firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
             firstSelected = country;
         }
     }
 
-    public void assignButtonToCountry(JButton b)
-    {
+    public void assignButtonToCountry(JButton button) {
 
-        String countryName= b.getActionCommand();
+        String countryName = button.getActionCommand();
         Country c = map.get(countryName);
 
-        b.setBackground(c.getOwner().getColor());
+        button.setBackground(c.getOwner().getColor());
     }
 
-    public boolean isCountryButton(String key)
-    {
 
-        Set<String> keys= map.keySet();
-        return keys.contains(key);
-    }
-
-    public String handleCountryButton(String countryName)
-    {
+    public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";
-        s+="Country Selected: \n"+country.getCountryName()+
-                "\n\nOwner: "+country.getOwner().getName()+"\n\nAdjacent Enemy Country: \n"+
+        s += "Country Selected: \n" + country.getCountryName() +
+                "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
                 country.printEnemyCountry();
         return s;
     }

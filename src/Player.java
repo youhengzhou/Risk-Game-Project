@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class Player {
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
+    private Color color;
 
     /**
     * Constructor of Player
@@ -27,6 +29,14 @@ public class Player {
     */
     public void addCountry(Country country) {
         this.countriesOwn.add(country);
+    }
+    public void addColor(Color c)
+    {
+        color = c;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     /**
@@ -70,9 +80,9 @@ public class Player {
     */
     public String getAvailableCountries() {
         String s = "";
-        s += "Player: " + this.name + " has countries:\n";
+
         for (Country country : countriesOwn) {
-            if (country.getTroopsNum() > 1 && !country.printEnemyCountry().equals("")) {
+            if ( !country.printEnemyCountry().equals("")) {
                 s += "  " + country.printState() + "\n";
             }
         }

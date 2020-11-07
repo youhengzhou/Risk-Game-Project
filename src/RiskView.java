@@ -20,6 +20,7 @@ public class RiskView extends JFrame {
     private JTextArea countriesOwnText;
     private JTextArea adjacentCountriesText;
     private JTextArea consoleText;
+    private JTextPane namePane;
     private JButton attackButton;
     private JButton passButton;
     private JButton helpButton;
@@ -34,6 +35,7 @@ public class RiskView extends JFrame {
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
+        this.buttonList = new ArrayList<>();
         this.imagePanel = new CustomPanel();
         this.textPanel = new JPanel();
         this.buttonPanel = new JPanel();
@@ -57,7 +59,7 @@ public class RiskView extends JFrame {
         consoleText.setBackground(Color.BLACK);
         consoleText.setDisabledTextColor(Color.WHITE);
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
-        consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
+        consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 
         //setup for textPanel
         countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
@@ -67,9 +69,16 @@ public class RiskView extends JFrame {
         textPanel.setLayout(new BorderLayout());
         JScrollPane countriesOwnSP = new JScrollPane(countriesOwnText);
         JScrollPane adjacentCountriesSP = new JScrollPane(adjacentCountriesText);
+        adjacentCountriesSP.setPreferredSize(new Dimension(frameSize_Width/6,350));
+        namePane = new JTextPane();
+        namePane.setFont(new Font("Arial", Font.BOLD, 15));
+        namePane.setPreferredSize(new Dimension(200,30));
+
+        textPanel.add(namePane,BorderLayout.NORTH);
         textPanel.add(countriesOwnSP, BorderLayout.CENTER);
         textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);
-        textPanel.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
+        adjacentCountriesText.setText("Click on country \nto see its information");
+        textPanel.setPreferredSize(new Dimension(frameSize_Width/6, frameSize_Height/7));
 
         //setup for buttonPanel
         buttonPanel.setLayout(new FlowLayout());
@@ -78,16 +87,10 @@ public class RiskView extends JFrame {
         buttonPanel.add(passButton);
         buttonPanel.add(confirmButton);
 
-//        buttonPanel.setPreferredSize(new Dimension(screenX/20, screenY/20));
 
-
-        buttonList = new ArrayList<>();
 
         //setup test Button
-        testButton = new JButton("");
         imagePanel.setLayout(null);
-        imagePanel.add(testButton);
-        testButton.setBounds(23,35,15,8);
 
 
 
@@ -105,10 +108,6 @@ public class RiskView extends JFrame {
         easterAustraliaButton.setBounds(800,600,15,8);
         easterAustraliaButton.setBackground(Color.GREEN);
 
-
-
-
-        testButton.setVisible(true);
 
         imagePanel.setPreferredSize(new Dimension(900, 750));
 
@@ -142,11 +141,12 @@ public class RiskView extends JFrame {
         return this.countriesOwnText;
     }
 
-    public JTextArea getAdjacentCountriesText(){return this.adjacentCountriesText;}
+    public void  modifyAdjacentCountriesText(String s){
+        adjacentCountriesText.setText(s);
+    }
 
-    //used to update the color of the textField when Player switch
-    public void upDateTextFieldColor(Color color){
-        this.countriesOwnText.setBackground(color);
+    public JTextPane getNamePane() {
+        return namePane;
     }
 
     public void addTestListener(ActionListener actionListener){this.testButton.addActionListener(actionListener);}
@@ -157,6 +157,8 @@ public class RiskView extends JFrame {
 
     public void addConfirmButtonListener(ActionListener al){this.confirmButton.addActionListener(al);}
 
+    public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
+
     public void showHelp(String s){
         JOptionPane pane = new JOptionPane();
         pane.showMessageDialog(this,s);
@@ -164,8 +166,6 @@ public class RiskView extends JFrame {
 }
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    private static final Dimension screenSize = tk.getScreenSize();
 
     public CustomPanel(){
         setLayout(null);
@@ -183,10 +183,9 @@ class CustomPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g)
     {
-
         super.paintComponent(g);
         g.drawImage(Inputimage,0,0,900,750,null);
-//        g.dispose();
+        g.dispose();
     }
 
     public ArrayList<String> getButtonList() {

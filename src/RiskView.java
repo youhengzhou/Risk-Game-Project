@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 public class RiskView extends JFrame {
 
@@ -26,6 +27,8 @@ public class RiskView extends JFrame {
 
     private JButton testButton;
     private JPanel testPanel;
+
+    private ArrayList buttonList;
 
     public RiskView (){
         super("view");
@@ -77,17 +80,24 @@ public class RiskView extends JFrame {
 
 //        buttonPanel.setPreferredSize(new Dimension(screenX/20, screenY/20));
 
+
+        buttonList = new ArrayList<>();
+
         //setup test Button
         testButton = new JButton("");
         imagePanel.setLayout(null);
         imagePanel.add(testButton);
         testButton.setBounds(23,35,15,8);
 
+
+
+
         //set up alaskaButton For testing
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
         alaskaButton.setBounds(23,190,15,8);
-        alaskaButton.setBackground(Color.GREEN);
+        alaskaButton.setActionCommand("Alaska");
+        buttonList.add("Alaska");
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");
@@ -177,6 +187,11 @@ class CustomPanel extends JPanel{
         super.paintComponent(g);
         g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
+    }
+
+    public ArrayList<String> getButtonList() {
+        ArrayList<String> buttonList = new ArrayList<>();
+        return buttonList;
     }
 }
 

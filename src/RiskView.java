@@ -190,8 +190,8 @@ class CustomPanel extends JPanel{
 //        g.dispose();
     }
 
-    public ArrayList<String> getButtonList() {
-        ArrayList<String> buttonList = new ArrayList<>();
+    public ArrayList<JButton> getButtonList() {
+        ArrayList buttonList = new ArrayList<>();
         return buttonList;
     }
 }

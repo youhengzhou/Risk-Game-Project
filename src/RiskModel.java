@@ -169,7 +169,9 @@ public class RiskModel {
 
 //    public boolean attack(){
 //
-//        if()
+//        if(firstSelected.equals(null) || secondSelected.equals(null)) return false;
+//        if(!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
+//
 //    }
 
     /**

@@ -31,7 +31,7 @@ public class RiskController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("sadasdsadasddasdsd");
+
         }
     }
 

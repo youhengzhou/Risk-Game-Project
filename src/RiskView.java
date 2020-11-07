@@ -43,6 +43,7 @@ public class RiskView extends JFrame {
         this.countriesOwnText = new JTextArea("",10,1);
         this.adjacentCountriesText = new JTextArea("",5,1);
         this.consoleText = new JTextArea();
+        consoleText.setFont(new Font("TimesRoman", Font.BOLD, 18));
         this.attackButton = new JButton("ATTACK");
         attackButton.setActionCommand("attack");
         attackButton.addActionListener(control);
@@ -67,9 +68,8 @@ public class RiskView extends JFrame {
         //    }
        // }));
 
-        consoleText.setBackground(Color.BLACK);
-        consoleText.setDisabledTextColor(Color.WHITE);
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
+        consoleText.setText("console is not yet implemented");
         consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 
         //setup for textPanel
@@ -206,6 +206,9 @@ public class RiskView extends JFrame {
         this.countriesOwnText.setBackground(color);
     }
 
+    public JTextArea getConsoleText() {
+        return consoleText;
+    }
 
     public void showHelp(String s){
         JOptionPane pane = new JOptionPane();

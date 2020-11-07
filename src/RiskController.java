@@ -40,11 +40,11 @@ public class RiskController implements ActionListener {
         }
         if(e.getActionCommand() == "attack")
         {
-            System.out.println("attackButton is pressed");
+            view.getConsoleText().setText("Attack \nLogic is not \nyet Implementted");
         }
         if(e.getActionCommand() == "confirm")
         {
-            System.out.println("confirmButton is pressed");
+            view.getConsoleText().setText("Confirm \nLogic is not \nyet Implementted");
         }
         if(e.getActionCommand() == "pass")
         {

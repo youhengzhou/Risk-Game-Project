@@ -95,7 +95,7 @@ public class RiskView extends JFrame {
 
 
 
-        //America buttons
+        //North America buttons
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
         alaskaButton.setBounds(23,190,15,8);
@@ -149,6 +149,32 @@ public class RiskView extends JFrame {
         westernunitedstatesButton.setBounds(100,275,15,8);
         westernunitedstatesButton.setActionCommand("westernunitedstates");
         buttonList.add(westernunitedstatesButton);
+
+        //South America Buttons
+        JButton argentinaButton = new JButton("");
+        imagePanel.add(argentinaButton);
+        argentinaButton.setBounds(100,275,15,8);
+        argentinaButton.setActionCommand("argentina");
+        buttonList.add(argentinaButton);
+
+        JButton brazilButton = new JButton("");
+        imagePanel.add(brazilButton);
+        brazilButton.setBounds(100,275,15,8);
+        brazilButton.setActionCommand("brazil");
+        buttonList.add(brazilButton);
+
+        JButton peruButton = new JButton("");
+        imagePanel.add(peruButton);
+        peruButton.setBounds(100,275,15,8);
+        peruButton.setActionCommand("peru");
+        buttonList.add(peruButton);
+
+        JButton venezuelaButton = new JButton("");
+        imagePanel.add(venezuelaButton);
+        venezuelaButton.setBounds(100,275,15,8);
+        venezuelaButton.setActionCommand("venezuela");
+        buttonList.add(venezuelaButton);
+
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");

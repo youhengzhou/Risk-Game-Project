@@ -9,12 +9,9 @@ public class RiskController {
     public RiskController(RiskModel model, RiskView view){
         this.model = model;
         this.view = view;
-       // model.updateList(playerOnGoing);
-//        view.getCountriesOwnList().setModel(model.getList());
-//        view.getAdjacentCountriesList().setModel(model.getList());
         this.updatePlayerInfo(model.getPlayerOnGoing());
-        view.getCountriesOwnText().setText("Player 0 owns these countries: \n"+model.getPlayerOnGoing().getCountriesInString());
-        view.addTestListener(new TestListener());
+        this.addButtonListener();
+        this.setButtonInfo();
         view.addHelpButtonListener(new helpButtonListener());
         view.addConfirmButtonListener(new confirmButtonListener());
         view.addAttackButtonListener(new attackButtonListener());
@@ -28,24 +25,29 @@ public class RiskController {
 
     }
 
-//    public void setButtonInfo(){
-//        for(JButton button: view.getButtonList()){
-//            model.assignButtonToCountry(button);
-//        }
-//    }
-
-    public void modifyAdjCountryText(String s )
-    {
-
-        view.modifyAdjacentCountriesText(s);
+    public void setButtonInfo(){
+        for(JButton button: view.getButtonList()){
+            model.assignButtonToCountry(button);
+        }
     }
 
     public void updatePlayerInfo(Player player)
     {
-        view.getCountriesOwnText().setBackground(player.getColor());
+        view.getNamePane().setBackground(player.getColor());
 
         view.getNamePane().setText("Current Player: "+player.getName());
         view.getCountriesOwnText().setText("Country Own:\n"+player.getAvailableCountries());
+    }
+
+    public void addButtonListener(){
+        for(JButton button: view.getButtonList()){
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
+                }
+            });
+        }
     }
 
     class TestListener implements ActionListener{

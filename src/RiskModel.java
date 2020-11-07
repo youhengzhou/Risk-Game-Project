@@ -763,12 +763,13 @@ public class RiskModel {
         return keys.contains(key);
     }
 
-    public void handleCountryButton(String countryName)
+    public String handleCountryButton(String countryName)
     {
         Country country = map.get(countryName);
         String s = "";
         s+="Country Selected: \n"+country.getCountryName()+
                 "\n\nOwner: "+country.getOwner().getName()+"\n\nAdjacent Enemy Country: \n"+
                 country.printEnemyCountry();
+        return s;
     }
 }

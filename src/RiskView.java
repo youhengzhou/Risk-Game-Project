@@ -29,7 +29,7 @@ public class RiskView extends JFrame {
     private JButton testButton;
     private JPanel testPanel;
 
-    private ArrayList buttonList;
+    private ArrayList<JButton> buttonList;
 
     public RiskView (){
         super("view");
@@ -99,8 +99,8 @@ public class RiskView extends JFrame {
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
         alaskaButton.setBounds(23,190,15,8);
-        alaskaButton.setActionCommand("Alaska");
-        buttonList.add("Alaska");
+        alaskaButton.setActionCommand("alaska");
+        buttonList.add(alaskaButton);
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");
@@ -149,7 +149,9 @@ public class RiskView extends JFrame {
         return namePane;
     }
 
-    public void addTestListener(ActionListener actionListener){this.testButton.addActionListener(actionListener);}
+    public ArrayList<JButton> getButtonList(){return this.buttonList;}
+
+    //public void addTestListener(ActionListener actionListener){this.testButton.addActionListener(actionListener);}
 
     public void addPassButtonListener(ActionListener al){this.passButton.addActionListener(al);}
 
@@ -185,7 +187,7 @@ class CustomPanel extends JPanel{
     {
         super.paintComponent(g);
         g.drawImage(Inputimage,0,0,900,750,null);
-        g.dispose();
+//        g.dispose();
     }
 
     public ArrayList<String> getButtonList() {

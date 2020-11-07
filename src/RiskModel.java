@@ -1,5 +1,7 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
@@ -21,6 +23,7 @@ public class RiskModel {
     int playerIndex;
     boolean pass;
     boolean finished = false;
+    private RiskController control;
 
     private Country firstSelected = null;
     private Country secondSelected = null;
@@ -36,7 +39,7 @@ public class RiskModel {
 
 
         initCountries();
-        setNumOfPlayer(2);
+        setNumOfPlayer(6);
         createPlayer();
         pass = false;
         playerIndex = 0;
@@ -108,6 +111,12 @@ public class RiskModel {
             System.out.println("The winner is " + players.get(0).getName());
             finished = true;
         }
+    }
+
+
+    public void addcontrol(RiskController c)
+    {
+        this.control = c;
     }
 
     /**
@@ -240,7 +249,7 @@ public class RiskModel {
      * invoke quit() method when user wants to quit the game
      * @return  return true if user invoked the method
      */
-    private boolean quit() {
+    public boolean quit() {
         finished = true;
         return true;  // signal that we want to quit
     }
@@ -248,10 +257,14 @@ public class RiskModel {
     /**
      * implementing for command "pass", to pass the turn from this player to next player
      */
-    private void pass() {
+    public void pass() {
         pass = true;
         playerIndex++;
+        playerOnGoing =   players.get(playerIndex % numOfPlayer);
+
+        control.updatePlayerInfo(playerOnGoing );
     }
+
 
     /**
      * print the state of all the players,including their name, their country, and troops on the country.
@@ -632,8 +645,11 @@ public class RiskModel {
      */
     private void createPlayer() {
         //create all player instance
+        Color[] colors ={ Color.pink,Color.ORANGE,Color.BLUE,Color.GREEN,Color.MAGENTA,Color.gray};
         for (int i = 0; i < numOfPlayer; i++) {
-            players.add(new Player("Player" + i));
+            Player p = new Player("Player"+i);
+            p.addColor(colors[i]);
+            players.add(p);
         }
     }
 
@@ -721,5 +737,33 @@ public class RiskModel {
         } else if(firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))){
             firstSelected = country;
         }
+    }
+
+    public void assignButtonToCountry(JButton b)
+    {
+
+        String countryName= b.getActionCommand();
+        Country c = map.get(countryName);
+
+        c.addButton(b);
+        b.setBackground(c.getOwner().getColor());
+    }
+
+    public boolean isCountryButton(String key)
+    {
+
+        Set<String> keys= map.keySet();
+        return keys.contains(key);
+    }
+
+    public void handleCountryButton(String key)
+    {
+        Country c = map.get(key);
+        String s = "";
+        s+="Country Selected: \n"+c.getCountryName()+
+                "\n\nOwner: "+c.getOwner().getName()+"\n\nAdjacent Enemy Country: \n"+
+                 c.printEnemyCountry();
+        control.modifyAdjCountryText(s);
+        firstSelected = c;
     }
 }

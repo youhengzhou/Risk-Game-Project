@@ -1,53 +1,86 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RiskController {
+public class RiskController implements ActionListener {
     private RiskModel model;
     private RiskView view;
 
-    public RiskController(RiskModel model, RiskView view){
-        this.model = model;
-        this.view = view;
-       // model.updateList(playerOnGoing);
-//        view.getCountriesOwnList().setModel(model.getList());
-//        view.getAdjacentCountriesList().setModel(model.getList());
-
-        view.getCountriesOwnText().setText("Player 0 owns these countries: \n"+model.getPlayerOnGoing().getCountriesInString());
-        view.getAdjacentCountriesText().setText(model.getPlayerOnGoing().getCountriesInString());
-        view.addTestListener(new TestListener());
-        view.addHelpButtonListener(new helpButtonListener());
-        view.addConfirmButtonListener(new quitButtonListener());
+    public RiskController(){
     }
 
-    public static void main(String[] args){
-        RiskModel riskModel = new RiskModel();
+    public static void main(String[] args)
+    {
+
+
+
         RiskView view = new RiskView();
 
-        RiskController controller = new RiskController(riskModel, view);
+
 
     }
 
-    class TestListener implements ActionListener{
+    public void addView(RiskView view)
+    {
+        this.view = view;
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("sadasdsadasddasdsd");
+    public void addModel(RiskModel model)
+    {
+        this.model = model;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(model.isCountryButton(e.getActionCommand()))
+        {
+            model.handleCountryButton(e.getActionCommand());
+
         }
-    }
-
-    class helpButtonListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand() == "attack")
+        {
+            System.out.println("attackButton is pressed");
+        }
+        if(e.getActionCommand() == "confirm")
+        {
+            System.out.println("confirmButton is pressed");
+        }
+        if(e.getActionCommand() == "pass")
+        {
+            model.pass() ;
+        }
+        if(e.getActionCommand() == "help")
+        {
             view.showHelp(model.printHelp());
         }
+
     }
 
-    class quitButtonListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
-        }
+    public void correlateCountryButton(JButton b)
+    {
+
+        model.assignButtonToCountry(b);
     }
+
+    public void modifyAdjCountryText(String s )
+    {
+
+        view.modifyAdjacentCountriesText(s);
+    }
+
+    public void updatePlayerInfo(Player player)
+    {
+        JTextArea textArea = view.getCountriesOwnText();
+        JTextPane namepane = view.getNamepane();
+
+        namepane.setBackground(player.getColor());
+        namepane.setText("Current Player: "+player.getName());
+
+       // playNameArea.setText("Current Player:\n"+player.getName());
+        textArea.setText("Country Own:\n"+player.getAvailableCountries());
+    }
+
 }
 
 

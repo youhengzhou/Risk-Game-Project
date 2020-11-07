@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,7 @@ public class Country {
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
+    private JButton countryButton;
 
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
@@ -40,6 +42,11 @@ public class Country {
     public void removeTroops(int num) {
 
         troopsNum -= num;
+    }
+
+    public void addButton(JButton b)
+    {
+        countryButton = b;
     }
 
 

@@ -19,16 +19,22 @@ public class RiskView extends JFrame {
     private JTextArea countriesOwnText;
     private JTextArea adjacentCountriesText;
     private JTextArea consoleText;
+    private JTextPane namepane;
     private JButton attackButton;
     private JButton passButton;
     private JButton helpButton;
     private JButton confirmButton;
-
-    private JButton testButton;
+    private RiskController control;
+   // private JButton testButton;
     private JPanel testPanel;
 
     public RiskView (){
         super("view");
+        RiskModel model = new RiskModel();
+        control = new RiskController();
+        control.addModel(model);
+        control.addView(this);
+        model.addcontrol(control);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         this.imagePanel = new CustomPanel();
@@ -38,23 +44,33 @@ public class RiskView extends JFrame {
         this.adjacentCountriesText = new JTextArea("",5,1);
         this.consoleText = new JTextArea();
         this.attackButton = new JButton("ATTACK");
+        attackButton.setActionCommand("attack");
+        attackButton.addActionListener(control);
         this.passButton = new JButton("PASS");
+        passButton.setActionCommand("pass");
+        passButton.addActionListener(control);
         this.helpButton = new JButton("HELP");
+        helpButton.setActionCommand("help");
+        helpButton.addActionListener(control);
         this.confirmButton = new JButton("CONFIRM");
+        confirmButton.setActionCommand("confirm");
+        confirmButton.addActionListener(control);
+
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
 
         //setup for console
-        System.setOut(new PrintStream(new OutputStream() {
-            @Override
-            public void write(int b) throws IOException {
-                consoleText.append(String.valueOf((char) b));
-            }
-        }));
+       // System.setOut(new PrintStream(new OutputStream() {
+          //  @Override
+          //  public void write(int b) throws IOException {
+          //      consoleText.append(String.valueOf((char) b));
+        //    }
+       // }));
+
         consoleText.setBackground(Color.BLACK);
         consoleText.setDisabledTextColor(Color.WHITE);
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
-        consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
+        consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 
         //setup for textPanel
         countriesOwnText.setFont(new Font("Arial", Font.BOLD, 15));
@@ -63,10 +79,23 @@ public class RiskView extends JFrame {
         adjacentCountriesText.setEditable(false);
         textPanel.setLayout(new BorderLayout());
         JScrollPane countriesOwnSP = new JScrollPane(countriesOwnText);
+
         JScrollPane adjacentCountriesSP = new JScrollPane(adjacentCountriesText);
+        adjacentCountriesSP.setPreferredSize(new Dimension(frameSize_Width/6,350));
+
+
+
+         namepane = new JTextPane();
+        namepane.setFont(new Font("Arial", Font.BOLD, 15));
+
+        namepane.setPreferredSize(new Dimension(200,30));
+        control.updatePlayerInfo(model.getPlayerOnGoing());
+
+        textPanel.add(namepane,BorderLayout.NORTH);
         textPanel.add(countriesOwnSP, BorderLayout.CENTER);
         textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);
-        textPanel.setPreferredSize(new Dimension(frameSize_Width/8, frameSize_Height/8));
+        adjacentCountriesText.setText("Click on country \nto see its information");
+        textPanel.setPreferredSize(new Dimension(frameSize_Width/6, frameSize_Height/7));
 
         //setup for buttonPanel
         buttonPanel.setLayout(new FlowLayout());
@@ -78,27 +107,61 @@ public class RiskView extends JFrame {
 //        buttonPanel.setPreferredSize(new Dimension(screenX/20, screenY/20));
 
         //setup test Button
-        testButton = new JButton("");
-        imagePanel.setLayout(null);
-        imagePanel.add(testButton);
-        testButton.setBounds(23,35,15,8);
+        //testButton = new JButton("");
+       imagePanel.setLayout(null);
+        //imagePanel.add(testButton);
+       // testButton.setBounds(23,35,15,8);
 
-        //set up alaskaButton For testing
+        //set up alaskaButton
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
         alaskaButton.setBounds(23,190,15,8);
-        alaskaButton.setBackground(Color.GREEN);
+        alaskaButton.addActionListener(control);
+        alaskaButton.setActionCommand("alaska");
+        control.correlateCountryButton(alaskaButton);
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");
         imagePanel.add(easterAustraliaButton);
         easterAustraliaButton.setBounds(800,600,15,8);
-        easterAustraliaButton.setBackground(Color.GREEN);
+        easterAustraliaButton.addActionListener(control);
+        easterAustraliaButton.setActionCommand("easternaustralia");
+        control.correlateCountryButton(easterAustraliaButton);
+
+        //set up northWestTerritoryButton
+        JButton northWestTerritoryButton = new JButton("");
+        imagePanel.add(northWestTerritoryButton);
+        northWestTerritoryButton.setBounds(145,167,15,8);
+        northWestTerritoryButton.addActionListener(control);
+        northWestTerritoryButton.setActionCommand("northwestterritory");
+        control.correlateCountryButton(northWestTerritoryButton);
+
+        //set up albertaButton
+        JButton albertaButton = new JButton("");
+        imagePanel.add(albertaButton);
+        albertaButton.setBounds(100,210,15,8);
+        albertaButton.addActionListener(control);
+        albertaButton.setActionCommand("alberta");
+        control.correlateCountryButton(albertaButton);
+
+        //set up ontarioButton
+        JButton ontarioButton = new JButton(""); //create new button
+        imagePanel.add(ontarioButton); // add the button to imagePanel
+        ontarioButton.setBounds(187,210,15,8);
+        //IMPORTANT set the location of the button IMPORTANT
+        //x: find the x-axis position for the button.
+        //y: find the y-axis positon for hte button.
+        //width,height. Don't Change
+        ontarioButton.addActionListener(control);//add linstner to it
+        ontarioButton.setActionCommand("ontario");//give its name all lower case
+        control.correlateCountryButton(ontarioButton);//let control respond to it
 
 
 
 
-        testButton.setVisible(true);
+
+
+       // testButton.setVisible(true);
 
         imagePanel.setPreferredSize(new Dimension(900, 750));
 
@@ -128,28 +191,29 @@ public class RiskView extends JFrame {
         this.pack();
     }
 
-    public JTextArea getCountriesOwnText(){
-        return this.countriesOwnText;
+
+
+    public void  modifyAdjacentCountriesText(String s){
+       adjacentCountriesText.setText(s);
     }
 
-    public JTextArea getAdjacentCountriesText(){return this.adjacentCountriesText;}
+    public JTextPane getNamepane() {
+        return namepane;
+    }
 
     //used to update the color of the textField when Player switch
     public void upDateTextFieldColor(Color color){
         this.countriesOwnText.setBackground(color);
     }
 
-    public void addTestListener(ActionListener actionListener){this.testButton.addActionListener(actionListener);}
-
-    public void addPassButtonListener(ActionListener al){this.passButton.addActionListener(al);}
-
-    public void addHelpButtonListener(ActionListener al){this.helpButton.addActionListener(al);}
-
-    public void addConfirmButtonListener(ActionListener al){this.confirmButton.addActionListener(al);}
 
     public void showHelp(String s){
         JOptionPane pane = new JOptionPane();
         pane.showMessageDialog(this,s);
+    }
+
+    public JTextArea getCountriesOwnText() {
+        return countriesOwnText;
     }
 }
 class CustomPanel extends JPanel{

@@ -175,6 +175,48 @@ public class RiskView extends JFrame {
         venezuelaButton.setActionCommand("venezuela");
         buttonList.add(venezuelaButton);
 
+        //Europe Buttons
+        JButton greatbritainButton = new JButton("");
+        imagePanel.add(greatbritainButton);
+        greatbritainButton.setBounds(370,230,15,8);
+        greatbritainButton.setActionCommand("greatbritain");
+        buttonList.add(greatbritainButton);
+
+        JButton icelandButton = new JButton("");
+        imagePanel.add(icelandButton);
+        icelandButton.setBounds(365,185,15,8);
+        icelandButton.setActionCommand("iceland");
+        buttonList.add(icelandButton);
+
+        JButton northerneuropeButton = new JButton("");
+        imagePanel.add(northerneuropeButton);
+        northerneuropeButton.setBounds(480,207,15,8);
+        northerneuropeButton.setActionCommand("northerneurope");
+        buttonList.add(northerneuropeButton);
+
+        JButton scandinaviaButton = new JButton("");
+        imagePanel.add(scandinaviaButton);
+        scandinaviaButton.setBounds(440,160,15,8);
+        scandinaviaButton.setActionCommand("scandinavia");
+        buttonList.add(scandinaviaButton);
+
+        JButton southerneuropeButton = new JButton("");
+        imagePanel.add(southerneuropeButton);
+        southerneuropeButton.setBounds(510,280,15,8);
+        southerneuropeButton.setActionCommand("southerneurope");
+        buttonList.add(southerneuropeButton);
+
+        JButton ukraineButton = new JButton("");
+        imagePanel.add(ukraineButton);
+        ukraineButton.setBounds(530,207,15,8);
+        ukraineButton.setActionCommand("ukraine");
+        buttonList.add(ukraineButton);
+
+        JButton westerneuropeButton = new JButton("");
+        imagePanel.add(westerneuropeButton);
+        westerneuropeButton.setBounds(455,250,15,8);
+        westerneuropeButton.setActionCommand("westerneurope");
+        buttonList.add(westerneuropeButton);
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");

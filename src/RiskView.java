@@ -153,25 +153,25 @@ public class RiskView extends JFrame {
         //South America Buttons
         JButton argentinaButton = new JButton("");
         imagePanel.add(argentinaButton);
-        argentinaButton.setBounds(100,275,15,8);
+        argentinaButton.setBounds(193,487,15,8);
         argentinaButton.setActionCommand("argentina");
         buttonList.add(argentinaButton);
 
         JButton brazilButton = new JButton("");
         imagePanel.add(brazilButton);
-        brazilButton.setBounds(100,275,15,8);
+        brazilButton.setBounds(263,481,15,8);
         brazilButton.setActionCommand("brazil");
         buttonList.add(brazilButton);
 
         JButton peruButton = new JButton("");
         imagePanel.add(peruButton);
-        peruButton.setBounds(100,275,15,8);
+        peruButton.setBounds(208,440,15,8);
         peruButton.setActionCommand("peru");
         buttonList.add(peruButton);
 
         JButton venezuelaButton = new JButton("");
         imagePanel.add(venezuelaButton);
-        venezuelaButton.setBounds(100,275,15,8);
+        venezuelaButton.setBounds(230,399,15,8);
         venezuelaButton.setActionCommand("venezuela");
         buttonList.add(venezuelaButton);
 
@@ -217,6 +217,43 @@ public class RiskView extends JFrame {
         westerneuropeButton.setBounds(455,250,15,8);
         westerneuropeButton.setActionCommand("westerneurope");
         buttonList.add(westerneuropeButton);
+
+        //Africa Buttons
+        JButton congoButton = new JButton("");
+        imagePanel.add(congoButton);
+        congoButton.setBounds(382,418,15,8);
+        congoButton.setActionCommand("congo");
+        buttonList.add(congoButton);
+
+        JButton eastafricaButton = new JButton("");
+        imagePanel.add(eastafricaButton);
+        eastafricaButton.setBounds(460,419,15,8);
+        eastafricaButton.setActionCommand("eastafrica");
+        buttonList.add(eastafricaButton);
+
+        JButton egyptButton = new JButton("");
+        imagePanel.add(egyptButton);
+        egyptButton.setBounds(450,355,15,8);
+        egyptButton.setActionCommand("egypt");
+        buttonList.add(egyptButton);
+
+        JButton madagascarButton = new JButton("");
+        imagePanel.add(madagascarButton);
+        madagascarButton.setBounds(499,521,15,8);
+        madagascarButton.setActionCommand("madagascar");
+        buttonList.add(madagascarButton);
+
+        JButton northafricaButton = new JButton("");
+        imagePanel.add(northafricaButton);
+        northafricaButton.setBounds(385,338,15,8);
+        northafricaButton.setActionCommand("northafrica");
+        buttonList.add(northafricaButton);
+
+        JButton southafricaButton = new JButton("");
+        imagePanel.add(southafricaButton);
+        southafricaButton.setBounds(380,518,15,8);
+        southafricaButton.setActionCommand("southafrica");
+        buttonList.add(southafricaButton);
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");

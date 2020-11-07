@@ -255,6 +255,81 @@ public class RiskView extends JFrame {
         southafricaButton.setActionCommand("southafrica");
         buttonList.add(southafricaButton);
 
+        //Asia Buttons
+        JButton afghanistanButton = new JButton("");
+        imagePanel.add(afghanistanButton);
+        afghanistanButton.setBounds(599,265,15,8);
+        afghanistanButton.setActionCommand("afghanistan");
+        buttonList.add(afghanistanButton);
+
+        JButton chinaButton = new JButton("");
+        imagePanel.add(chinaButton);
+        chinaButton.setBounds(630,235,15,8);
+        chinaButton.setActionCommand("china");
+        buttonList.add(chinaButton);
+
+        JButton indiaButton = new JButton("");
+        imagePanel.add(indiaButton);
+        indiaButton.setBounds(633,326,15,8);
+        indiaButton.setActionCommand("india");
+        buttonList.add(indiaButton);
+
+        JButton irkutskButton = new JButton("");
+        imagePanel.add(irkutskButton);
+        irkutskButton.setBounds(736,202,15,8);
+        irkutskButton.setActionCommand("irkutsk");
+        buttonList.add(irkutskButton);
+
+        JButton japanButton = new JButton("");
+        imagePanel.add(japanButton);
+        japanButton.setBounds(830,284,15,8);
+        japanButton.setActionCommand("japan");
+        buttonList.add(japanButton);
+
+        JButton kamchatkaButton = new JButton("");
+        imagePanel.add(kamchatkaButton);
+        kamchatkaButton.setBounds(805,185,15,8);
+        kamchatkaButton.setActionCommand("kamchatka");
+        buttonList.add(kamchatkaButton);
+
+        JButton middleeastButton = new JButton("");
+        imagePanel.add(middleeastButton);
+        middleeastButton.setBounds(583,310,15,8);
+        middleeastButton.setActionCommand("middleeast");
+        buttonList.add(middleeastButton);
+
+        JButton mongoliaButton = new JButton("");
+        imagePanel.add(mongoliaButton);
+        mongoliaButton.setBounds(758,237,15,8);
+        mongoliaButton.setActionCommand("mongolia");
+        buttonList.add(mongoliaButton);
+
+        JButton siamButton = new JButton("");
+        imagePanel.add(siamButton);
+        siamButton.setBounds(688,316,15,8);
+        siamButton.setActionCommand("siam");
+        buttonList.add(siamButton);
+
+        JButton siberiaButton = new JButton("");
+        imagePanel.add(siberiaButton);
+        siberiaButton.setBounds(640,175,15,8);
+        siberiaButton.setActionCommand("siberia");
+        buttonList.add(siberiaButton);
+
+        JButton uralButton = new JButton("");
+        imagePanel.add(uralButton);
+        uralButton.setBounds(608,129,15,8);
+        uralButton.setActionCommand("ural");
+        buttonList.add(uralButton);
+
+        JButton yakutskButton = new JButton("");
+        imagePanel.add(yakutskButton);
+        yakutskButton.setBounds(717,173,15,8);
+        yakutskButton.setActionCommand("yakutsk");
+        buttonList.add(yakutskButton);
+
+        //Australia Buttons
+
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");
         imagePanel.add(easterAustraliaButton);

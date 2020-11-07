@@ -95,12 +95,60 @@ public class RiskView extends JFrame {
 
 
 
-        //set up alaskaButton For testing
+        //America buttons
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
         alaskaButton.setBounds(23,190,15,8);
         alaskaButton.setActionCommand("alaska");
         buttonList.add(alaskaButton);
+
+        JButton albertaButton = new JButton("");
+        imagePanel.add(albertaButton);
+        albertaButton.setBounds(100,210,15,8);
+        albertaButton.setActionCommand("alberta");
+        buttonList.add(albertaButton);
+
+        JButton centralamericaButton = new JButton("");
+        imagePanel.add(centralamericaButton);
+        centralamericaButton.setBounds(170,315,15,8);
+        centralamericaButton.setActionCommand("centralamerica");
+        buttonList.add(centralamericaButton);
+
+        JButton easternunitedstatesButton = new JButton("");
+        imagePanel.add(easternunitedstatesButton);
+        easternunitedstatesButton.setBounds(187,290,15,8);
+        easternunitedstatesButton.setActionCommand("easternunitedstates");
+        buttonList.add(easternunitedstatesButton);
+
+        JButton greenlandButton = new JButton("");
+        imagePanel.add(greenlandButton);
+        greenlandButton.setBounds(305,145,15,8);
+        greenlandButton.setActionCommand("greenland");
+        buttonList.add(greenlandButton);
+
+        JButton northwestterritoryButton = new JButton("");
+        imagePanel.add(northwestterritoryButton);
+        northwestterritoryButton.setBounds(145,167,15,8);
+        northwestterritoryButton.setActionCommand("northwestterritory");
+        buttonList.add(northwestterritoryButton);
+
+        JButton ontarioButton = new JButton("");
+        imagePanel.add(ontarioButton);
+        ontarioButton.setBounds(187,210,15,8);
+        ontarioButton.setActionCommand("ontario");
+        buttonList.add(ontarioButton);
+
+        JButton quebecButton = new JButton("");
+        imagePanel.add(quebecButton);
+        quebecButton.setBounds(260,240,15,8);
+        quebecButton.setActionCommand("quebec");
+        buttonList.add(quebecButton);
+
+        JButton westernunitedstatesButton = new JButton("");
+        imagePanel.add(westernunitedstatesButton);
+        westernunitedstatesButton.setBounds(100,275,15,8);
+        westernunitedstatesButton.setActionCommand("westernunitedstates");
+        buttonList.add(westernunitedstatesButton);
 
         //set up easterAustraliaButton
         JButton easterAustraliaButton = new JButton("");

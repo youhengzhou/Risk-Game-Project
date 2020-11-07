@@ -172,79 +172,18 @@ public class RiskModel {
         return s;
     }
 
+    /**
+     * attack from one country to another country
+     */
     public boolean attack() {
         //setAttackTroops(firstSelected.getTroopsNum()-1);
         if (firstSelected.equals(null) || secondSelected.equals(null)) return false;
         if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
         if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
-        new Battle(firstSelected, secondSelected, attackTroops);
+        new Battle(firstSelected, secondSelected, attackTroops).fight();
         removePlayerWithNoCountry();
         return true;
     }
-
-    /**
-     * attack from one country to another country
-     */
-//    private void attack() {
-//        Player player = playerOnGoing;
-//        String countryName;
-//        Country attackCountry;
-//
-//        do {
-//            if (player.getAvailableCountries().equals("Player: " + player.getName() + " has countries:\n")) {
-//                System.out.println("now, you don't have available countries can be used for attacking. So choose your next move again");
-//                return;
-//            }
-//            System.out.println("You have following country can be used to attack");
-//            System.out.println("Please choose from the list.");
-//            System.out.println(player.getAvailableCountries());
-//            System.out.println("You may also choose to change your mind about attacking for a strategic retreat,");
-//            System.out.println("retreat by choosing to 'back' for this turn General.");
-//            countryName = parser.getCountryName();
-//            if (countryName.equals("back")) { // the player can also choose to pass while inside attack just in case they change their mind about attacking
-//                return;
-//            }
-//            if (!map.containsKey(countryName)) continue;  //verify country exist
-//            attackCountry = map.get(countryName); //get the Country and store it into attackCountry
-//            if (!player.getCountriesOwn().contains(attackCountry)) {
-//                System.out.println("you don't own this country, please select another country from the list");
-//                System.out.println();
-//                continue;
-//            }
-//
-//            if (attackCountry.printEnemyCountry().equals("")) {
-//                System.out.println("The country you chose don't have any adjacent enemy country, choose another one\n");
-//            } else break;
-//
-//        } while (true);
-//
-//        Country defendCountry = null;
-//        String name;
-//        do {
-//            System.out.println("choose the enemy country that you want to attack from the list:");
-//
-//            System.out.println(attackCountry.printEnemyCountry());
-//            name = parser.getCountryName();
-//            if (map.containsKey(name)) {
-//                defendCountry = map.get(name);
-//            }
-//
-//        } while (!attackCountry.getAdjacentCountries().contains(defendCountry));
-//        System.out.println("the country your are attacking is " + defendCountry.getCountryName());
-//        //asking general how many troops he want to send to attack
-//        int num;
-//        do {
-//            System.out.println("how many troops do you want to send to attack from " + attackCountry.getCountryName() + " (Maximum " + (attackCountry.getTroopsNum() - 1) + ")");
-//            Scanner sc = new Scanner(System.in);
-//            num = sc.nextInt();
-//            if (num < attackCountry.getTroopsNum()) break;
-//            else {
-//                System.out.println("you only have " + (attackCountry.getTroopsNum() - 1) + " troops can use to attack on " + attackCountry.getCountryName());
-//            }
-//        } while (true);
-//        new Battle(attackCountry, defendCountry, num).fight();
-//        removePlayerWithNoCountry();
-//    }
 
     /**
      * invoke quit() method when user wants to quit the game
@@ -735,6 +674,11 @@ public class RiskModel {
         return secondSelected;
     }
 
+    public void releaseSelected(){
+        this.firstSelected = null;
+        this.secondSelected = null;
+    }
+
     public void updateState(Phase phase) {
         this.State = phase;
     }
@@ -754,9 +698,9 @@ public class RiskModel {
     public void setSelected(Country country) {
         if (!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)) {
             firstSelected = country;
-        } else if (!firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
+        } else if (firstSelected != null && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
             secondSelected = country;
-        } else if (firstSelected.equals(null) && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
+        } else if (firstSelected == null && (State.equals(Phase.ATTACK) || State.equals(Phase.FORTIFY))) {
             firstSelected = country;
         }
     }
@@ -767,6 +711,7 @@ public class RiskModel {
         Country c = map.get(countryName);
 
         button.setBackground(c.getOwner().getColor());
+        c.addButton(button);
     }
 
 

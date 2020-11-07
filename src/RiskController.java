@@ -55,6 +55,9 @@ public class RiskController {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
+                    model.setSelected(model.map.get(button.getActionCommand()));
+                    System.out.println("the first selected country is : "+ model.getFirstSelected());
+                    System.out.println("the second selected country is : "+ model.getSecondSelected());
                 }
             });
         }
@@ -79,11 +82,23 @@ public class RiskController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.ATTACK)){
-                int num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
+            int num = 0;
+            if(model.getState().equals(RiskModel.Phase.ATTACK )){
+                if(model.getFirstSelected().getTroopsNum() < 2){
+                    new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack");
+                    return;
+                }
+                num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
                 model.setAttackTroops(num);
-                model.attack();
+                if(model.attack()){
+                   num = Integer.parseInt(new JOptionPane().showInputDialog("how many troops you want to send to this country (1 - "+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
+                   model.getFirstSelected().removeTroops(num);
+                   model.getSecondSelected().addTroops(num);
+                }
+
             }
+            updatePlayerInfo(model.getPlayerOnGoing());
+            model.releaseSelected();
         }
     }
 

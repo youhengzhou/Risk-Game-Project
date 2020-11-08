@@ -56,8 +56,8 @@ public class RiskController {
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
                     model.setSelected(model.map.get(button.getActionCommand()));
-                    System.out.println("\nfirst selection: "+ model.getFirstSelected());
-                    System.out.println("second selection: "+ model.getSecondSelected());
+                    System.out.println("\nAttack from: "+ model.getFirstSelected());
+                    System.out.println("Attack to: "+ model.getSecondSelected());
                 }
             });
         }

@@ -34,13 +34,6 @@ public class RiskController {
         }
     }
 
-    public void setNumOfPlayer(){
-        int num = 0;
-        do{
-        num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player"));
-        } while(num < 2 || num > 6);
-    }
-
     public void updatePlayerInfo(Player player)
     {
         view.getNamePane().setBackground(player.getColor());

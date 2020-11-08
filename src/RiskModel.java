@@ -506,7 +506,7 @@ public class RiskModel {
         int num = 0;
         do{
             num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player (between 2 to 6)"));
-        } while(num < 2 || num > 6);
+        }while(num < 2 || num > 6);
         setNumOfPlayer(num);
     }
 
@@ -514,7 +514,6 @@ public class RiskModel {
      * set the number of players in the game and decide how many troops should each one of them have.
      */
     public boolean setNumOfPlayer(int num) {
-
         if (!isValidNum(num)) return false;
         this.numOfPlayer = num;
         switch (this.numOfPlayer) {
@@ -553,7 +552,6 @@ public class RiskModel {
      * randomly assign players with their initial country, and assign country with their owner.
      */
     public void randomAssignCountry() {
-
         //randomly assign Country-Owner pairs
         Set<String> keySet = map.keySet();
         ArrayList<String> keyList = new ArrayList<>(); //convert to List structure in order to use .shuffle method in Collection.
@@ -569,7 +567,6 @@ public class RiskModel {
                 } catch (Exception e) {
                     break;
                 }
-
                 countrytemp.changeOwner(p);
                 p.addCountry(countrytemp);
                 listIndex++; //increment to access the next element in keyList.
@@ -657,7 +654,6 @@ public class RiskModel {
     }
 
     public void assignButtonToCountry(JButton button) {
-
         String countryName = button.getActionCommand();
         Country c = map.get(countryName);
 

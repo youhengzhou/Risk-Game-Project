@@ -56,8 +56,8 @@ public class RiskController {
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
                     model.setSelected(model.map.get(button.getActionCommand()));
-                    System.out.println("the first selected country is : "+ model.getFirstSelected());
-                    System.out.println("the second selected country is : "+ model.getSecondSelected());
+                    System.out.println("\nfirst selection: "+ model.getFirstSelected());
+                    System.out.println("second selection: "+ model.getSecondSelected());
                 }
             });
         }
@@ -85,7 +85,7 @@ public class RiskController {
             int num = 0;
             if(model.getState().equals(RiskModel.Phase.ATTACK )){
                 if(model.getFirstSelected().getTroopsNum() < 2){
-                    new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack");
+                    new JOptionPane().showMessageDialog(view, "not enough troops to attack");
                     return;
                 }
                 num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));

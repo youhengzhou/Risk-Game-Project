@@ -53,7 +53,7 @@ public class Battle {
                 }
             }
         }
-        System.out.println("\nBattle Result:");
+        System.out.println("Battle Result:");
         System.out.println(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle");
         System.out.println(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle");
         if (countryDefend.getTroopsNum() == 0) {
@@ -62,11 +62,11 @@ public class Battle {
             countryDefend.getOwner().removeCountry(countryDefend); //remove the country from the country defender countryOwner
             countryDefend.changeOwner(countryAttack.getOwner());//change owner of the defendCountry
             countryAttack.getOwner().addCountry(countryDefend);//add CountryDefend into the attacker CountryOwner
-            System.out.println("You win! Now " + countryDefend.getCountryName() + "is yours.");
-            System.out.println("Surviving " + troopSurvive + " troops has moved from " + countryAttack.getCountryName() + " to " + countryDefend.getCountryName() + "\n\n");
+            System.out.println("You won " + countryDefend.getCountryName() + "!");
+            System.out.println("Surviving " + troopSurvive + " troops moved from " + countryAttack.getCountryName() + " to " + countryDefend.getCountryName());
             countryDefend.getCountryButton().setBackground(countryAttack.getOwner().getColor());
             return;
         }
-        System.out.println("Unfortunately you lose the battle with " + countryDefend.getCountryName());
+        System.out.println("Lost with: " + countryDefend.getCountryName());
     }
 }

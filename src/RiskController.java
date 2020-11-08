@@ -24,6 +24,7 @@ public class RiskController {
         RiskModel riskModel = new RiskModel();
 
         RiskController controller = new RiskController(riskModel, view);
+        view.showHelp(riskModel.printHelp());
 
     }
 
@@ -45,7 +46,7 @@ public class RiskController {
         view.getNamePane().setBackground(player.getColor());
 
         view.getNamePane().setText("Current Player: "+player.getName());
-        view.getCountriesOwnText().setText("Country Own:\n"+player.getAvailableCountries());
+        view.getCountriesOwnText().setText("Countries You Own:\n"+player.getAvailableCountries());
     }
 
     public void addButtonListener(){

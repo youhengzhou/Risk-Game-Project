@@ -119,14 +119,15 @@ public class RiskModel {
      */
     public String printHelp() {
         String s = "";
-        s += "You are a general. You are leading your army to conquer the world!\n";
-        s += "Ready your armies, for your enemies would be ready for you.\n\n";
-        s += "You can input these command words: ";
+        s += "You are a General. You are leading your army to conquer the world!\n";
+        s += "You can pick the country with your colors, shown on the upper right\n";
+        s += "After selecting your country, select the attack button, and click on an adjacent country to attack\n";
+        s += "Then select the confirm button to finalize it, are you ready General?\n";
+        s += "You have the following command buttons: \n";
+        s += "[Help]: bring up this pop-up window to show you how to play again\n";
         s += "[Attack]: can let you choose an enemy country to attack\n";
-        s += "[Pass]: use this command when you finish your turn\n";
-        s += "[State]: print out the State of the Map (i.e., which player is in which country and with how many armies\n";
-        s += "[help]: well, this is going to tell you how to play this game\n";
-        s += "[quit]: use this command when you tire of this game\n";
+        s += "[Pass]: use this command to finish your turn\n";
+        s += "[Confirm]: use this command when you have confirmed your attack\n";
         return s;
     }
 
@@ -668,7 +669,7 @@ public class RiskModel {
     public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";
-        s += "Country Selected: \n" + country.getCountryName() +
+        s += "COUNTRY SELECTED \n" + country.getCountryName() +
                 "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
                 country.printEnemyCountry();
         return s;

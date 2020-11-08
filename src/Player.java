@@ -83,7 +83,7 @@ public class Player {
 
         for (Country country : countriesOwn) {
             if ( !country.printEnemyCountry().equals("")) {
-                s += "  " + country.printState() + "\n";
+                s += "->" + country.printState() + "\n";
             }
         }
         return s;

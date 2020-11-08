@@ -93,12 +93,13 @@ public class RiskView extends JFrame {
         imagePanel.setLayout(null);
 
 
-
+        int troopsNum = 123;
 
         //North America buttons
-        JButton alaskaButton = new JButton("");
+        JButton alaskaButton = new JButton(String.valueOf(troopsNum));
+        alaskaButton.setText("11");
         imagePanel.add(alaskaButton);
-        alaskaButton.setBounds(23,190,15,8);
+        alaskaButton.setBounds(23,190,50,50);
         alaskaButton.setActionCommand("alaska");
         buttonList.add(alaskaButton);
 

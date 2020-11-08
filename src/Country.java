@@ -14,7 +14,6 @@ public class Country {
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
-    private JButton countryButton;
 
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
@@ -109,10 +108,6 @@ public class Country {
     public ArrayList<Country> getAdjacentCountries() {
 
         return adjacentCountries;
-    }
-
-    public JButton getCountryButton(){
-        return this.countryButton;
     }
 
     //for testing Attack method

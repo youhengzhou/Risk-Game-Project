@@ -23,7 +23,6 @@ public class RiskController {
         RiskView view = new RiskView();
         RiskModel riskModel = new RiskModel();
 
-
         RiskController controller = new RiskController(riskModel, view);
 
     }

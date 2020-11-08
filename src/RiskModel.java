@@ -18,13 +18,11 @@ public class RiskModel {
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
-    private Parser parser;
     public HashMap<String, Country> map;
     int playerIndex;
     boolean pass;
     boolean finished = false;
     private int attackTroops = 0;
-
     private Country firstSelected = null;
     private Country secondSelected = null;
 
@@ -32,7 +30,6 @@ public class RiskModel {
      * This constructor of Game
      */
     public RiskModel() {
-        parser = new Parser(); // parser for word checks
         players = new ArrayList<>();
         map = new HashMap<>();
         this.State = Phase.PENDING;
@@ -45,8 +42,21 @@ public class RiskModel {
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
         randomAssignTroops();
+    }
 
-//        play();
+    //used for test
+    public RiskModel(int num){
+        players = new ArrayList<>();
+        map = new HashMap<>();
+        this.State = Phase.PENDING;
+        this.setNumOfPlayer(num);
+        initCountries();
+        createPlayer();
+        pass = false;
+        playerIndex = 0;
+        playerOnGoing = players.get(playerIndex % numOfPlayer);
+        randomAssignCountry();
+        randomAssignTroops();
     }
 
     /**
@@ -57,27 +67,6 @@ public class RiskModel {
     public static void main(String[] args) {
         RiskModel riskModel = new RiskModel();
     }
-
-//    /**
-//     * Print command instructions and get user command.
-//     */
-//    public void play() {
-//        printWelcome();
-//        while (!finished && !hasWinner()) {
-//            pass = false;
-//            playerOnGoing = players.get(playerIndex % numOfPlayer);
-//            System.out.println();
-//            System.out.println("Now it is your turn " + playerOnGoing.getName());
-//            while (!pass && !finished) {
-//
-//                System.out.println("what do you want to do now, please input your command");
-//                System.out.println("You can type [attack], [pass], [state], [help], [quit]");
-//
-//                processCommand(parser.getCommand());
-//            }
-//        }
-//        System.out.println("Thank you for playing. Good bye.");
-//    }
 
     /**
      * Method tells us if the game has a winner
@@ -126,36 +115,6 @@ public class RiskModel {
     }
 
     /**
-     * Process command and invoke corresponding method.
-     *
-     * @param command the command get from user
-     */
-    private void processCommand(Command command) {
-        if (command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return;
-        }
-        String commandWord = command.getCommandWord();
-        switch (commandWord) {
-            case "help":
-                printHelp();
-                break;
-            case "attack":
-//                attack();
-                break;
-            case "quit":
-                quit();
-                break;
-            case "pass":
-                pass();
-                break;
-            case "state":
-                printState();
-                break;
-        }
-    }
-
-    /**
      * print help to help the users to get known of the command words and their usages.
      */
     public String printHelp() {
@@ -163,7 +122,6 @@ public class RiskModel {
         s += "You are a general. You are leading your army to conquer the world!\n";
         s += "Ready your armies, for your enemies would be ready for you.\n\n";
         s += "You can input these command words: ";
-        s += parser.showCommands();
         s += "[Attack]: can let you choose an enemy country to attack\n";
         s += "[Pass]: use this command when you finish your turn\n";
         s += "[State]: print out the State of the Map (i.e., which player is in which country and with how many armies\n";
@@ -180,19 +138,10 @@ public class RiskModel {
         if (firstSelected.equals(null) || secondSelected.equals(null)) return false;
         if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
         if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
+//        if(firstSelected.getTroopsNum() < 2) return false;
         new Battle(firstSelected, secondSelected, attackTroops).fight();
         removePlayerWithNoCountry();
         return true;
-    }
-
-    /**
-     * invoke quit() method when user wants to quit the game
-     *
-     * @return return true if user invoked the method
-     */
-    private boolean quit() {
-        finished = true;
-        return true;  // signal that we want to quit
     }
 
     /**
@@ -591,7 +540,6 @@ public class RiskModel {
      * create instances of all Player and add them into Arraylist players.
      */
     private void createPlayer() {
-        //create all player instance
         Color[] colors = {Color.pink, Color.ORANGE, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.gray};
         for (int i = 0; i < numOfPlayer; i++) {
             Player p = new Player("Player" + i);
@@ -657,6 +605,8 @@ public class RiskModel {
             }
         }
     }
+
+    public void setPlayerOnGoing(Player p){this.playerOnGoing = p;}
 
     public int getNumOfPlayer() {
         return this.numOfPlayer;

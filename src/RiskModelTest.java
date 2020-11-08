@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class RiskModelTest {
 
-    private RiskModel model = new RiskModel();
+    private RiskModel model = new RiskModel(2);
 
 
     @Test
@@ -32,14 +32,25 @@ public class RiskModelTest {
         assertEquals(1,model.getNumOfPlayer());
     }
 
-//    @Test
-//    public void attackTest() {
-//        model.setSelected(model.map.get("India"));
-//        model.updateState(RiskModel.Phase.ATTACK);
-//        model.setSelected(model.map.get("Siam"));
-//        assertEquals(true,model.attack());
-//
-//    }
+    @Test
+    public void attackTest() {
+        Player p1 = new Player("p1");
+        Player p2 = new Player("p2");
+        model.setPlayerOnGoing(p1);
+        Country country1 = model.map.get("india");
+        country1.setTroopsNum(1);
+        Country country2 = model.map.get("siam");
+        country1.changeOwner(p1);
+        country2.changeOwner(p2);
+        model.setSelected(country1);
+        model.updateState(RiskModel.Phase.ATTACK);
+        model.setSelected(country2);
+        assertEquals(false,model.attack());
+
+        country1.setTroopsNum(5);
+        model.setAttackTroops(3);
+        assertEquals(true,model.attack());
+    }
 
     @Test
     public void setSelectedTest() {

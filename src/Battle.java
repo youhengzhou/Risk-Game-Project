@@ -63,7 +63,7 @@ public class Battle {
             countryDefend.changeOwner(countryAttack.getOwner());//change owner of the defendCountry
             countryAttack.getOwner().addCountry(countryDefend);//add CountryDefend into the attacker CountryOwner
             System.out.println("You win! Now " + countryDefend.getCountryName() + "is yours.");
-            System.out.println("Surviving " + troopSurvive + " troops has moved from " + countryAttack.getCountryName() + " to " + countryDefend.getCountryName() + "\n\n");
+            System.out.println("Surviving " + troopSurvive + " troops has moved from\n " + countryAttack.getCountryName() + " to " + countryDefend.getCountryName() + "\n\n");
             countryDefend.getCountryButton().setBackground(countryAttack.getOwner().getColor());
             return;
         }

@@ -56,8 +56,9 @@ public class RiskView extends JFrame {
                 consoleText.append(String.valueOf((char) b));
             }
         }));
-        consoleText.setBackground(Color.BLACK);
-        consoleText.setDisabledTextColor(Color.WHITE);
+        consoleText.setBackground(Color.white);
+        consoleText.setDisabledTextColor(Color.BLACK);
+        consoleText.setFont(new Font("Arial", Font.BOLD, 12));
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
         consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 

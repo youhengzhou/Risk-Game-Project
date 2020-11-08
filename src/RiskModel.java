@@ -116,14 +116,15 @@ public class RiskModel {
 
     /**
      * print welcome to users
-     */
-    private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to the RISK!");
-        System.out.println("RISK is the Hasbro game of Global Domination");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
+
+    public String printWelcome() {
+        String s = "";
+        s+="Welcome to the RISK!";
+        s+="RISK is the Hasbro game of Global Domination";
+        s+="Type 'help' if you need help.";
+        return s;
     }
+     **/
 
     /**
      * Process command and invoke corresponding method.
@@ -202,6 +203,7 @@ public class RiskModel {
         pass = true;
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
+        this.clearCountrySelected();
     }
 
 
@@ -554,8 +556,12 @@ public class RiskModel {
 
     public void showDialog(){
         int num = 0;
+        String s = "";
+        s+="Welcome to the RISK!\n";
+        s+="RISK is the Hasbro game of Global Domination\n";
+        s+="Type 'help' if you need help.\n" ;
         do{
-            num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player (between 2 to 6)"));
+            num = Integer.parseInt(new JOptionPane().showInputDialog(s+"\nplease insert the number of Player (between 2 to 6)"));
         } while(num < 2 || num > 6);
         setNumOfPlayer(num);
     }
@@ -704,6 +710,13 @@ public class RiskModel {
             firstSelected = country;
         }
     }
+    public void clearCountrySelected()
+    {
+        firstSelected = null;
+        secondSelected = null;
+
+    }
+
 
     public void assignButtonToCountry(JButton button) {
 
@@ -718,7 +731,7 @@ public class RiskModel {
     public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";
-        s += "Country Selected: \n" + country.getCountryName() +
+        s += "Country Selected: \n" + country.printState() +
                 "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
                 country.printEnemyCountry();
         return s;

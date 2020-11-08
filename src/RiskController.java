@@ -23,8 +23,8 @@ public class RiskController {
         RiskView view = new RiskView();
         RiskModel riskModel = new RiskModel();
 
-
         RiskController controller = new RiskController(riskModel, view);
+        view.showHelp(riskModel.printHelp());
 
     }
 
@@ -46,7 +46,7 @@ public class RiskController {
         view.getNamePane().setBackground(player.getColor());
 
         view.getNamePane().setText("Current Player: "+player.getName());
-        view.getCountriesOwnText().setText("Country Own:\n"+player.getAvailableCountries());
+        view.getCountriesOwnText().setText("Countries You Own:\n"+player.getAvailableCountries());
     }
 
     public void addButtonListener(){
@@ -56,8 +56,8 @@ public class RiskController {
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
                     model.setSelected(model.map.get(button.getActionCommand()));
-                    System.out.println("the first selected country is : \n"+ model.getFirstSelected());
-                    System.out.println("the second selected country is : \n"+ model.getSecondSelected());
+                    System.out.println("the first selected country is : "+ model.getFirstSelected());
+                    System.out.println("the second selected country is : "+ model.getSecondSelected());
                 }
             });
         }
@@ -84,18 +84,7 @@ public class RiskController {
         public void actionPerformed(ActionEvent e) {
             int num = 0;
             if(model.getState().equals(RiskModel.Phase.ATTACK )){
-                if(model.getFirstSelected().getOwner() != model.getPlayerOnGoing())
-                {
-                    new JOptionPane().showMessageDialog(view, "You can only choose your own country to attack\n Please choose again");
-                    model.clearCountrySelected();
-
-                }
-                else if (model.getSecondSelected().getOwner() == model.getPlayerOnGoing())
-                {
-                    new JOptionPane().showMessageDialog(view, "You don't want to attack your own country\n Please choose again");
-                    model.clearCountrySelected();
-                }
-                else if(model.getFirstSelected().getTroopsNum() < 2){
+                if(model.getFirstSelected().getTroopsNum() < 2){
                     new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack");
                     return;
                 }

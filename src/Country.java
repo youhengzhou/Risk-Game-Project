@@ -115,6 +115,9 @@ public class Country {
         return this.countryButton;
     }
 
+    //for testing Attack method
+    public void setTroopsNum(int num){this.troopsNum = num;}
+
     /**
      * get the String of troops on this country
      * @return  the String of troops on this country

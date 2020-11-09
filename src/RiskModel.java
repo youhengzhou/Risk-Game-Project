@@ -27,6 +27,8 @@ public class RiskModel {
     private String battleResult;
     private int survivedTroops;
 
+    private boolean attackWin = false;
+
     /**
      * This constructor of Game
      */
@@ -134,17 +136,30 @@ public class RiskModel {
      * attack from one country to another country
      */
     public boolean attack() {
-        //setAttackTroops(firstSelected.getTroopsNum()-1);
-        if (firstSelected.equals(null) || secondSelected.equals(null)) return false;
-        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
-        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
-//        if(firstSelected.getTroopsNum() < 2) return false;
+        if (firstSelected == null || secondSelected == null) {
+            System.out.println("return false here");
+            return false;
+        }
+        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)){
+            System.out.println("return false");
+            return false;
+        }
+        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) {
+            System.out.println("return ");
+            return false;
+        }
+        if(firstSelected.getTroopsNum() < 2) return false;
         Battle battle = new Battle(firstSelected, secondSelected, attackTroops);
+
          battleResult = battle.fight();
+        this.attackWin = battle.isAttackerWin();
          survivedTroops =battle.getTroopSurvive();
         removePlayerWithNoCountry();
-        return battle.isAttackerWin();
+        return true;
     }
+
+    public void iniAttackWin(){attackWin = false;}
+    public boolean getAttackWin(){return attackWin;}
 
     public int getSurvivedTroops() {
         return survivedTroops;
@@ -160,8 +175,6 @@ public class RiskModel {
         return battleResult;
     }
 
-
-
     /**
      * implementing for command "pass", to pass the turn from this player to next player
      */
@@ -170,20 +183,6 @@ public class RiskModel {
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
         this.releaseSelected();
         updateState(Phase.PENDING);
-    }
-
-
-
-
-    /**
-     * print the state of all the players,including their name, their country, and troops on the country.
-     */
-    private void printState() {
-        StringBuilder s = new StringBuilder();
-        for (Player player : players) {
-            s.append(player.getStatus());
-        }
-        System.out.println(s);
     }
 
     /**
@@ -533,7 +532,7 @@ public class RiskModel {
     /**
      * set the number of players in the game and decide how many troops should each one of them have.
      */
-    public boolean setNumOfPlayer(int num) {
+    private boolean setNumOfPlayer(int num) {
         if (!isValidNum(num)) return false;
         this.numOfPlayer = num;
         switch (this.numOfPlayer) {

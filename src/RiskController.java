@@ -114,8 +114,11 @@ public class RiskController {
                     model.updateState(RiskModel.Phase.PENDING);
                     return;
                 }
-
-                num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
+                num = 999;
+                while(num> model.getFirstSelected().getTroopsNum()-1)
+                {
+                    num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
+                }
                 model.setAttackTroops(num);
                 boolean result = model.attack();
                 new JOptionPane().showMessageDialog(view, model.printBattleResult());
@@ -129,10 +132,12 @@ public class RiskController {
                     model.handleSurvivedTroops(num);
 
                 }
+                model.releaseSelected();
 
             }
             updatePlayerInfo(model.getPlayerOnGoing());
             model.releaseSelected();
+
         }
     }
 

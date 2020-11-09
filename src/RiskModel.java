@@ -286,6 +286,7 @@ public class RiskModel {
         Ontario.addAdjacentCountry(NorthwestTerritory);
         Ontario.addAdjacentCountry(Quebec);
         Ontario.addAdjacentCountry(WesternUnitedStates);
+        Ontario.addAdjacentCountry(Alberta);
         //8
         Quebec.addAdjacentCountry(EasternUnitedStates);
         Quebec.addAdjacentCountry(Greenland);

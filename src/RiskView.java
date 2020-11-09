@@ -3,6 +3,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -59,6 +61,12 @@ public class RiskView extends JFrame {
         consoleText.setBackground(Color.WHITE);
         consoleText.setDisabledTextColor(Color.GREEN);
         JScrollPane consoleScrollPane = new JScrollPane(consoleText);
+
+        consoleScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });
         consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 
         //setup for textPanel

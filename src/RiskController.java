@@ -25,6 +25,7 @@ public class RiskController {
 
         RiskController controller = new RiskController(riskModel, view);
         view.showHelp(riskModel.printHelp());
+        System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
 
     }
 
@@ -55,9 +56,11 @@ public class RiskController {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
-                    model.setSelected(model.map.get(button.getActionCommand()));
-                    System.out.println("the first selected country is : "+ model.getFirstSelected());
-                    System.out.println("the second selected country is : "+ model.getSecondSelected());
+                    if(model.getState() == RiskModel.Phase.ATTACK) {
+                        model.setSelected(model.map.get(button.getActionCommand()));
+                        System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());
+                        System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState())+"\n--------------------------------------------");
+                    }
                 }
             });
         }
@@ -68,6 +71,8 @@ public class RiskController {
         public void actionPerformed(ActionEvent e) {
             model.pass();
             updatePlayerInfo(model.getPlayerOnGoing());
+            System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
+
         }
     }
 
@@ -84,16 +89,45 @@ public class RiskController {
         public void actionPerformed(ActionEvent e) {
             int num = 0;
             if(model.getState().equals(RiskModel.Phase.ATTACK )){
-                if(model.getFirstSelected().getTroopsNum() < 2){
-                    new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack");
+                if(model.getFirstSelected().getOwner() != model.getPlayerOnGoing())
+                {
+                    new JOptionPane().showMessageDialog(view, "You can only choose your own country to attack\n Please press [Attack] again and choose another one");
+                    model.releaseSelected();
+                    model.updateState(RiskModel.Phase.PENDING);
+
+                }
+                else if (model.getSecondSelected().getOwner() == model.getPlayerOnGoing())
+                {
+                    new JOptionPane().showMessageDialog(view, "You don't want to attack your own country\n Please press [Attack] again and choose another one\n");
+                    model.releaseSelected();
+                    model.updateState(RiskModel.Phase.PENDING);
+                }
+                else if (!model.getFirstSelected().getAdjacentCountries().contains(model.getSecondSelected()))
+                {
+                    new JOptionPane().showMessageDialog(view, "The two country you chosen is not adjacent to each other\n Please press [Attack] again and choose another one\n");
+                    model.releaseSelected();
+                    model.updateState(RiskModel.Phase.PENDING);
+                }
+                else if(model.getFirstSelected().getTroopsNum() < 2){
+                    new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack\n Please press [Attack] again and choose another one");
+                    model.releaseSelected();
+                    model.updateState(RiskModel.Phase.PENDING);
                     return;
                 }
+
                 num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-"+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
                 model.setAttackTroops(num);
-                if(model.attack()){
-                   num = Integer.parseInt(new JOptionPane().showInputDialog("how many troops you want to send to this country (1 - "+ (model.getFirstSelected().getTroopsNum()-1) + ")"));
-                   model.getFirstSelected().removeTroops(num);
-                   model.getSecondSelected().addTroops(num);
+                boolean result = model.attack();
+                new JOptionPane().showMessageDialog(view, model.printBattleResult());
+                if(result){
+                    num = 999;
+                    while(num>model.getSurvivedTroops() || num<1) {
+                        num = Integer.parseInt(new JOptionPane().showInputDialog("how many survived troops you want to send to "+ model.getSecondSelected().getCountryName()+"\n maximum "+model.getSurvivedTroops()+
+                                "minimum 1 \n The remaining troops will be sent back to their home land"+model.getFirstSelected().getCountryName()));
+                    }
+
+                    model.handleSurvivedTroops(num);
+
                 }
 
             }
@@ -107,6 +141,9 @@ public class RiskController {
         @Override
         public void actionPerformed(ActionEvent e) {
             model.updateState(RiskModel.Phase.ATTACK);
+            new JOptionPane().showMessageDialog(view, "Now please choose two countries\n First one being the country you want to use to Attack\n" +
+                    "Second one being the country you are intending to attack\n The country you are using to Attack need to have more than 1 troops on it\n " +
+                    "You can not attack your own country\n Press [Confirm] after selecting Attacking and Defending countries\n Good Luck");
         }
     }
 }

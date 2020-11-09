@@ -25,6 +25,8 @@ public class RiskModel {
     private int attackTroops = 0;
     private Country firstSelected = null;
     private Country secondSelected = null;
+    private String battleResult;
+    private int survivedTroops;
 
     /**
      * This constructor of Game
@@ -128,6 +130,7 @@ public class RiskModel {
         s += "[Attack]: can let you choose an enemy country to attack\n";
         s += "[Pass]: use this command to finish your turn\n";
         s += "[Confirm]: use this command when you have confirmed your attack\n";
+        s += "[Confirm]: use this command when you have confirmed your attack\n";
         return s;
     }
 
@@ -140,10 +143,28 @@ public class RiskModel {
         if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
         if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
 //        if(firstSelected.getTroopsNum() < 2) return false;
-        new Battle(firstSelected, secondSelected, attackTroops).fight();
+        Battle battle = new Battle(firstSelected, secondSelected, attackTroops);
+         battleResult = battle.fight();
+         survivedTroops =battle.getTroopSurvive();
         removePlayerWithNoCountry();
-        return true;
+        return battle.isAttackerWin();
     }
+
+    public int getSurvivedTroops() {
+        return survivedTroops;
+    }
+    public void handleSurvivedTroops(int num)
+    {
+
+        firstSelected.addTroops(getSurvivedTroops()-num);
+        secondSelected.addTroops(num);
+    }
+    public String printBattleResult()
+    {
+        return battleResult;
+    }
+
+
 
     /**
      * implementing for command "pass", to pass the turn from this player to next player
@@ -152,7 +173,11 @@ public class RiskModel {
         pass = true;
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
+        this.releaseSelected();
+        updateState(Phase.PENDING);
     }
+
+
 
 
     /**
@@ -669,7 +694,7 @@ public class RiskModel {
     public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";
-        s += "COUNTRY SELECTED \n" + country.getCountryName() +
+        s += "COUNTRY SELECTED \n" + country.printState() +
                 "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
                 country.printEnemyCountry();
         return s;

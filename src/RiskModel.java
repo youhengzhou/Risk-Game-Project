@@ -147,18 +147,39 @@ public class RiskModel {
         return true;
     }
 
+    /**
+     * set attackWin is false 
+     */
     public void iniAttackWin(){attackWin = false;}
+    
+    /**
+     * check if the attacker win
+     *@return attackwin
+     */
     public boolean getAttackWin(){return attackWin;}
-
+    
+    /**
+     * get the number of the survied troops
+     *@return the surviedTroops 
+     */
     public int getSurvivedTroops() {
         return survivedTroops;
     }
+    
+    /**
+     * make the player choose how many troops they want to move to the new country after attack
+     */
     public void handleSurvivedTroops(int num)
     {
 
         firstSelected.addTroops(getSurvivedTroops()-num);
         secondSelected.addTroops(num);
     }
+    
+    /**
+     * print out the battle result
+     *@return battle result
+     */
     public String printBattleResult()
     {
         return battleResult;
@@ -510,6 +531,9 @@ public class RiskModel {
         return num >= 2 && num <= 6;
     }
 
+    /**
+     * make the player insert how many of then are playing the game, if not in the range, ask the player again
+     */
     public void showDialog(){
         int num = 0;
         do{
@@ -612,37 +636,73 @@ public class RiskModel {
         }
     }
 
+    /**
+     *set the number of the players in this game
+     */
     public void setPlayerOnGoing(Player p){this.playerOnGoing = p;}
 
+    /**
+     * get the number of the players
+     *@return the number of players 
+     */
     public int getNumOfPlayer() {
         return this.numOfPlayer;
     }
 
+    
+    /**
+     * get the number of the players if chnaged
+     *@return the new number of players 
+     */
     public Player getPlayerOnGoing() {
         return this.playerOnGoing;
     }
-
+ 
+    
+    /**
+     * get the first selected country
+     *@return the first selected country
+     */
     public Country getFirstSelected() {
         return firstSelected;
     }
 
+     /**
+     * get the second selected country
+     *@return the second selected country
+     */
     public Country getSecondSelected() {
         return secondSelected;
     }
 
+     /**
+     * release the first and second selected country
+     */
     public void releaseSelected(){
         this.firstSelected = null;
         this.secondSelected = null;
     }
 
+     /**
+     * update the state of the countries 
+     */
     public void updateState(Phase phase) {
         this.State = phase;
     }
 
+     /**
+     * get the state of the countries 
+     *@return the state
+     */
     public Phase getState() {
         return this.State;
     }
 
+     /**
+     * check if the attacker's troops number is smaller than the the country that get attack
+     *@return true if yes
+     *@return false if no
+     */
     public boolean setAttackTroops(int num) {
         if (num < firstSelected.getTroopsNum()) {
             this.attackTroops = num;
@@ -651,6 +711,9 @@ public class RiskModel {
         return false;
     }
 
+     /**
+     * set the attacked country under by new owner if the new owner won 
+     */
     public void setSelected(Country country) {
         if (!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)) {
             firstSelected = country;
@@ -661,6 +724,9 @@ public class RiskModel {
         }
     }
 
+     /**
+     * assign the buttons under the countries on the map
+     */
     public void assignButtonToCountry(JButton button) {
         String countryName = button.getActionCommand();
         Country c = map.get(countryName);
@@ -669,7 +735,9 @@ public class RiskModel {
         c.addButton(button);
     }
 
-
+    /**
+     * get the country's name and print out the enemy country 
+     */
     public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";

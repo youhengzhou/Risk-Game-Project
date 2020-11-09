@@ -27,6 +27,9 @@ public class RiskView extends JFrame {
 
     private ArrayList<JButton> buttonList;
 
+    /**
+     * Constructor for RiskView
+     */
     public RiskView (){
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,33 +109,66 @@ public class RiskView extends JFrame {
         this.pack();
     }
 
+    /**
+     * get countries information
+     *@return counrties own text
+     */
     public JTextArea getCountriesOwnText(){
         return this.countriesOwnText;
     }
 
+    /**
+     * get adjacent countries information
+     */
     public void  modifyAdjacentCountriesText(String s){
         adjacentCountriesText.setText(s);
     }
 
+    /**
+     * get countries name
+     *@return namepane
+     */
     public JTextPane getNamePane() {
         return namePane;
     }
 
+    /**
+     * get the list of countries buttons 
+     * @return countries buttons' list
+     */
     public ArrayList<JButton> getButtonList(){return this.buttonList;}
 
+    /**
+     * add pass button listener
+     */
     public void addPassButtonListener(ActionListener al){this.passButton.addActionListener(al);}
 
+    /**
+     * add help button listener
+     */
     public void addHelpButtonListener(ActionListener al){this.helpButton.addActionListener(al);}
 
+    /**
+     * add confirm button listener
+     */
     public void addConfirmButtonListener(ActionListener al){this.confirmButton.addActionListener(al);}
 
+    /**
+     * add attack button listener
+     */
     public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
 
+    /**
+     * show help information
+     */
     public void showHelp(String s){
         JOptionPane pane = new JOptionPane();
         pane.showMessageDialog(this,s);
     }
 
+    /**
+     * initialize the buttons for all the countries 
+     */
     public void initializeButtons(ArrayList<JButton> buttonList){
         //North America buttons
         JButton alaskaButton = new JButton("");
@@ -395,6 +431,10 @@ public class RiskView extends JFrame {
         imagePanel.setPreferredSize(new Dimension(900, 750));
     }
 }
+
+     /**
+     * insert the risk map in the system
+     */
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
 
@@ -411,6 +451,9 @@ class CustomPanel extends JPanel{
         }
     }
 
+    /**
+     * set the map image in the window
+     */
     @Override
     protected void paintComponent(Graphics g)
     {

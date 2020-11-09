@@ -30,11 +30,19 @@ public class Player {
     public void addCountry(Country country) {
         this.countriesOwn.add(country);
     }
+    
+    /**
+    *Add color to the player's color
+    */
     public void addColor(Color c)
     {
         color = c;
     }
 
+    /**
+    *Get color of the player
+    *@return color
+    */
     public Color getColor() {
         return color;
     }

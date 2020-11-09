@@ -78,10 +78,18 @@ public class Battle {
         return battleResult;
     }
 
+    /*
+    *Get the TroopSurvive number 
+    *@return TroopSurvive
+    */
     public int getTroopSurvive() {
         return troopSurvive;
     }
 
+    /*
+    *Check if the attacker win the battle, if true the attacker win, if false the attacker lose 
+    *@return isAttackerWin the game
+    */
     public boolean isAttackerWin()
     {
         return isAttackerWin;

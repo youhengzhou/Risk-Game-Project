@@ -111,6 +111,10 @@ public class Country {
         return adjacentCountries;
     }
 
+    /**
+    *Get the list of the countries' buttons
+    *@return countries' button
+    */
     public JButton getCountryButton(){
         return this.countryButton;
     }

@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public class RiskView extends JFrame {
 
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    private static final Dimension screenSize = tk.getScreenSize();
-
     private CustomPanel imagePanel;
     private JPanel textPanel;
     private JPanel buttonPanel;
@@ -28,11 +25,11 @@ public class RiskView extends JFrame {
     private JButton helpButton;
     private JButton confirmButton;
 
-    private JButton testButton;
-    private JPanel testPanel;
-
     private ArrayList<JButton> buttonList;
 
+    /**
+     * Constructor for RiskView
+     */
     public RiskView (){
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,14 +92,84 @@ public class RiskView extends JFrame {
         buttonPanel.add(passButton);
         buttonPanel.add(confirmButton);
 
-
+        //initializing buttons
+        initializeButtons(buttonList);
 
         //setup test Button
         imagePanel.setLayout(null);
 
+        this.add(consoleScrollPane, BorderLayout.WEST);
+        this.add(imagePanel, BorderLayout.CENTER);
+        this.add(textPanel, BorderLayout.EAST);
+        this.add(buttonPanel, BorderLayout.SOUTH);
 
+        this.setPreferredSize(new Dimension(frameSize_Width,frameSize_Height));
+        this.setLocationByPlatform(true);
+        this.setVisible(true);
+        this.pack();
+    }
 
+    /**
+     * get countries information
+     *@return counrties own text
+     */
+    public JTextArea getCountriesOwnText(){
+        return this.countriesOwnText;
+    }
 
+    /**
+     * get adjacent countries information
+     */
+    public void  modifyAdjacentCountriesText(String s){
+        adjacentCountriesText.setText(s);
+    }
+
+    /**
+     * get countries name
+     *@return namepane
+     */
+    public JTextPane getNamePane() {
+        return namePane;
+    }
+
+    /**
+     * get the list of countries buttons 
+     * @return countries buttons' list
+     */
+    public ArrayList<JButton> getButtonList(){return this.buttonList;}
+
+    /**
+     * add pass button listener
+     */
+    public void addPassButtonListener(ActionListener al){this.passButton.addActionListener(al);}
+
+    /**
+     * add help button listener
+     */
+    public void addHelpButtonListener(ActionListener al){this.helpButton.addActionListener(al);}
+
+    /**
+     * add confirm button listener
+     */
+    public void addConfirmButtonListener(ActionListener al){this.confirmButton.addActionListener(al);}
+
+    /**
+     * add attack button listener
+     */
+    public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
+
+    /**
+     * show help information
+     */
+    public void showHelp(String s){
+        JOptionPane pane = new JOptionPane();
+        pane.showMessageDialog(this,s);
+    }
+
+    /**
+     * initialize the buttons for all the countries 
+     */
+    public void initializeButtons(ArrayList<JButton> buttonList){
         //North America buttons
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
@@ -362,62 +429,12 @@ public class RiskView extends JFrame {
         buttonList.add(westernaustraliaButton);
 
         imagePanel.setPreferredSize(new Dimension(900, 750));
-
-        //seting background
-//        testPanel = new JPanel();
-//        testPanel.setLayout(null);
-//        ImageIcon img=new ImageIcon("Risk-Game-Project\\src\\risk_map_withname.png");
-//        JLabel backGround=new JLabel("",img,JLabel.CENTER);
-//        backGround.setBounds(0,0,1000,1000);
-//        testPanel.add(backGround);
-//        this.add(testPanel,BorderLayout.CENTER);
-//        setLayout(null);
-//        setSize(1000,1000);
-//        setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        ImageIcon img = new ImageIcon("C:\\Users\\finnh\\Desktop\\retake SYSC 3110\\Risk-Game-Project\\src\\RiskMap.jpg");
-//        JLabel back=new JLabel("",img,JLabel.CENTER);
-//        back.setBounds(0,0,1000,1000);;
-
-        this.add(consoleScrollPane, BorderLayout.WEST);
-        this.add(imagePanel, BorderLayout.CENTER);
-        this.add(textPanel, BorderLayout.EAST);
-        this.add(buttonPanel, BorderLayout.SOUTH);
-
-        this.setPreferredSize(new Dimension(frameSize_Width,frameSize_Height));
-        this.setLocationByPlatform(true);
-        this.setVisible(true);
-        this.pack();
-    }
-
-    public JTextArea getCountriesOwnText(){
-        return this.countriesOwnText;
-    }
-
-    public void  modifyAdjacentCountriesText(String s){
-        adjacentCountriesText.setText(s);
-    }
-
-    public JTextPane getNamePane() {
-        return namePane;
-    }
-
-    public ArrayList<JButton> getButtonList(){return this.buttonList;}
-
-    //public void addTestListener(ActionListener actionListener){this.testButton.addActionListener(actionListener);}
-
-    public void addPassButtonListener(ActionListener al){this.passButton.addActionListener(al);}
-
-    public void addHelpButtonListener(ActionListener al){this.helpButton.addActionListener(al);}
-
-    public void addConfirmButtonListener(ActionListener al){this.confirmButton.addActionListener(al);}
-
-    public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
-
-    public void showHelp(String s){
-        JOptionPane pane = new JOptionPane();
-        pane.showMessageDialog(this,s);
     }
 }
+
+     /**
+     * insert the risk map in the system
+     */
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
 
@@ -434,17 +451,15 @@ class CustomPanel extends JPanel{
         }
     }
 
+    /**
+     * set the map image in the window
+     */
     @Override
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
-    }
-
-    public ArrayList<JButton> getButtonList() {
-        ArrayList buttonList = new ArrayList<>();
-        return buttonList;
     }
 }
 

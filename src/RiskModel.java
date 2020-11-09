@@ -20,13 +20,13 @@ public class RiskModel {
     private int initialTroops = 0;
     public HashMap<String, Country> map;
     int playerIndex;
-    boolean pass;
-    boolean finished = false;
     private int attackTroops = 0;
     private Country firstSelected = null;
     private Country secondSelected = null;
     private String battleResult;
     private int survivedTroops;
+
+    private boolean attackWin = false;
 
     /**
      * This constructor of Game
@@ -39,7 +39,6 @@ public class RiskModel {
 
         initCountries();
         createPlayer();
-        pass = false;
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
@@ -54,20 +53,10 @@ public class RiskModel {
         this.setNumOfPlayer(num);
         initCountries();
         createPlayer();
-        pass = false;
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
         randomAssignTroops();
-    }
-
-    /**
-     * create a new Game instance
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        RiskModel riskModel = new RiskModel();
     }
 
     /**
@@ -76,7 +65,7 @@ public class RiskModel {
      * @return boolean return true if there's winner in the game, false if there are no winner yet
      */
     public boolean hasWinner() {
-        return players.size() <= 1;
+        return players.size() <= 2;
     }
 
     /**
@@ -101,7 +90,6 @@ public class RiskModel {
         players.remove(beRemovedPlayer);
         if (players.size() == 1) {
             System.out.println("The winner is " + players.get(0).getName());
-            finished = true;
         }
     }
 
@@ -123,13 +111,12 @@ public class RiskModel {
         String s = "";
         s += "You are a General. You are leading your army to conquer the world!\n";
         s += "You can pick the country with your colors, shown on the upper right\n";
-        s += "After selecting your country, select the attack button, and click on an adjacent country to attack\n";
+        s += "After selecting the attack button, select your country, and click on an adjacent country to attack\n";
         s += "Then select the confirm button to finalize it, are you ready General?\n";
         s += "You have the following command buttons: \n";
         s += "[Help]: bring up this pop-up window to show you how to play again\n";
         s += "[Attack]: can let you choose an enemy country to attack\n";
         s += "[Pass]: use this command to finish your turn\n";
-        s += "[Confirm]: use this command when you have confirmed your attack\n";
         s += "[Confirm]: use this command when you have confirmed your attack\n";
         return s;
     }
@@ -138,57 +125,74 @@ public class RiskModel {
      * attack from one country to another country
      */
     public boolean attack() {
-        //setAttackTroops(firstSelected.getTroopsNum()-1);
-        if (firstSelected.equals(null) || secondSelected.equals(null)) return false;
-        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) return false;
-        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) return false;
-//        if(firstSelected.getTroopsNum() < 2) return false;
+        if (firstSelected == null || secondSelected == null) {
+            System.out.println("return false here");
+            return false;
+        }
+        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)){
+            System.out.println("return false");
+            return false;
+        }
+        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) {
+            System.out.println("return ");
+            return false;
+        }
+        if(firstSelected.getTroopsNum() < 2) return false;
         Battle battle = new Battle(firstSelected, secondSelected, attackTroops);
+
          battleResult = battle.fight();
+        this.attackWin = battle.isAttackerWin();
          survivedTroops =battle.getTroopSurvive();
         removePlayerWithNoCountry();
-        return battle.isAttackerWin();
+        return true;
     }
 
+    /**
+     * set attackWin is false 
+     */
+    public void iniAttackWin(){attackWin = false;}
+    
+    /**
+     * check if the attacker win
+     *@return attackwin
+     */
+    public boolean getAttackWin(){return attackWin;}
+    
+    /**
+     * get the number of the survied troops
+     *@return the surviedTroops 
+     */
     public int getSurvivedTroops() {
         return survivedTroops;
     }
+    
+    /**
+     * make the player choose how many troops they want to move to the new country after attack
+     */
     public void handleSurvivedTroops(int num)
     {
 
         firstSelected.addTroops(getSurvivedTroops()-num);
         secondSelected.addTroops(num);
     }
+    
+    /**
+     * print out the battle result
+     *@return battle result
+     */
     public String printBattleResult()
     {
         return battleResult;
     }
 
-
-
     /**
      * implementing for command "pass", to pass the turn from this player to next player
      */
     public void pass() {
-        pass = true;
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
         this.releaseSelected();
         updateState(Phase.PENDING);
-    }
-
-
-
-
-    /**
-     * print the state of all the players,including their name, their country, and troops on the country.
-     */
-    private void printState() {
-        StringBuilder s = new StringBuilder();
-        for (Player player : players) {
-            s.append(player.getStatus());
-        }
-        System.out.println(s);
     }
 
     /**
@@ -528,19 +532,21 @@ public class RiskModel {
         return num >= 2 && num <= 6;
     }
 
+    /**
+     * make the player insert how many of then are playing the game, if not in the range, ask the player again
+     */
     public void showDialog(){
         int num = 0;
         do{
             num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player (between 2 to 6)"));
-        } while(num < 2 || num > 6);
+        }while(num < 2 || num > 6);
         setNumOfPlayer(num);
     }
 
     /**
      * set the number of players in the game and decide how many troops should each one of them have.
      */
-    public boolean setNumOfPlayer(int num) {
-
+    private boolean setNumOfPlayer(int num) {
         if (!isValidNum(num)) return false;
         this.numOfPlayer = num;
         switch (this.numOfPlayer) {
@@ -579,7 +585,6 @@ public class RiskModel {
      * randomly assign players with their initial country, and assign country with their owner.
      */
     public void randomAssignCountry() {
-
         //randomly assign Country-Owner pairs
         Set<String> keySet = map.keySet();
         ArrayList<String> keyList = new ArrayList<>(); //convert to List structure in order to use .shuffle method in Collection.
@@ -595,7 +600,6 @@ public class RiskModel {
                 } catch (Exception e) {
                     break;
                 }
-
                 countrytemp.changeOwner(p);
                 p.addCountry(countrytemp);
                 listIndex++; //increment to access the next element in keyList.
@@ -633,37 +637,73 @@ public class RiskModel {
         }
     }
 
+    /**
+     *set the number of the players in this game
+     */
     public void setPlayerOnGoing(Player p){this.playerOnGoing = p;}
 
+    /**
+     * get the number of the players
+     *@return the number of players 
+     */
     public int getNumOfPlayer() {
         return this.numOfPlayer;
     }
 
+    
+    /**
+     * get the number of the players if chnaged
+     *@return the new number of players 
+     */
     public Player getPlayerOnGoing() {
         return this.playerOnGoing;
     }
-
+ 
+    
+    /**
+     * get the first selected country
+     *@return the first selected country
+     */
     public Country getFirstSelected() {
         return firstSelected;
     }
 
+     /**
+     * get the second selected country
+     *@return the second selected country
+     */
     public Country getSecondSelected() {
         return secondSelected;
     }
 
+     /**
+     * release the first and second selected country
+     */
     public void releaseSelected(){
         this.firstSelected = null;
         this.secondSelected = null;
     }
 
+     /**
+     * update the state of the countries 
+     */
     public void updateState(Phase phase) {
         this.State = phase;
     }
 
+     /**
+     * get the state of the countries 
+     *@return the state
+     */
     public Phase getState() {
         return this.State;
     }
 
+     /**
+     * check if the attacker's troops number is smaller than the the country that get attack
+     *@return true if yes
+     *@return false if no
+     */
     public boolean setAttackTroops(int num) {
         if (num < firstSelected.getTroopsNum()) {
             this.attackTroops = num;
@@ -672,6 +712,9 @@ public class RiskModel {
         return false;
     }
 
+     /**
+     * set the attacked country under by new owner if the new owner won 
+     */
     public void setSelected(Country country) {
         if (!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)) {
             firstSelected = country;
@@ -682,8 +725,10 @@ public class RiskModel {
         }
     }
 
+     /**
+     * assign the buttons under the countries on the map
+     */
     public void assignButtonToCountry(JButton button) {
-
         String countryName = button.getActionCommand();
         Country c = map.get(countryName);
 
@@ -691,7 +736,9 @@ public class RiskModel {
         c.addButton(button);
     }
 
-
+    /**
+     * get the country's name and print out the enemy country 
+     */
     public String handleCountryButton(String countryName) {
         Country country = map.get(countryName);
         String s = "";

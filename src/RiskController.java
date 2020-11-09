@@ -94,19 +94,21 @@ public class RiskController {
                     new JOptionPane().showMessageDialog(view, "You can only choose your own country to attack\n Please press [Attack] again and choose another one");
                     model.releaseSelected();
                     model.updateState(RiskModel.Phase.PENDING);
-
+                    return;
                 }
                 else if (model.getSecondSelected().getOwner() == model.getPlayerOnGoing())
                 {
                     new JOptionPane().showMessageDialog(view, "You don't want to attack your own country\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
                     model.updateState(RiskModel.Phase.PENDING);
+                    return;
                 }
                 else if (!model.getFirstSelected().getAdjacentCountries().contains(model.getSecondSelected()))
                 {
                     new JOptionPane().showMessageDialog(view, "The two country you chosen is not adjacent to each other\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
                     model.updateState(RiskModel.Phase.PENDING);
+                    return;
                 }
                 else if(model.getFirstSelected().getTroopsNum() < 2){
                     new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack\n Please press [Attack] again and choose another one");
@@ -130,6 +132,10 @@ public class RiskController {
 
                 }
 
+            }
+            if(model.hasWinner()){
+                new JOptionPane().showMessageDialog(view,"The game is end, the WINNER is: "+ model.getPlayerOnGoing());
+                System.exit(0);
             }
             updatePlayerInfo(model.getPlayerOnGoing());
             model.releaseSelected();

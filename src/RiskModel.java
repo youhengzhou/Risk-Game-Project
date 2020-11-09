@@ -20,7 +20,6 @@ public class RiskModel {
     private int initialTroops = 0;
     public HashMap<String, Country> map;
     int playerIndex;
-    boolean pass;
     boolean finished = false;
     private int attackTroops = 0;
     private Country firstSelected = null;
@@ -39,7 +38,6 @@ public class RiskModel {
 
         initCountries();
         createPlayer();
-        pass = false;
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
@@ -54,7 +52,6 @@ public class RiskModel {
         this.setNumOfPlayer(num);
         initCountries();
         createPlayer();
-        pass = false;
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
@@ -76,7 +73,7 @@ public class RiskModel {
      * @return boolean return true if there's winner in the game, false if there are no winner yet
      */
     public boolean hasWinner() {
-        return players.size() <= 1;
+        return players.size() <= 2;
     }
 
     /**
@@ -130,7 +127,6 @@ public class RiskModel {
         s += "[Attack]: can let you choose an enemy country to attack\n";
         s += "[Pass]: use this command to finish your turn\n";
         s += "[Confirm]: use this command when you have confirmed your attack\n";
-        s += "[Confirm]: use this command when you have confirmed your attack\n";
         return s;
     }
 
@@ -170,7 +166,6 @@ public class RiskModel {
      * implementing for command "pass", to pass the turn from this player to next player
      */
     public void pass() {
-        pass = true;
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
         this.releaseSelected();

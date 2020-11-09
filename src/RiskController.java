@@ -6,6 +6,10 @@ public class RiskController {
     private RiskModel model;
     private RiskView view;
 
+    /**
+     * Constructor for RiskController
+     *initializing view, model, playerinfo, buttonlistener, buttoninfo
+     */
     public RiskController(RiskModel model, RiskView view) {
         this.view = view;
         this.model = model;
@@ -19,6 +23,10 @@ public class RiskController {
         view.addPassButtonListener(new passButtonListener());
     }
 
+    /**
+     *This is the main function
+     *@param args
+     */
     public static void main(String[] args) {
         RiskView view = new RiskView();
         RiskModel riskModel = new RiskModel();
@@ -29,12 +37,19 @@ public class RiskController {
 
     }
 
+    /**
+     * Set buttoninfo, show the button list to the player so they can see it in the window
+     */
     public void setButtonInfo() {
         for (JButton button : view.getButtonList()) {
             model.assignButtonToCountry(button);
         }
     }
 
+    /**
+     * Set the bumber of the player
+     * the number of the player should bigger than 2 and smaller that 6
+     */
     public void setNumOfPlayer() {
         int num = 0;
         do {
@@ -42,6 +57,10 @@ public class RiskController {
         } while (num < 2 || num > 6);
     }
 
+    /**
+     * Show out the player's information in the window
+     * player's name and the contries they own
+     */
     public void updatePlayerInfo(Player player) {
         view.getNamePane().setBackground(player.getColor());
 
@@ -49,6 +68,10 @@ public class RiskController {
         view.getCountriesOwnText().setText("Countries You Own:\n" + player.getAvailableCountries());
     }
 
+    /**
+     * Add button listener to attack countries
+     * print out the information of the country that get attacked
+     */
     public void addButtonListener() {
         for (JButton button : view.getButtonList()) {
             button.addActionListener(new ActionListener() {
@@ -65,6 +88,9 @@ public class RiskController {
         }
     }
 
+    /**
+     * Get player's action then print out the informaiton by using the updateplayerinfo
+     */
     class passButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -75,6 +101,9 @@ public class RiskController {
         }
     }
 
+    /**
+     * Print out the help information if the player press the help button
+     */
     class helpButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -82,6 +111,10 @@ public class RiskController {
         }
     }
 
+    /**
+     * Check if the player choose the country match all the conditions print out a comment if don't match
+     * if the chountry matchs every condition, choose the troops number to attack it, then the system will give the winer
+     */
     class confirmButtonListener implements ActionListener {
 
         @Override
@@ -134,6 +167,9 @@ public class RiskController {
         }
     }
 
+    /**
+     * Choose the country that the player wants to use to attack 
+     */
     class attackButtonListener implements ActionListener {
 
         @Override

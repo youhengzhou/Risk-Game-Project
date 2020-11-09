@@ -47,19 +47,6 @@ public class Player {
     }
 
     /**
-    * get all the countries names from the countriesOwn array list
-    * @ return a list of the owner's countries
-    */
-    public String getStatus() {
-        String s = "";
-        s += "Player: " + this.name + " has countries:\n";
-        for (Country country : countriesOwn) {
-            s += "  " + country.printState() + "\n";
-        }
-        return s + "\n";
-    }
-
-    /**
     * @ return countriesOwn array list 
     */
     public List<Country> getCountriesOwn() { // helper method used for getting all the available countries in a printable list for the player
@@ -88,5 +75,6 @@ public class Player {
         return name;
     }
 
+    //for test
     public void clear(){this.countriesOwn.clear();}
 }

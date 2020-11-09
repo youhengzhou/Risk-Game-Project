@@ -20,7 +20,6 @@ public class RiskModel {
     private int initialTroops = 0;
     public HashMap<String, Country> map;
     int playerIndex;
-    boolean finished = false;
     private int attackTroops = 0;
     private Country firstSelected = null;
     private Country secondSelected = null;
@@ -61,15 +60,6 @@ public class RiskModel {
     }
 
     /**
-     * create a new Game instance
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        RiskModel riskModel = new RiskModel();
-    }
-
-    /**
      * Method tells us if the game has a winner
      *
      * @return boolean return true if there's winner in the game, false if there are no winner yet
@@ -100,7 +90,6 @@ public class RiskModel {
         players.remove(beRemovedPlayer);
         if (players.size() == 1) {
             System.out.println("The winner is " + players.get(0).getName());
-            finished = true;
         }
     }
 

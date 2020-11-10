@@ -13,6 +13,8 @@ For the second milestone of the project, we have the deliverables of a readme fi
 
 We have made the necessary changes to our UML diagrams which included the newly made RiskView and RiskController classes. We have also updated our previous Game class into the new RiskModel class.
 
+We also took the feedback from last time to heart, and started wording our commit messages more carefully, and have also checked our new UML diagram in detail, to make sure our links between classes are correct
+
 Known Bug:
 
 

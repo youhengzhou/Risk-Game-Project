@@ -11,6 +11,10 @@ This game is written in Java with a team of four students using IntelliJ IDEA wi
 
 For the second milestone of the project, we have the deliverables of a readme file, UML and sequence diagrams, a test class for testing our java code, our up to date version of the Risk game with the View and the Controller, and also plenty of java documentation embedded inside the java classes.
 
+We kept the Battle.java, Country.java, Dice.java, and Player.java from milestone 1.
+
+We changed Game.java into RiskController.java, and added RiskModel.java, RiskModelTest.java, and RiskView.java.
+
 We have made the necessary changes to our UML diagrams which included the newly made RiskView and RiskController classes. We have also updated our previous Game class into the new RiskModel class.
 
 By using MVC programming techniques, we were able to create a separate GUI from our main classes, that can display our information of the game, and including sending and receiving events from our JButtons, which are present on our JPanels on our GUI. In addition, we created several test cases featured in RiskModelTest.java, which can test whether our project so far works or not.

@@ -26,6 +26,6 @@ We also took the feedback from last time to heart, and started wording our commi
 For the road ahead, we hope to increase elements of userfriendliness, and flesh out the army placement and troop placement phase of the game.
 
 Known Bugs:
-the game still cannot finish because we cannot redraft troops from territory to territory
+the game still cannot finish because we cannot redraft troops, and move troops from territory to territory
 
 

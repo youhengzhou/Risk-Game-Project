@@ -15,6 +15,8 @@ We kept the Battle.java, Country.java, Dice.java, and Player.java from milestone
 
 We changed Game.java into RiskController.java, and added RiskModel.java, RiskModelTest.java, and RiskView.java.
 
+The RiskController.java, from Game.java serve as the logic behind our game, while RiskView displays the necessary GUI elements to the user, and using RiskController to call and receive informations about the JButton GUI events.
+
 We have made the necessary changes to our UML diagrams which included the newly made RiskView and RiskController classes. We have also updated our previous Game class into the new RiskModel class.
 
 By using MVC programming techniques, we were able to create a separate GUI from our main classes, that can display our information of the game, and including sending and receiving events from our JButtons, which are present on our JPanels on our GUI. In addition, we created several test cases featured in RiskModelTest.java, which can test whether our project so far works or not.

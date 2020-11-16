@@ -1,7 +1,5 @@
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class RiskModelTest {
@@ -11,14 +9,14 @@ public class RiskModelTest {
 
     @Test
     public void randomAssignCountry() {
-       for(Country c:  model.map.values()){
+       for(Country c:  model.gameMap.map.values()){
            assertEquals(true,c.hasOwner());
        }
     }
 
     @Test
     public void randomAssignTroops() {
-        for(Country c:  model.map.values()){
+        for(Country c:  model.gameMap.map.values()){
             assertEquals(true,c.getTroopsNum() != 0);
         }
     }
@@ -38,10 +36,10 @@ public class RiskModelTest {
         Player p2 = new Player("p2");
 
         model.setPlayerOnGoing(p1);
-        Country country1 = model.map.get("india");
+        Country country1 = model.gameMap.map.get("india");
         p1.addCountry(country1);
         country1.setTroopsNum(1);
-        Country country2 = model.map.get("siam");
+        Country country2 = model.gameMap.map.get("siam");
         p2.addCountry(country2);
 
         country1.changeOwner(p1);
@@ -64,7 +62,7 @@ public class RiskModelTest {
         assertEquals(true,model.attack());
         System.out.println(model.printBattleResult());
 
-        Country country3 = model.map.get("japan");
+        Country country3 = model.gameMap.map.get("japan");
         p2.addCountry(country3);
         model.setSelected(country3);
         assertEquals(false,model.attack()); // test when the Country you are attacking is not your adjacentCountry

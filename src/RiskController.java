@@ -79,7 +79,7 @@ public class RiskController {
                 public void actionPerformed(ActionEvent e) {
                     view.modifyAdjacentCountriesText(model.handleCountryButton(button.getActionCommand()));
                     if (model.getState() == RiskModel.Phase.ATTACK) {
-                        model.setSelected(model.map.get(button.getActionCommand()));
+                        model.setSelected(model.gameMap.map.get(button.getActionCommand()));
                         System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());
                         System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState()) + "\n--------------------------------------------");
                     }

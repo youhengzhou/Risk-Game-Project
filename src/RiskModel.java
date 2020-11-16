@@ -10,7 +10,7 @@ import java.util.List;
  * @auther Avengers
  * @since 2020-10-25
  */
-public class RiskModel {
+public class RiskModel implements RiskModelObervable {
 
     public static enum Phase {PENDING, ATTACK, RESIGN, FORTIFY, DRAFTING}
     private Phase State;
@@ -124,6 +124,7 @@ public class RiskModel {
     /**
      * attack from one country to another country
      */
+    @Override
     public boolean attack() {
         if (firstSelected == null || secondSelected == null) {
             System.out.println("return false here");
@@ -150,12 +151,14 @@ public class RiskModel {
     /**
      * set attackWin is false 
      */
+    @Override
     public void iniAttackWin(){attackWin = false;}
     
     /**
      * check if the attacker win
      *@return attackwin
      */
+    @Override
     public boolean getAttackWin(){return attackWin;}
     
     /**

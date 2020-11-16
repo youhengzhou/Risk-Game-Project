@@ -1,3 +1,5 @@
+import jdk.internal.jimage.ImageStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -27,6 +29,7 @@ public class RiskModel {
     private Country secondSelected = null;
     private String battleResult;
     private int survivedTroops;
+    private List<RiskView> views;
 
     /**
      * This constructor of Game
@@ -36,6 +39,7 @@ public class RiskModel {
         map = new HashMap<>();
         this.State = Phase.PENDING;
         showDialog();
+        views=new ArrayList<RiskView>();
 
         initCountries();
         createPlayer();
@@ -61,13 +65,8 @@ public class RiskModel {
         randomAssignTroops();
     }
 
-    /**
-     * create a new Game instance
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        RiskModel riskModel = new RiskModel();
+    public void addView(RiskView view){
+        views.add(view);
     }
 
     /**

@@ -23,6 +23,8 @@ public class RiskController {
         RiskView view = new RiskView();
         RiskModel riskModel = new RiskModel();
 
+        riskModel.addView(view);
+
         RiskController controller = new RiskController(riskModel, view);
         view.showHelp(riskModel.printHelp());
         System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");

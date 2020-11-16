@@ -16,7 +16,7 @@ public class RiskView extends JFrame {
     private CustomPanel imagePanel;
     private JPanel textPanel;
     private JPanel buttonPanel;
-    private JTextArea countriesOwnText;
+    private CountryOwnTextArea countriesOwnText;
     private JTextArea adjacentCountriesText;
     private JTextArea consoleText;
     private JTextPane namePane;
@@ -43,7 +43,7 @@ public class RiskView extends JFrame {
         this.buttonList = new Buttons(imagePanel);
         this.textPanel = new JPanel();
         this.buttonPanel = new JPanel();
-        this.countriesOwnText = new JTextArea("",10,1);
+        this.countriesOwnText = new CountryOwnTextArea();
         this.adjacentCountriesText = new JTextArea("",5,1);
         this.consoleText = new JTextArea();
         this.attackButton = new JButton("ATTACK");
@@ -72,8 +72,7 @@ public class RiskView extends JFrame {
         consoleScrollPane.setPreferredSize(new Dimension(frameSize_Width/7, frameSize_Height/7));
 
         //setup for textPanel
-        countriesOwnText.setFont(new Font("Consolas", Font.BOLD, 15));
-        countriesOwnText.setEditable(false);
+
         adjacentCountriesText.setFont(new Font("Consolas", Font.BOLD, 15));
         adjacentCountriesText.setEditable(false);
         textPanel.setLayout(new BorderLayout());
@@ -127,7 +126,7 @@ public class RiskView extends JFrame {
      * get countries information
      *@return counrties own text
      */
-    public JTextArea getCountriesOwnText(){
+    public RiskModelListener getCountriesOwnText(){
         return this.countriesOwnText;
     }
 

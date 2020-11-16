@@ -33,6 +33,7 @@ public class RiskController {
         RiskView view = new RiskView();
 
         RiskModel riskModel = new RiskModel(view.getNumOfPlayer());
+        riskModel.addRiskModelListener(view.getCountriesOwnText());
 
 
         RiskController controller = new RiskController(riskModel, view);
@@ -59,7 +60,7 @@ public class RiskController {
         view.getNamePane().setBackground(player.getColor());
 
         view.getNamePane().setText("Current Player: " + player.getName());
-        view.getCountriesOwnText().setText("Countries You Own:\n" + player.getAvailableCountries());
+        //view.getCountriesOwnText().setText("Countries You Own:\n" + player.getAvailableCountries());
     }
 
     /**
@@ -149,11 +150,11 @@ public class RiskController {
                 new JOptionPane().showMessageDialog(view, model.printBattleResult());
                 if (model.getAttackWin()) {
                     num = 999;
-                    isNumeric = false;
+
                     while (num > model.getSurvivedTroops() || num < 1) {
                         String numberStr = new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
                                 "minimum 1 \n The remaining troops will be sent back to their home land" + model.getFirstSelected().getCountryName());
-                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+
                         if(!isNumeric) continue;
                         num = Integer.parseInt(numberStr);
                     }
@@ -184,6 +185,7 @@ public class RiskController {
                     "You can not attack your own country\n Press [Confirm] after selecting Attacking and Defending countries\n Good Luck");
         }
     }
+
 
 
 

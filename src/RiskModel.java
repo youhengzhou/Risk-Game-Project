@@ -25,6 +25,7 @@ public class RiskModel {
     private Country secondSelected = null;
     private String battleResult;
     private int survivedTroops;
+    private List<RiskModelListener> modelListeners;
 
     private boolean attackWin = false;
 
@@ -38,6 +39,7 @@ public class RiskModel {
         createPlayer();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
+        modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
     }
@@ -49,11 +51,10 @@ public class RiskModel {
         gameMap = new WorldMap();
         this.State = Phase.PENDING;
         this.setNumOfPlayer(num);
-
         createPlayer();
         playerIndex = 0;
-
         playerOnGoing = players.get(playerIndex % numOfPlayer);
+        modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
     }
@@ -150,6 +151,19 @@ public class RiskModel {
      * set attackWin is false 
      */
     public void iniAttackWin(){attackWin = false;}
+
+    public void addRiskModelListener(RiskModelListener rml)
+    {
+        modelListeners.add(rml);
+    }
+
+    public void updateModelListeners()
+    {
+        for(RiskModelListener rml:modelListeners)
+        {
+            rml.handleRiskModelUpdate(new RiskModelUpdateEvent(this));
+        }
+    }
     
     /**
      * check if the attacker win
@@ -192,6 +206,7 @@ public class RiskModel {
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
         this.releaseSelected();
         updateState(Phase.PENDING);
+        updateModelListeners();
     }
 
     /**

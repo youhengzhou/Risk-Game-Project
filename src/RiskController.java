@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +31,9 @@ public class RiskController {
      */
     public static void main(String[] args) {
         RiskView view = new RiskView();
-        RiskModel riskModel = new RiskModel();
+
+        RiskModel riskModel = new RiskModel(view.getNumOfPlayer());
+
 
         RiskController controller = new RiskController(riskModel, view);
         view.showHelp(riskModel.printHelp());
@@ -46,16 +50,6 @@ public class RiskController {
         }
     }
 
-    /**
-     * Set the bumber of the player
-     * the number of the player should bigger than 2 and smaller that 6
-     */
-    public void setNumOfPlayer() {
-        int num = 0;
-        do {
-            num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player"));
-        } while (num < 2 || num > 6);
-    }
 
     /**
      * Show out the player's information in the window
@@ -142,16 +136,26 @@ public class RiskController {
                     model.updateState(RiskModel.Phase.PENDING);
                     return;
                 }
+                Boolean isNumeric = false;
+                do {
+                    String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")");
+                    isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+                    if(!isNumeric) continue;
+                    num = Integer.parseInt(numberStr);
+                }while(num>model.getFirstSelected().getTroopsNum() - 1);
 
-                num = Integer.parseInt(new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")"));
                 model.setAttackTroops(num);
                 model.attack();
                 new JOptionPane().showMessageDialog(view, model.printBattleResult());
                 if (model.getAttackWin()) {
                     num = 999;
+                    isNumeric = false;
                     while (num > model.getSurvivedTroops() || num < 1) {
-                        num = Integer.parseInt(new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
-                                "minimum 1 \n The remaining troops will be sent back to their home land" + model.getFirstSelected().getCountryName()));
+                        String numberStr = new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
+                                "minimum 1 \n The remaining troops will be sent back to their home land" + model.getFirstSelected().getCountryName());
+                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+                        if(!isNumeric) continue;
+                        num = Integer.parseInt(numberStr);
                     }
                     model.iniAttackWin();
                     model.handleSurvivedTroops(num);
@@ -180,6 +184,9 @@ public class RiskController {
                     "You can not attack your own country\n Press [Confirm] after selecting Attacking and Defending countries\n Good Luck");
         }
     }
+
+
+
 }
 
 

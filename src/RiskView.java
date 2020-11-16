@@ -23,7 +23,11 @@ public class RiskView extends JFrame {
     private JButton attackButton;
     private JButton passButton;
     private JButton helpButton;
+
+
+
     private JButton confirmButton;
+    private int NumOfPlayer;
 
     private Buttons buttonList;
 
@@ -108,6 +112,15 @@ public class RiskView extends JFrame {
         this.setLocationByPlatform(true);
         this.setVisible(true);
         this.pack();
+        this.showNumOfPlayerDialog();
+    }
+
+    /**
+     *get the number of player;
+     * @return
+     */
+    public int getNumOfPlayer() {
+        return NumOfPlayer;
     }
 
     /**
@@ -116,6 +129,23 @@ public class RiskView extends JFrame {
      */
     public JTextArea getCountriesOwnText(){
         return this.countriesOwnText;
+    }
+
+    /**
+     * get the user input of how many players are playing.
+     * @return
+     */
+    public void showNumOfPlayerDialog(){
+        int num = 0;
+        String str = "";
+        boolean isNumeric;
+        do {
+            String numberStr = new JOptionPane().showInputDialog("How many players in the game? (2-6players)");
+            isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+            if(!isNumeric) continue;
+            num = Integer.parseInt(numberStr);
+        }while(num<2 || num>6);
+        NumOfPlayer = num;
     }
 
     /**
@@ -167,12 +197,6 @@ public class RiskView extends JFrame {
         pane.showMessageDialog(this,s);
     }
 
-    /**
-     * initialize the buttons for all the countries 
-     */
-    public void initializeButtons(ArrayList<JButton> buttonList){
-
-    }
 }
 
      /**

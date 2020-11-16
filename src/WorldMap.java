@@ -1,10 +1,10 @@
 import java.util.HashMap;
 
-public class Countries {
+public class WorldMap {
 
     public HashMap<String,Country> map;
 
-    public Countries(){
+    public WorldMap(){
         map = new HashMap<>();
         //North America
         Country Alaska = new Country("Alaska");

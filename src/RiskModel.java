@@ -18,7 +18,7 @@ public class RiskModel {
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
-    public Countries gameMap;
+    public WorldMap gameMap;
     int playerIndex;
     private int attackTroops = 0;
     private Country firstSelected = null;
@@ -33,9 +33,8 @@ public class RiskModel {
      */
     public RiskModel() {
         players = new ArrayList<>();
-        gameMap = new Countries();
+        gameMap = new WorldMap();
         this.State = Phase.PENDING;
-        showDialog();
         createPlayer();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
@@ -45,12 +44,15 @@ public class RiskModel {
 
     //used for test
     public RiskModel(int num){
+
         players = new ArrayList<>();
-        gameMap = new Countries();
+        gameMap = new WorldMap();
         this.State = Phase.PENDING;
         this.setNumOfPlayer(num);
+
         createPlayer();
         playerIndex = 0;
+
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         randomAssignCountry();
         randomAssignTroops();
@@ -202,16 +204,7 @@ public class RiskModel {
         return num >= 2 && num <= 6;
     }
 
-    /**
-     * make the player insert how many of then are playing the game, if not in the range, ask the player again
-     */
-    public void showDialog(){
-        int num = 0;
-        do{
-            num = Integer.parseInt(new JOptionPane().showInputDialog("please insert the number of Player (between 2 to 6)"));
-        }while(num < 2 || num > 6);
-        setNumOfPlayer(num);
-    }
+
 
     /**
      * set the number of players in the game and decide how many troops should each one of them have.

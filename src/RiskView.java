@@ -19,16 +19,12 @@ public class RiskView extends JFrame {
     private CountryOwnTextArea countriesOwnText;
     private JTextArea adjacentCountriesText;
     private JTextArea consoleText;
-    private JTextPane namePane;
+    private PlayerNameTextPane namePane;
     private JButton attackButton;
     private JButton passButton;
     private JButton helpButton;
-
-
-
     private JButton confirmButton;
     private int NumOfPlayer;
-
     private Buttons buttonList;
 
     /**
@@ -38,13 +34,12 @@ public class RiskView extends JFrame {
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-//        this.buttonList = new ArrayList<>();
         this.imagePanel = new CustomPanel();
         this.buttonList = new Buttons(imagePanel);
         this.textPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.countriesOwnText = new CountryOwnTextArea();
-        this.adjacentCountriesText = new JTextArea("",5,1);
+        this.adjacentCountriesText = new AdjacentCountriesTextArea();
         this.consoleText = new JTextArea();
         this.attackButton = new JButton("ATTACK");
         this.passButton = new JButton("PASS");
@@ -73,20 +68,16 @@ public class RiskView extends JFrame {
 
         //setup for textPanel
 
-        adjacentCountriesText.setFont(new Font("Consolas", Font.BOLD, 15));
-        adjacentCountriesText.setEditable(false);
         textPanel.setLayout(new BorderLayout());
         JScrollPane countriesOwnSP = new JScrollPane(countriesOwnText);
         JScrollPane adjacentCountriesSP = new JScrollPane(adjacentCountriesText);
         adjacentCountriesSP.setPreferredSize(new Dimension(frameSize_Width/6,350));
-        namePane = new JTextPane();
-        namePane.setFont(new Font("Consolas", Font.BOLD, 15));
-        namePane.setPreferredSize(new Dimension(200,30));
+        namePane = new PlayerNameTextPane();
+
 
         textPanel.add(namePane,BorderLayout.NORTH);
         textPanel.add(countriesOwnSP, BorderLayout.CENTER);
         textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);
-        adjacentCountriesText.setText("Click on country \nto see its information");
         textPanel.setPreferredSize(new Dimension(frameSize_Width/6, frameSize_Height/7));
 
         //setup for buttonPanel
@@ -147,18 +138,17 @@ public class RiskView extends JFrame {
         NumOfPlayer = num;
     }
 
-    /**
-     * get adjacent countries information
-     */
-    public void  modifyAdjacentCountriesText(String s){
-        adjacentCountriesText.setText(s);
+
+    public RiskModelListener getadjacentCountriesText()
+    {
+        return (RiskModelListener)adjacentCountriesText;
     }
 
     /**
      * get countries name
      *@return namepane
      */
-    public JTextPane getNamePane() {
+    public RiskModelListener getNamePane() {
         return namePane;
     }
 
@@ -167,6 +157,11 @@ public class RiskView extends JFrame {
      * @return countries buttons' list
      */
     public ArrayList<JButton> getButtonList(){return this.buttonList.getList();}
+
+    public RiskModelListener getButtonListAsRiskModelListener()
+    {
+        return buttonList;
+    }
 
     /**
      * add pass button listener

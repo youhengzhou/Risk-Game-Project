@@ -328,5 +328,10 @@ public class WorldMap {
         map.put("westernaustralia", WesternAustralia);
     }
 
+    public Country getCountry(String key)
+    {
+        return map.get(key);
+    }
+
 
 }

@@ -26,6 +26,7 @@ public class RiskModel {
     private String battleResult;
     private int survivedTroops;
     private List<RiskModelListener> modelListeners;
+    private String selectedCountryInfo;
 
     private boolean attackWin = false;
 
@@ -42,6 +43,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
+        selectedCountryInfo = "Click on country \nto see its information";
     }
 
     //used for test
@@ -57,6 +59,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
+        selectedCountryInfo = "Click on country \nto see its information";
     }
 
     /**
@@ -409,20 +412,35 @@ public class RiskModel {
     public void assignButtonToCountry(JButton button) {
         String countryName = button.getActionCommand();
         Country c = gameMap.map.get(countryName);
-
-        button.setBackground(c.getOwner().getColor());
         c.addButton(button);
     }
 
+    public Country getCountry(String key)
+    {
+        return gameMap.getCountry(key);
+    }
+
     /**
-     * get the country's name and print out the enemy country 
+     * @param countryName the name of country
+     * Set the adjacentCountryInfo for the use of AdjacentCountriesText in RiskView
      */
-    public String handleCountryButton(String countryName) {
+    public void setSelectedCountryInfo(String countryName) {
         Country country = gameMap.map.get(countryName);
         String s = "";
         s += "COUNTRY SELECTED \n" + country.printState() +
                 "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
                 country.printEnemyCountry();
-        return s;
+        selectedCountryInfo = s;
     }
+
+    /**
+     * get the selectedCountryInfo for the use of AdjacentCountriesText in RiskView
+     * @return selectedCountryInfo
+     */
+    public String getSelectedCountryInfo()
+    {
+        return selectedCountryInfo;
+    }
+
+
 }

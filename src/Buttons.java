@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Buttons {
+public class Buttons implements RiskModelListener {
 
     private ArrayList<JButton> buttonList;
 
@@ -270,4 +270,14 @@ public class Buttons {
     }
 
     public ArrayList<JButton> getList(){return this.buttonList;}
+
+    @Override
+    public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+        RiskModel model = (RiskModel) updateEvent.getSource();
+        for(JButton b:buttonList)
+        {
+            Country c = model.getCountry(b.getActionCommand());
+            b.setBackground(c.getOwner().getColor());
+        }
+    }
 }

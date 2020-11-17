@@ -11,7 +11,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-public class RiskView extends JFrame {
+public class RiskView extends JFrame implements RiskModelListener
+{
 
     private CustomPanel imagePanel;
     private JPanel textPanel;
@@ -26,7 +27,7 @@ public class RiskView extends JFrame {
     private JButton confirmButton;
     private int NumOfPlayer;
     private Buttons buttonList;
-
+    private ArrayList<RiskModelListener> listners;
     /**
      * Constructor for RiskView
      */
@@ -45,6 +46,7 @@ public class RiskView extends JFrame {
         this.passButton = new JButton("PASS");
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
+        this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
 
@@ -92,6 +94,11 @@ public class RiskView extends JFrame {
 
         //setup test Button
         imagePanel.setLayout(null);
+
+        listners.add(countriesOwnText);
+        listners.add(namePane);
+        listners.add(buttonList);
+        listners.add((RiskModelListener)adjacentCountriesText);
 
         this.add(consoleScrollPane, BorderLayout.WEST);
         this.add(imagePanel, BorderLayout.CENTER);
@@ -191,6 +198,14 @@ public class RiskView extends JFrame {
         pane.showMessageDialog(this,s);
     }
 
+    @Override
+    public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+        for(RiskModelListener rl:listners)
+        {
+            rl.handleRiskModelUpdate(updateEvent);
+        }
+
+    }
 }
 
      /**

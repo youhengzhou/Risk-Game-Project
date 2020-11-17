@@ -33,10 +33,7 @@ public class RiskController {
         RiskView view = new RiskView();
 
         RiskModel riskModel = new RiskModel(view.getNumOfPlayer());
-        riskModel.addRiskModelListener(view.getCountriesOwnText());
-        riskModel.addRiskModelListener(view.getNamePane());
-        riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
-        riskModel.addRiskModelListener(view.getadjacentCountriesText());
+        riskModel.addRiskModelListener(view);
 
 
         RiskController controller = new RiskController(riskModel, view);
@@ -73,7 +70,7 @@ public class RiskController {
         for (JButton button : view.getButtonList()) {
             button.addActionListener(e -> {
                 model.setSelectedCountryInfo(button.getActionCommand());
-                model.updateModelListeners();
+                updateView();
                 if (model.getState() == RiskModel.Phase.ATTACK) {
                     model.setSelected(model.gameMap.map.get(button.getActionCommand()));
                     System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());

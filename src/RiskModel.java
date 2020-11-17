@@ -27,6 +27,7 @@ public class RiskModel {
     private int survivedTroops;
     private List<RiskModelListener> modelListeners;
     private String selectedCountryInfo;
+    private int newArmy;
 
     private boolean attackWin = false;
 
@@ -43,6 +44,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
         selectedCountryInfo = "Click on country \nto see its information";
     }
 
@@ -59,6 +61,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
         selectedCountryInfo = "Click on country \nto see its information";
     }
 

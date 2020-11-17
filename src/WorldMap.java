@@ -1,10 +1,27 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WorldMap {
 
     public HashMap<String,Country> map;
+    private ArrayList<Country> northAmericaContient;
+    private ArrayList<Country> southAmericaContient;
+    private ArrayList<Country> europeContient;
+    private ArrayList<Country> africaContient;
+    private ArrayList<Country> asiaContient;
+    private ArrayList<Country> australiaContient;
+
 
     public WorldMap(){
+
+        northAmericaContient = new ArrayList<>();
+        southAmericaContient = new ArrayList<>();
+        europeContient = new ArrayList<>();
+        africaContient = new ArrayList<>();
+        asiaContient = new ArrayList<>();
+        australiaContient = new ArrayList<>();
+
+
         map = new HashMap<>();
         //North America
         Country Alaska = new Country("Alaska");
@@ -17,11 +34,31 @@ public class WorldMap {
         Country Quebec = new Country("Quebec");
         Country WesternUnitedStates = new Country("Western United States");
 
+
+        northAmericaContient.add(Alaska);
+        northAmericaContient.add(Alberta);
+        northAmericaContient.add(CentralAmerica);
+        northAmericaContient.add(EasternUnitedStates);
+        northAmericaContient.add(NorthwestTerritory);
+        northAmericaContient.add(Greenland);
+        northAmericaContient.add(Ontario);
+        northAmericaContient.add(Quebec);
+        northAmericaContient.add(WesternUnitedStates);
+
+
+
+
         //South America
         Country Argentina = new Country("Argentina");
         Country Brazil = new Country("Brazil");
         Country Peru = new Country("Peru");
         Country Venezuela = new Country("Venezuela");
+
+        southAmericaContient.add(Argentina);
+        southAmericaContient.add(Brazil);
+        southAmericaContient.add(Peru);
+        southAmericaContient.add(Venezuela);
+
 
         //Europe
         Country GreatBritain = new Country("Great Britain");
@@ -32,6 +69,16 @@ public class WorldMap {
         Country Ukraine = new Country("Ukraine");
         Country WesternEurope = new Country("Western Europe");
 
+        europeContient.add(GreatBritain);
+        europeContient.add(Iceland);
+        europeContient.add(NorthernEurope);
+        europeContient.add(Scandinavia);
+        europeContient.add(SouthernEurope);
+        europeContient.add(Ukraine);
+        europeContient.add(WesternEurope);
+
+
+
         //Africa
         Country Congo = new Country("Congo");
         Country EastAfrica = new Country("East Africa");
@@ -39,6 +86,13 @@ public class WorldMap {
         Country Madagascar = new Country("Madagascar");
         Country NorthAfrica = new Country("North Africa");
         Country SouthAfrica = new Country("South Africa");
+
+        africaContient.add(Congo);
+        africaContient.add(EastAfrica);
+        africaContient.add(Egypt);
+        africaContient.add(Madagascar);
+        africaContient.add(NorthAfrica);
+        africaContient.add(SouthAfrica);
 
         //Asia
         Country Afghanistan = new Country("Afghanistan");
@@ -54,11 +108,33 @@ public class WorldMap {
         Country Ural = new Country("Ural");
         Country Yakutsk = new Country("Yakutsk");
 
+        asiaContient.add(Afghanistan);
+        asiaContient.add(China);
+        asiaContient.add(India);
+        asiaContient.add(Irkutsk);
+        asiaContient.add(Japan);
+        asiaContient.add(Kamchatka);
+        asiaContient.add(MiddleEast);
+        asiaContient.add(Mongolia);
+        asiaContient.add(Siam);
+        asiaContient.add(Siberia);
+        asiaContient.add(Ural);
+        asiaContient.add(Yakutsk);
+
+
+
+
         //Australia
         Country EasternAustralia = new Country("Eastern Australia");
         Country Indonesia = new Country("Indonesia");
         Country NewGuinea = new Country("New Guinea");
         Country WesternAustralia = new Country("Western Australia");
+
+        australiaContient.add(EasternAustralia);
+        australiaContient.add(Indonesia);
+        australiaContient.add(NewGuinea);
+        australiaContient.add(WesternAustralia);
+
 
         //Add adjacent Countries
         //North America
@@ -333,5 +409,116 @@ public class WorldMap {
         return map.get(key);
     }
 
+    /**
+     * check if the countryown contains all the countries in north america .
+     * @param countryown
+     * @return number of army
+     */
+    private int northAmericaRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = northAmericaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 5:0;
+    }
+
+    /**
+     * check if the countryown contains all the countries in south america .
+     * @param countryown
+     * @return number of army
+     */
+    private int southAmericaRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = southAmericaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 2:0;
+    }
+
+    /**
+     * check if the countryown contains all the countries in Europe .
+     * @param countryown
+     * @return number of army
+     */
+    private int europeRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = europeContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 5:0;
+    }
+
+    /**
+     * check if the countryown contains all the countries in Africa.
+     * @param countryown
+     * @return number of army
+     */
+    private int africaRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = africaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 3:0;
+    }
+
+    /**
+     * check if the countryown contains all the countries in Asia.
+     * @param countryown
+     * @return number of army
+     */
+    private int asiaRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = asiaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 7:0;
+    }
+
+    /**
+     * check if the countryown contains all the countries in Australia.
+     * @param countryown
+     * @return number of army
+     */
+    private int australiaRecruit(ArrayList<Country> countryown)
+    {
+
+        boolean containAll = australiaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
+
+        return containAll? 2:0;
+    }
+
+    /**
+     * algorithm for calculating how many army should give to the play depending on number of conutry he owns.
+     * @param player
+     * @return number of army
+     */
+    private int getNewArmyByNumOfCountry(Player player)
+    {
+        int numOfCountryOwn = player.getCountriesOwn().size();
+        int numOfArmy = numOfCountryOwn/3;
+        return numOfArmy;
+    }
+
+    /**
+     * algorithm for calculating how many army should give to the play depending on the continents he owns.
+     * @param player
+     * @return number of army
+     */
+    private int getNewArmyByContient(Player player)
+    {
+        ArrayList<Country> CountryOwns = (ArrayList) player.getCountriesOwn();
+        return northAmericaRecruit(CountryOwns)+southAmericaRecruit(CountryOwns)+europeRecruit(CountryOwns)+africaRecruit(CountryOwns)+asiaRecruit(CountryOwns)+australiaRecruit(CountryOwns);
+    }
+
+    /**
+     * calcute the total new army the player should receive in the next round.
+     * @param player
+     * @return number of army
+     */
+    public int getNumOfNewArmy(Player player)
+    {
+        int numOfArmy = getNewArmyByContient(player)+getNewArmyByNumOfCountry(player);
+        return (numOfArmy>=3)? numOfArmy:3;
+    }
 
 }

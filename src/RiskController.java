@@ -33,7 +33,10 @@ public class RiskController {
         RiskView view = new RiskView();
 
         RiskModel riskModel = new RiskModel(view.getNumOfPlayer());
-        riskModel.addRiskModelListener(view);
+        riskModel.addRiskModelListener(view.getadjacentCountriesText());
+        riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
+        riskModel.addRiskModelListener(view.getNamePane());
+        riskModel.addRiskModelListener(view.getCountriesOwnText());
 
 
         RiskController controller = new RiskController(riskModel, view);

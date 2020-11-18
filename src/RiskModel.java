@@ -28,6 +28,7 @@ public class RiskModel {
     private List<RiskModelListener> modelListeners;
     private String selectedCountryInfo;
 
+    private boolean canMove = false;
     private boolean attackWin = false;
 
     /**
@@ -442,5 +443,26 @@ public class RiskModel {
         return selectedCountryInfo;
     }
 
+    /**
+     * recursive method to see if we can reach the target Country from the firstSelected Country
+     * @param TFromCountry
+     * @param prevCountry
+     * @return
+     */
+    public boolean availableToMove(Country TFromCountry, Country prevCountry){
+        canMove = false;
+        for(Country c: TFromCountry.getAdjacentCountries()){
+            if(playerOnGoing.getCountriesOwn().contains(c)){
+                if(c.equals(prevCountry))continue;
+                if(c.equals(secondSelected)) {
+                    canMove = true;
+                    break;
+                }
+                if(canMove) break;
+                availableToMove(c, TFromCountry);
+            }
+        }
+        return canMove;
+    }
 
 }

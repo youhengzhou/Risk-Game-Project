@@ -87,4 +87,29 @@ public class RiskModelTest {
         assertEquals("India", model.getSecondSelected().getCountryName());
 
     }
+
+    @Test
+    public void availableToMoveTest(){
+        Player p1 = new Player("p1");
+        model.setPlayerOnGoing(p1);
+        Country country1 = model.gameMap.map.get("india");
+        p1.addCountry(country1);
+        country1.setTroopsNum(1);
+        Country country2 = model.gameMap.map.get("china");
+        p1.addCountry(country2);
+        Country country3 = model.gameMap.map.get("japan");
+        p1.addCountry(country3);
+        Country country4 = model.gameMap.map.get("mongolia");
+        p1.addCountry(country4);
+
+        model.updateState(RiskModel.Phase.FORTIFY);
+        model.setSelected(country1);
+        model.setSelected(country3);
+        assertEquals(true, model.availableToMove(model.getFirstSelected(), null));
+
+        Country country5 = model.gameMap.map.get("Congo");
+        p1.addCountry(country5);
+        model.setSelected(country5);
+        assertEquals(false, model.availableToMove(model.getFirstSelected(), null));
+    }
 }

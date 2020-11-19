@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class RiskModel {
 
-    public static enum Phase {PENDING, ATTACK, RESIGN, FORTIFY, DRAFTING}
+    public static enum Phase {PENDING, ATTACK, AIATTACK, RESIGN, FORTIFY, DRAFTING}
     private Phase State;
     private List<Player> players;
     private Player playerOnGoing;

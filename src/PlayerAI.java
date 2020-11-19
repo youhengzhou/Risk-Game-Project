@@ -10,7 +10,7 @@ import java.util.List;
  * @since  2020-11-18
  *
  */
-public class PlayerAI {
+public class PlayerAI extends Player {
     private List<Country> countriesOwn; // the AI's owned countries
     private String name; // the AI's name
     private Color color;
@@ -20,6 +20,7 @@ public class PlayerAI {
      * make an array list for the owner's countries called countriesOwn
      */
     public PlayerAI(String name) {
+        super(name);
         this.name = name;
         this.countriesOwn = new ArrayList<>();
     }

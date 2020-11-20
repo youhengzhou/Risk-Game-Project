@@ -221,7 +221,7 @@ class CustomPanel extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
-            Inputimage = ImageIO.read(getClass().getResource("/risk_map_withname.png"));
+            Inputimage = ImageIO.read(getClass().getResource("/NEW MAP.png"));
 
         } catch (Exception e) {
             e.printStackTrace();

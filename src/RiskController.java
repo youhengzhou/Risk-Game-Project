@@ -72,6 +72,10 @@ public class RiskController {
             button.addActionListener(e -> {
                 model.setSelectedCountryInfo(button.getActionCommand());
                 updateView();
+                if (model.getState() == RiskModel.Phase.AIATTACK) {
+                    // AI Placholder
+
+                }
                 if (model.getState() == RiskModel.Phase.ATTACK) {
                     model.setSelected(model.gameMap.map.get(button.getActionCommand()));
                     System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());

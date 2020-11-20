@@ -75,11 +75,12 @@ public class WorldMap {
         CentralAmerica.addAdjacentCountry(EasternUnitedStates);
         CentralAmerica.addAdjacentCountry(WesternUnitedStates);
         CentralAmerica.addAdjacentCountry(Venezuela);
-        //4
+        //4 add Venezuela
         EasternUnitedStates.addAdjacentCountry(CentralAmerica);
         EasternUnitedStates.addAdjacentCountry(Ontario);
         EasternUnitedStates.addAdjacentCountry(Quebec);
         EasternUnitedStates.addAdjacentCountry(WesternUnitedStates);
+        EasternUnitedStates.addAdjacentCountry(Venezuela);
         //5
         Greenland.addAdjacentCountry(NorthwestTerritory);
         Greenland.addAdjacentCountry(Ontario);
@@ -178,19 +179,19 @@ public class WorldMap {
         EastAfrica.addAdjacentCountry(NorthAfrica);
         EastAfrica.addAdjacentCountry(SouthAfrica);
         EastAfrica.addAdjacentCountry(MiddleEast);
-        //3, 25 6 7
+        //3, 25 6 7  Ukranie change to SouthernEurope
         Egypt.addAdjacentCountry(EastAfrica);
         Egypt.addAdjacentCountry(NorthAfrica);
-        Egypt.addAdjacentCountry(Ukraine);
+        Egypt.addAdjacentCountry(SouthernEurope);
         Egypt.addAdjacentCountry(MiddleEast);
         //4, 26
         Madagascar.addAdjacentCountry(EastAfrica);
         Madagascar.addAdjacentCountry(SouthAfrica);
-        //5, 123 67 2
+        //5, 123 67 2  Ukranie change to SouthernEurope
         NorthAfrica.addAdjacentCountry(Congo);
         NorthAfrica.addAdjacentCountry(EastAfrica);
         NorthAfrica.addAdjacentCountry(Egypt);
-        NorthAfrica.addAdjacentCountry(Ukraine);
+        NorthAfrica.addAdjacentCountry(SouthernEurope);
         NorthAfrica.addAdjacentCountry(WesternEurope);
         NorthAfrica.addAdjacentCountry(Brazil);
         //6, 124
@@ -254,10 +255,11 @@ public class WorldMap {
         Siberia.addAdjacentCountry(Mongolia);
         Siberia.addAdjacentCountry(Ural);
         Siberia.addAdjacentCountry(Yakutsk);
-        //11, 12 10 6
+        //11, 12 10 6 add China
         Ural.addAdjacentCountry(Yakutsk);
         Ural.addAdjacentCountry(Siberia);
         Ural.addAdjacentCountry(Ukraine);
+        Ural.addAdjacentCountry(China);
         //12, 46 10
         Yakutsk.addAdjacentCountry(Irkutsk);
         Yakutsk.addAdjacentCountry(Kamchatka);
@@ -275,9 +277,10 @@ public class WorldMap {
         NewGuinea.addAdjacentCountry(EasternAustralia);
         NewGuinea.addAdjacentCountry(Indonesia);
         NewGuinea.addAdjacentCountry(WesternAustralia);
-        //4, 12
+        //4, 12 add New Guinea
         WesternAustralia.addAdjacentCountry(EasternAustralia);
         WesternAustralia.addAdjacentCountry(Indonesia);
+        WesternAustralia.addAdjacentCountry(NewGuinea);
 
         map.put("alaska", Alaska);
         map.put("alberta", Alberta);

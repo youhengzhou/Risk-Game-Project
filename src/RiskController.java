@@ -219,6 +219,7 @@ public class RiskController {
                 } else {
                     new JOptionPane().showMessageDialog(view,"failed to move, make sure selcting your own country with enough troops on it");
                 }
+                return;
             }
             if (model.hasWinner()) {
                 new JOptionPane().showMessageDialog(view, "The game is end, the WINNER is: " + model.getPlayerOnGoing());
@@ -284,7 +285,7 @@ public class RiskController {
                 return;
             }
             if(model.getState().equals(RiskModel.Phase.FORTIFY)) {
-                new JOptionPane().showMessageDialog(view, "Now is Fortify Phase, you can attack\n if you wish to attack, wait for the next round");
+                new JOptionPane().showMessageDialog(view, "Now is Fortify Phase, you can't attack now \n Please wait for the next round");
                 return;
             }
             model.releaseSelected();

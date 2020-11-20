@@ -12,6 +12,9 @@ public class Battle {
     private Country countryAttack;
     private Country countryDefend;
     private int AttackingTroops;
+    private String battleResult;
+    private int troopSurvive;
+    private boolean isAttackerWin;
 
     /**
      * Constructor of Battle
@@ -20,6 +23,8 @@ public class Battle {
      * @param troopSent number of troops bing sent from attacking country
      */
     public Battle(Country attack, Country defend, int troopSent) {
+        battleResult = "";
+        isAttackerWin = false;
         this.countryAttack = attack;
         this.countryDefend = defend;
         AttackingTroops = troopSent;
@@ -31,13 +36,14 @@ public class Battle {
      * the attacker wins the battle.
      */
 
-    public void fight() {
+    public String fight() {
         int attackTroopDeath = 0; // counter for taking away troops later
         int defendTroopDeath = 0; // counter for taking away troops later
         Dice attackDice;
         Dice defendDice;
 
         while (AttackingTroops != 0 && countryDefend.getTroopsNum() != 0) {
+
             attackDice = new Dice(AttackingTroops); // attack with troops picked from user
             defendDice = new Dice(countryDefend.getTroopsNum()); // defend with all troops present from defender
 
@@ -45,6 +51,7 @@ public class Battle {
                 int attackNum = attackDice.getNextHighest(); // choose the highest dice number to attack with
                 int defendNum = defendDice.getNextHighest(); // choose the highest dice number to defend with
                 if (attackNum > defendNum) {
+
                     countryDefend.removeTroops(1); // if attacks win once, removes defending troop once
                     defendTroopDeath++;
                 } else {
@@ -53,19 +60,38 @@ public class Battle {
                 }
             }
         }
-        System.out.println("\nBattle Result:");
-        System.out.println(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle");
-        System.out.println(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle");
+       battleResult+=("\nBattle Result:\n");
+       battleResult+=(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle\n");
+        battleResult+=(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle\n");
         if (countryDefend.getTroopsNum() == 0) {
-            int troopSurvive = AttackingTroops;
-            countryDefend.addTroops(troopSurvive);
+             troopSurvive = AttackingTroops;
+            isAttackerWin = true;
             countryDefend.getOwner().removeCountry(countryDefend); //remove the country from the country defender countryOwner
             countryDefend.changeOwner(countryAttack.getOwner());//change owner of the defendCountry
             countryAttack.getOwner().addCountry(countryDefend);//add CountryDefend into the attacker CountryOwner
-            System.out.println("You win! Now " + countryDefend.getCountryName() + "is yours.");
-            System.out.println("Surviving " + troopSurvive + " troops has moved from " + countryAttack.getCountryName() + " to " + countryDefend.getCountryName() + "\n\n");
-            return;
+            battleResult+=("You win! Now " + countryDefend.getCountryName() + "is yours." +"\n");
+            battleResult+=("you have "+troopSurvive+" troops survived in the battle.");
+            countryDefend.getCountryButton().setBackground(countryAttack.getOwner().getColor());
+            return battleResult;
         }
-        System.out.println("Unfortunately you lose the battle with " + countryDefend.getCountryName());
+       battleResult+=("Unfortunately you lose the battle with " + countryDefend.getCountryName()+"\n");
+        return battleResult;
+    }
+
+    /*
+    *Get the TroopSurvive number 
+    *@return TroopSurvive
+    */
+    public int getTroopSurvive() {
+        return troopSurvive;
+    }
+
+    /*
+    *Check if the attacker win the battle, if true the attacker win, if false the attacker lose 
+    *@return isAttackerWin the game
+    */
+    public boolean isAttackerWin()
+    {
+        return isAttackerWin;
     }
 }

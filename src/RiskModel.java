@@ -28,6 +28,7 @@ public class RiskModel {
     private List<RiskModelListener> modelListeners;
     private String selectedCountryInfo;
 
+    private ArrayList<Country> preCountries;
     private boolean canMove = false;
     private boolean attackWin = false;
 
@@ -35,6 +36,7 @@ public class RiskModel {
      * This constructor of Game
      */
     public RiskModel() {
+        preCountries = new ArrayList<>();
         players = new ArrayList<>();
         gameMap = new WorldMap();
         this.State = Phase.PENDING;
@@ -49,7 +51,7 @@ public class RiskModel {
 
     //used for test
     public RiskModel(int num){
-
+        preCountries = new ArrayList<>();
         players = new ArrayList<>();
         gameMap = new WorldMap();
         this.State = Phase.PENDING;
@@ -446,23 +448,32 @@ public class RiskModel {
     /**
      * recursive method to see if we can reach the target Country from the firstSelected Country
      * @param TFromCountry
-     * @param prevCountry
      * @return
      */
-    public boolean availableToMove(Country TFromCountry, Country prevCountry){
+    public boolean availableToMove(Country TFromCountry){
+        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected)) return false;
+        if(firstSelected.getTroopsNum() <= 1) return false;
         canMove = false;
         for(Country c: TFromCountry.getAdjacentCountries()){
             if(playerOnGoing.getCountriesOwn().contains(c)){
-                if(c.equals(prevCountry))continue;
+                if(preCountries.contains(c))continue;
                 if(c.equals(secondSelected)) {
                     canMove = true;
                     break;
                 }
                 if(canMove) break;
-                availableToMove(c, TFromCountry);
+                preCountries.add(TFromCountry);
+                availableToMove(c);
             }
         }
         return canMove;
+    }
+
+    public void clearPreCountries(){preCountries.clear();}
+
+    public void moveTroops(int num) {
+        firstSelected.removeTroops(num);
+        secondSelected.addTroops(num);
     }
 
 }

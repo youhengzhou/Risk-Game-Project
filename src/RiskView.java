@@ -25,6 +25,7 @@ public class RiskView extends JFrame implements RiskModelListener
     private JButton passButton;
     private JButton helpButton;
     private JButton confirmButton;
+    private JButton fortifyButton;
     private int NumOfPlayer;
     private Buttons buttonList;
     private ArrayList<RiskModelListener> listners;
@@ -46,6 +47,7 @@ public class RiskView extends JFrame implements RiskModelListener
         this.passButton = new JButton("PASS");
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
+        this.fortifyButton = new JButton("FORTIFY");
         this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
@@ -86,13 +88,10 @@ public class RiskView extends JFrame implements RiskModelListener
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(helpButton,FlowLayout.LEFT);
         buttonPanel.add(attackButton);
+        buttonPanel.add(fortifyButton);
         buttonPanel.add(passButton);
         buttonPanel.add(confirmButton);
 
-        //initializing buttons
-//        initializeButtons(buttonList);
-
-        //setup test Button
         imagePanel.setLayout(null);
 
         listners.add(countriesOwnText);
@@ -189,6 +188,8 @@ public class RiskView extends JFrame implements RiskModelListener
      * add attack button listener
      */
     public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
+
+    public void addFortifyButtonListener(ActionListener al){this.fortifyButton.addActionListener(al);}
 
     /**
      * show help information

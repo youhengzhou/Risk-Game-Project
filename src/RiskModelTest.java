@@ -105,11 +105,16 @@ public class RiskModelTest {
         model.updateState(RiskModel.Phase.FORTIFY);
         model.setSelected(country1);
         model.setSelected(country3);
-        assertEquals(true, model.availableToMove(model.getFirstSelected(), null));
+        assertEquals(true, model.availableToMove(model.getFirstSelected()));
 
-        Country country5 = model.gameMap.map.get("Congo");
+        Country country5 = model.gameMap.map.get("congo");
         p1.addCountry(country5);
         model.setSelected(country5);
-        assertEquals(false, model.availableToMove(model.getFirstSelected(), null));
+        assertEquals(false, model.availableToMove(model.getFirstSelected()));
+
+//        model.releaseSelected();
+//        model.setSelected(country1);
+//        model.setSelected(model.gameMap.map.get("china"));
+//        assertEquals(false,  model.availableToMove(model.getFirstSelected(), null));
     }
 }

@@ -23,6 +23,7 @@ public class RiskController {
         view.addConfirmButtonListener(new confirmButtonListener());
         view.addAttackButtonListener(new attackButtonListener());
         view.addPassButtonListener(new passButtonListener());
+        view.addFortifyButtonListener(new fortifyButtonListener());
     }
 
     /**
@@ -75,6 +76,10 @@ public class RiskController {
                     model.setSelected(model.gameMap.map.get(button.getActionCommand()));
                     System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());
                     System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState()) + "\n--------------------------------------------");
+                } else if(model.getState().equals(RiskModel.Phase.FORTIFY)){
+                    model.setSelected(model.gameMap.map.get(button.getActionCommand()));
+                    System.out.println("Fortifying from Country : \n" + model.getFirstSelected().printState());
+                    System.out.println("\nFortifying to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState()) + "\n--------------------------------------------");
                 }
             });
         }
@@ -137,9 +142,9 @@ public class RiskController {
                 boolean isNumeric;
                 do {
                     String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")");
-                    isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+//                    isNumeric = numberStr.chars().allMatch(Character :: isDigit);
 
-                    if(!isNumeric) continue;
+                    if(!isNumeric(numberStr)) continue;
                     num = Integer.parseInt(numberStr);
                 }while(num>model.getFirstSelected().getTroopsNum() - 1 ||num<1); //keep looping until the num satisfies the requirement.
 
@@ -151,24 +156,43 @@ public class RiskController {
                     do {
                         String numberStr = new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
                                 "minimum 1 \n The remaining troops will be sent back to their home land " + model.getFirstSelected().getCountryName());
-                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
-                        if(!isNumeric) continue;
+//                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+
+                        if(!isNumeric(numberStr)) continue;
                         num = Integer.parseInt(numberStr);
                     }while(num > model.getSurvivedTroops() || num < 1);
                     model.iniAttackWin();
                     model.handleSurvivedTroops(num);
                 }
 
+            } else if(model.getState().equals(RiskModel.Phase.FORTIFY)){
+                if(model.availableToMove(model.getFirstSelected())){
+                    int num = 999;
+                    while(num < 1  || num > (model.getFirstSelected().getTroopsNum()-1)){
+                        String numberStr = new JOptionPane().showInputDialog("how many troops you want to move (1 to " + (model.getFirstSelected().getTroopsNum()-1));
+                        if(!isNumeric(numberStr)) continue;
+                        num = Integer.parseInt(numberStr);
+
+                    }
+                    model.moveTroops(num);
+                    model.clearPreCountries();
+                } else {
+                    System.out.println("you failed");
+                }
             }
             if (model.hasWinner()) {
                 new JOptionPane().showMessageDialog(view, "The game is end, the WINNER is: " + model.getPlayerOnGoing());
                 System.exit(0);
             }
+            model.updateState(RiskModel.Phase.PENDING);
             updateView();
             model.releaseSelected();
         }
     }
 
+    public boolean isNumeric(String s){
+        return s.chars().allMatch(Character :: isDigit);
+    }
     /**
      * Choose the country that the player wants to use to attack 
      */
@@ -183,6 +207,16 @@ public class RiskController {
                     "You can not attack your own country\n Press [Confirm] after selecting Attacking and Defending countries\n Good Luck");
         }
 
+    }
+
+    class fortifyButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.releaseSelected();
+            model.updateState(RiskModel.Phase.FORTIFY);
+
+        }
     }
 
 

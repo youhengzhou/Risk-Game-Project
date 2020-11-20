@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-public class RiskView extends JFrame
+public class RiskView extends JFrame implements RiskModelListener
 {
 
     private CustomPanel imagePanel;
@@ -25,9 +25,10 @@ public class RiskView extends JFrame
     private JButton passButton;
     private JButton helpButton;
     private JButton confirmButton;
+    private JButton fortifyButton;
     private int NumOfPlayer;
     private Buttons buttonList;
-
+    private ArrayList<RiskModelListener> listners;
     /**
      * Constructor for RiskView
      */
@@ -46,7 +47,8 @@ public class RiskView extends JFrame
         this.passButton = new JButton("PASS");
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
-
+        this.fortifyButton = new JButton("FORTIFY");
+        this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
 
@@ -86,16 +88,16 @@ public class RiskView extends JFrame
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(helpButton,FlowLayout.LEFT);
         buttonPanel.add(attackButton);
+        buttonPanel.add(fortifyButton);
         buttonPanel.add(passButton);
         buttonPanel.add(confirmButton);
 
-        //initializing buttons
-//        initializeButtons(buttonList);
-
-        //setup test Button
         imagePanel.setLayout(null);
 
-
+        listners.add(countriesOwnText);
+        listners.add(namePane);
+        listners.add(buttonList);
+        listners.add((RiskModelListener)adjacentCountriesText);
 
         this.add(consoleScrollPane, BorderLayout.WEST);
         this.add(imagePanel, BorderLayout.CENTER);
@@ -187,6 +189,8 @@ public class RiskView extends JFrame
      */
     public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
 
+    public void addFortifyButtonListener(ActionListener al){this.fortifyButton.addActionListener(al);}
+
     /**
      * show help information
      */
@@ -195,7 +199,14 @@ public class RiskView extends JFrame
         pane.showMessageDialog(this,s);
     }
 
+    @Override
+    public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+        for(RiskModelListener rl:listners)
+        {
+            rl.handleRiskModelUpdate(updateEvent);
+        }
 
+    }
 }
 
      /**
@@ -210,7 +221,7 @@ class CustomPanel extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
-            Inputimage = ImageIO.read(getClass().getResource("/risk_map_withname.png"));
+            Inputimage = ImageIO.read(getClass().getResource("/NEW MAP.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -227,7 +238,5 @@ class CustomPanel extends JPanel{
         g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
     }
-
-
 }
 

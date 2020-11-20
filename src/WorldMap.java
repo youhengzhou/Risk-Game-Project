@@ -524,4 +524,5 @@ public class WorldMap {
         return (numOfArmy>=3)? numOfArmy:3;
     }
 
+
 }

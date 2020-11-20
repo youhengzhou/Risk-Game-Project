@@ -29,6 +29,7 @@ public class RiskModel {
     private String selectedCountryInfo;
     private int newArmy;
 
+
     private ArrayList<Country> preCountries;
     private boolean canMove = false;
     private boolean attackWin = false;
@@ -47,7 +48,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
-        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
+        refreshNewArmy();
         selectedCountryInfo = "Click on country \nto see its information";
     }
 
@@ -64,6 +65,7 @@ public class RiskModel {
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
+        refreshNewArmy();
         newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
         selectedCountryInfo = "Click on country \nto see its information";
     }
@@ -477,6 +479,23 @@ public class RiskModel {
     public void moveTroops(int num) {
         firstSelected.removeTroops(num);
         secondSelected.addTroops(num);
+    }
+
+    public void refreshNewArmy()
+    {
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
+
+    }
+
+    public boolean decrementNewArmy(int num) // will be true when all army have been assigned
+    {
+        newArmy-=num;
+        return newArmy==0;
+    }
+
+    public int getNewArmyLeft()
+    {
+        return newArmy;
     }
 
 }

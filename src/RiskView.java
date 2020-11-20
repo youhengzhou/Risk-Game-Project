@@ -227,5 +227,7 @@ class CustomPanel extends JPanel{
         g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
     }
+
+
 }
 

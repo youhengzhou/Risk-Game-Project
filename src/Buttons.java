@@ -278,6 +278,7 @@ public class Buttons implements RiskModelListener {
         {
             Country c = model.getCountry(b.getActionCommand());
             b.setBackground(c.getOwner().getColor());
+            b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getTroopsNum()));
         }
     }
 }

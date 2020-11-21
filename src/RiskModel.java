@@ -261,8 +261,9 @@ public class RiskModel {
      * create instances of all Player and add them into Arraylist players.
      */
     private void createPlayer() {
-        Color[] colors = {Color.pink, Color.ORANGE, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.gray};
+        Color[] colors = {Color.pink, Color.yellow, Color.cyan, Color.GREEN, Color.white, Color.orange};
         for (int i = 0; i < numOfPlayer; i++) {
+
             Player p = new Player("Player" + i);
             p.addColor(colors[i]);
             players.add(p);
@@ -455,7 +456,9 @@ public class RiskModel {
      * @return
      */
     public boolean availableToMove(Country TFromCountry){
+        //return false if not owning the countries,
         if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected)) return false;
+        //return false if too few troops on the From country
         if(firstSelected.getTroopsNum() <= 1) return false;
         canMove = false;
         for(Country c: TFromCountry.getAdjacentCountries()){
@@ -475,17 +478,29 @@ public class RiskModel {
 
     public void clearPreCountries(){preCountries.clear();}
 
+    /**
+     * move num of player to from one country to another.
+     * @param num
+     */
     public void moveTroops(int num) {
         firstSelected.removeTroops(num);
         secondSelected.addTroops(num);
     }
 
+    /**
+     * assign a new value to the newArmy, method would be called when pass to next player
+     */
     public void refreshNewArmy()
     {
         newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
 
     }
 
+    /**
+     * decrement the NewArmy variable after the player assigned number of new Troops
+      * @param num
+     * @return true is there are no more troops left to be assigned.
+     */
     public boolean decrementNewArmy(int num) // will be true when all army have been assigned
     {
         newArmy-=num;

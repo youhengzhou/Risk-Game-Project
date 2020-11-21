@@ -106,12 +106,16 @@ public class RiskController {
     class passButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.pass();
-            updateView();
-            System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
-            enterRecruitState(model.getPlayerOnGoing());
-            System.out.println(model.getState());
-
+            if(model.getState().equals(RiskModel.Phase.ATTACK)){
+                new JOptionPane().showMessageDialog(view, "now, you are at Fortify phase. when you done with Fortify, just press PASS again");
+                model.updateState(RiskModel.Phase.FORTIFY);
+            } else {
+                model.pass();
+                updateView();
+                System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
+                enterRecruitState(model.getPlayerOnGoing());
+                System.out.println(model.getState());
+            }
         }
     }
 
@@ -133,10 +137,6 @@ public class RiskController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.PENDING))
-            {
-                new JOptionPane().showMessageDialog(view,"State: pending\n You might want to press [Attack] to start a fight");
-            }
             if(model.getState().equals(RiskModel.Phase.RESIGN))
             {
 
@@ -159,30 +159,24 @@ public class RiskController {
                 if (model.getFirstSelected().getOwner() != model.getPlayerOnGoing()) {
                     new JOptionPane().showMessageDialog(view, "You can only choose your own country to attack\n Please press [Attack] again and choose another one");
                     model.releaseSelected();
-                    model.updateState(RiskModel.Phase.PENDING);
                     return;
                 } else if (model.getSecondSelected().getOwner() == model.getPlayerOnGoing()) {
                     new JOptionPane().showMessageDialog(view, "You don't want to attack your own country\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
-                    model.updateState(RiskModel.Phase.PENDING);
                     return;
                 } else if (!model.getFirstSelected().getAdjacentCountries().contains(model.getSecondSelected())) {
                     new JOptionPane().showMessageDialog(view, "The two country you chosen is not adjacent to each other\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
-                    model.updateState(RiskModel.Phase.PENDING);
                     return;
                 } else if (model.getFirstSelected().getTroopsNum() < 2) {
                     new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack\n Please press [Attack] again and choose another one");
                     model.releaseSelected();
-                    model.updateState(RiskModel.Phase.PENDING);
                     return;
                 }
                 int num = 999;
                 boolean isNumeric;
                 do {
                     String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")");
-//                    isNumeric = numberStr.chars().allMatch(Character :: isDigit);
-
                     if(!isNumeric(numberStr)) continue;
                     num = Integer.parseInt(numberStr);
                 }while(num>model.getFirstSelected().getTroopsNum() - 1 ||num<1); //keep looping until the num satisfies the requirement.
@@ -225,11 +219,11 @@ public class RiskController {
                 new JOptionPane().showMessageDialog(view, "The game is end, the WINNER is: " + model.getPlayerOnGoing());
                 System.exit(0);
             }
-            model.updateState(RiskModel.Phase.PENDING);
             updateView();
             model.releaseSelected();
         }
     }
+
 
     public void enterRecruitState(Player player)
     {
@@ -248,8 +242,6 @@ public class RiskController {
         int num = 999;
         do {
             String numberStr = new JOptionPane().showInputDialog("how many troop do you want to add to "+country.getCountryName()+"\n Max "+newTroops);
-//                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
-
             if(!isNumeric(numberStr)) continue;
             num = Integer.parseInt(numberStr);
         }while(num > newTroops|| num<0);
@@ -259,7 +251,7 @@ public class RiskController {
         if(noTroopsLeft)
         {
             new JOptionPane().showMessageDialog(view,"You have assigned all new army\n press Attack when you are ready to fight");
-            model.updateState(RiskModel.Phase.PENDING);
+            model.updateState(RiskModel.Phase.ATTACK);
         }
 
         else
@@ -301,6 +293,14 @@ public class RiskController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(model.getState().equals(RiskModel.Phase.RESIGN)) {
+                new JOptionPane().showMessageDialog(view, "Please assign all new troops first");
+                return;
+            }
+            if(model.getState().equals(RiskModel.Phase.ATTACK)) {
+                new JOptionPane().showMessageDialog(view, "Now is Attack Phase, you can't, leave this alone");
+                return;
+            }
             model.releaseSelected();
             model.updateState(RiskModel.Phase.FORTIFY);
             new JOptionPane().showMessageDialog(view, "Fortify! Please choose two countries, From and To\n then press confirm to move your armies");

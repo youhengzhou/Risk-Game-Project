@@ -156,10 +156,11 @@
 
             }
             if (model.getState().equals(RiskModel.Phase.ATTACK)) {
-                if(model.getFirstSelected().equals(null) || model.getFirstSelected().equals(null))
+
+                    if(model.getFirstSelected()==(null) || model.getFirstSelected()==(null))
                 {
                     new JOptionPane().showMessageDialog(view, "Please select attack and defend countries first");
-
+                    return;
                 }
                 if (model.getFirstSelected().getOwner() != model.getPlayerOnGoing()) {
                     new JOptionPane().showMessageDialog(view, "You can only choose your own country to attack\n Please press [Attack] again and choose another one");

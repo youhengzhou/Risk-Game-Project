@@ -117,4 +117,38 @@ public class RiskModelTest {
 //        model.setSelected(model.gameMap.map.get("china"));
 //        assertEquals(false,  model.availableToMove(model.getFirstSelected(), null));
     }
+    @Test
+    public void resignTest() {
+        Player p1 = new Player("p1");
+        model.setPlayerOnGoing(p1);
+        Country country1 = model.getCountry("easternaustralia");
+        p1.addCountry(country1);
+        country1.setTroopsNum(1);
+        Country country2 = model.gameMap.map.get("indonesia");
+        p1.addCountry(country2);
+        Country country3 = model.gameMap.map.get("newguinea");
+        p1.addCountry(country3);
+        Country country4 = model.gameMap.map.get("westernaustralia");
+        p1.addCountry(country4);
+        //p1 owns entire australia, and owning four countries in total.
+        model.setPlayerOnGoing(p1);
+        model.updateState(RiskModel.Phase.RESIGN);
+        model.refreshNewArmy();
+        assertEquals(3,model.getNewArmyLeft());
+        model.decrementNewArmy(2);
+        assertEquals(1,model.getNewArmyLeft());
+        //now we add 3 more counties to p1.
+        Country country5 = model.getCountry("kamchatka");
+        p1.addCountry(country5);
+        country1.setTroopsNum(1);
+        Country country6 = model.gameMap.map.get("middleeast");
+        p1.addCountry(country6);
+        Country country7 = model.gameMap.map.get("siberia");
+        p1.addCountry(country7);
+        model.refreshNewArmy();//refresh the total new army
+        assertEquals(4,model.getNewArmyLeft());
+        //should return true when there's no more troops left to assign
+        assertEquals(true,model.decrementNewArmy(4));
+
+    }
 }

@@ -1,10 +1,11 @@
 
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+    import javax.swing.*;
+    import java.awt.*;
+    import java.awt.event.ActionEvent;
+    import java.awt.event.ActionListener;
 
-public class RiskController {
+    public class RiskController {
     private RiskModel model;
     private RiskView view;
 
@@ -17,8 +18,8 @@ public class RiskController {
         this.model = model;
 
         this.updateView();
-        this.addButtonListener();
         this.countryButtonConnect();
+        this.addButtonListener();
         view.addHelpButtonListener(new helpButtonListener());
         view.addConfirmButtonListener(new confirmButtonListener());
         view.addAttackButtonListener(new attackButtonListener());
@@ -77,6 +78,9 @@ public class RiskController {
      */
     public void addButtonListener() {
         for (JButton button : view.getButtonList()) {
+            button.setFont(new Font("Arial", Font.PLAIN, 10));
+            button.setMargin(new Insets(0,0,0,0));
+//            button.setText(Integer.toString(model.getCountry(button.getActionCommand()).getTroopsNum()));
             button.addActionListener(e -> {
                 model.setSelected(model.getCountry(button.getActionCommand()));
                 model.setSelectedCountryInfo(button.getActionCommand());
@@ -143,10 +147,11 @@ public class RiskController {
                 Country c = model.getFirstSelected();
                 if(!model.getPlayerOnGoing().getCountriesOwn().contains(c))
                 {
-                    new JOptionPane().showMessageDialog(view,"Please choose your own country, do it again");
+                    new JOptionPane().showMessageDialog(view,"You can only choose your own country to assign new troops, do it again");
                     return;
                 }
                 assignNewTroops(c);
+
                 return;
 
             }
@@ -181,7 +186,7 @@ public class RiskController {
                 boolean isNumeric;
                 do {
                     String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")");
-//                    isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+      //              isNumeric = numberStr.chars().allMatch(Character :: isDigit);
 
                     if(!isNumeric(numberStr)) continue;
                     num = Integer.parseInt(numberStr);
@@ -189,13 +194,15 @@ public class RiskController {
 
                 model.setAttackTroops(num);
                 model.attack();
+                updateView();
                 new JOptionPane().showMessageDialog(view, model.printBattleResult());
                 if (model.getAttackWin()) {
+
                     num = 999;
                     do {
                         String numberStr = new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
                                 "minimum 1 \n The remaining troops will be sent back to their home land " + model.getFirstSelected().getCountryName());
-//                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+       //                 isNumeric = numberStr.chars().allMatch(Character :: isDigit);
 
                         if(!isNumeric(numberStr)) continue;
                         num = Integer.parseInt(numberStr);
@@ -203,6 +210,7 @@ public class RiskController {
                     model.iniAttackWin();
                     model.handleSurvivedTroops(num);
                 }
+                updateView();
 
             }
             if(model.getState().equals(RiskModel.Phase.FORTIFY)){
@@ -219,6 +227,7 @@ public class RiskController {
                 } else {
                     new JOptionPane().showMessageDialog(view,"failed to move, make sure selcting your own country with enough troops on it");
                 }
+                updateView();
                 return;
             }
             if (model.hasWinner()) {
@@ -248,7 +257,7 @@ public class RiskController {
         int num = 999;
         do {
             String numberStr = new JOptionPane().showInputDialog("how many troop do you want to add to "+country.getCountryName()+"\n Max "+newTroops);
-//                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+    //                        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
 
             if(!isNumeric(numberStr)) continue;
             num = Integer.parseInt(numberStr);
@@ -256,6 +265,7 @@ public class RiskController {
         country.addTroops(num);
         boolean noTroopsLeft = model.decrementNewArmy(num);
         System.out.println(num +" troops assign to "+country.getCountryName());
+        updateView();
         if(noTroopsLeft)
         {
             new JOptionPane().showMessageDialog(view,"You have assigned all new army\n press Attack when you are ready to fight");
@@ -274,7 +284,7 @@ public class RiskController {
         return s.chars().allMatch(Character :: isDigit);
     }
     /**
-     * Choose the country that the player wants to use to attack 
+     * Choose the country that the player wants to use to attack
      */
     class attackButtonListener implements ActionListener {
 
@@ -309,6 +319,6 @@ public class RiskController {
     }
 
 
-}
+    }
 
 

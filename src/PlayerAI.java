@@ -10,80 +10,53 @@ import java.util.List;
  * @since  2020-11-18
  *
  */
-public class PlayerAI extends Player {
-    private List<Country> countriesOwn; // the AI's owned countries
-    private String name; // the AI's name
-    private Color color;
+public class PlayerAI {
+    //playerAI as a field in player, when player is an AI, when it is his turn to attack, he will invoke the ai method,
+    //and pass in himself to perform the action.
+    private Player p;
+    private Country attackFrom;
+    private Country attackTo;
 
-    /**
-     * Constructor of the AI Player
-     * make an array list for the owner's countries called countriesOwn
-     */
-    public PlayerAI(String name) {
-        super(name);
-        this.name = name;
-        this.countriesOwn = new ArrayList<>();
-    }
-
-    /**
-     * @ param country is added into the countriesOwn array list
-     */
-    public void addCountry(Country country) {
-        this.countriesOwn.add(country);
-    }
-
-    /**
-     *Add color to the AI's color
-     */
-    public void addColor(Color c)
+    public  PlayerAI(Player p)
     {
-        color = c;
+        this.p = p;
+        attackFrom = null;
+        attackTo = null;
     }
 
     /**
-     *Get color of the AI player
-     *@return color
+     * loop through the player's country list and find the desire country of AttackTo and AttackFrom
      */
-    public Color getColor() {
-        return color;
-    }
+    public boolean calculateAttack()
+    {
 
-    /**
-     * @ param county is removed from the countriesOwn array list
-     */
-    public void removeCountry(Country country) {
-        this.countriesOwn.remove(country);
-    }
-
-    /**
-     * @ return countriesOwn array list
-     */
-    public List<Country> getCountriesOwn() { // helper method used for getting all the available countries in a printable list for the player
-        return countriesOwn;
-    }
-
-    /**
-     * getAvailableCountries checks of the country has more than 1 troops, if true print out the countries' name
-     * @ return a list of available countries
-     */
-    public String getAvailableCountries() {
-        String s = "";
-
-        for (Country country : countriesOwn) {
-            if ( !country.printEnemyCountry().equals("")) {
-                s += "->" + country.printState() + "\n";
+        ArrayList<Country> countries = (ArrayList)p.getCountriesOwn();
+        for(Country c:countries)
+        {
+            double troopNum = c.getTroopsNum();
+            double attackTroop = troopNum-1;
+            if(troopNum==1) continue;
+            ArrayList<Country> adjEnemyCountries = c.getEnemyCountry();
+            for(Country enemyCountry:adjEnemyCountries)
+            {
+                double enemyTroop = enemyCountry.getTroopsNum();
+                if(attackTroop/enemyTroop > 1.5)
+                {
+                    attackFrom = c;
+                    attackTo = enemyCountry;
+                    return true; //return true if countries are found and able to perfrom Attack.
+                }
             }
         }
-        return s;
+     return false;//return false if there are no country suitable to attack
     }
 
-    /**
-     * @ return name of the countries
-     */
-    public String getName() {
-        return name;
+    public Country getAttackToCountry()
+    {
+        return attackTo;
     }
 
-    //for test
-    public void clear(){this.countriesOwn.clear();}
+    public Country getAttackFrom() {
+        return attackFrom;
+    }
 }

@@ -14,6 +14,8 @@ public class Player {
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
     private Color color;
+    private boolean isAi;
+    private PlayerAI aiLogic;  //Ai player will use aiLogic to perform the calculation.
 
     /**
     * Constructor of Player
@@ -22,6 +24,8 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.countriesOwn = new ArrayList<>();
+        this.isAi = false;
+        aiLogic = new PlayerAI(this);
     }
 
     /**
@@ -85,4 +89,14 @@ public class Player {
 
     //for test
     public void clear(){this.countriesOwn.clear();}
+
+    public boolean isAi()
+    {
+        return isAi;
+    }
+
+    public void setAi(boolean ai) {
+        isAi = ai;
+    }
+
 }

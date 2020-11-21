@@ -149,6 +149,19 @@ public class Country {
         return s;
     }
 
+    public ArrayList<Country> getEnemyCountry()
+    {
+        ArrayList<Country> enemyCountry = new ArrayList<>();
+        for (Country c : this.getAdjacentCountries()) {
+
+
+            if (c.getOwner().equals(this.getOwner())) continue;
+           enemyCountry.add(c);
+
+        }
+        return enemyCountry;
+    }
+
     @Override
     public String toString() {
         return countryName + "(troops: "+ troopsNum + " )\n";

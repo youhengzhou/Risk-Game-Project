@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class RiskModel {
 
-    public static enum Phase {PENDING, ATTACK, AIATTACK, RESIGN, FORTIFY, DRAFTING}
+    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
     private Phase State;
     private List<Player> players;
     private Player playerOnGoing;
@@ -29,7 +29,6 @@ public class RiskModel {
     private String selectedCountryInfo;
     private int newArmy;
 
-
     private ArrayList<Country> preCountries;
     private boolean canMove = false;
     private boolean attackWin = false;
@@ -41,7 +40,6 @@ public class RiskModel {
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
         gameMap = new WorldMap();
-        this.State = Phase.PENDING;
         createPlayer();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
@@ -57,7 +55,7 @@ public class RiskModel {
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
         gameMap = new WorldMap();
-        this.State = Phase.PENDING;
+        this.State = Phase.RESIGN;
         this.setNumOfPlayer(num);
         createPlayer();
         playerIndex = 0;
@@ -124,6 +122,7 @@ public class RiskModel {
         s += "You can pick the country with your colors, shown on the upper right\n";
         s += "After selecting the attack button, select your country, and click on an adjacent country to attack\n";
         s += "Then select the confirm button to finalize it, are you ready General?\n";
+        s += "when you are at ATTACK Phase, and you done with attacking, you need to press PASS, to move on to FORTIFY";
         s += "You have the following command buttons: \n";
         s += "[Help]: bring up this pop-up window to show you how to play again\n";
         s += "[Attack]: can let you choose an enemy country to attack\n";
@@ -216,7 +215,7 @@ public class RiskModel {
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
         this.releaseSelected();
-        updateState(Phase.PENDING);
+        updateState(Phase.FORTIFY);
         updateModelListeners();
     }
 

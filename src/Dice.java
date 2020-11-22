@@ -40,6 +40,7 @@ public class Dice {
         return diceGroup.poll();
     }
 
+    
     /**
     * test if the diceGroup is empty
     * @ reutrn diceGroup.isEmpty()

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,7 @@ public class Country {
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
+    private JButton countryButton;
 
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
@@ -42,6 +44,11 @@ public class Country {
         troopsNum -= num;
     }
 
+    public void addButton(JButton b)
+    {
+        countryButton = b;
+    }
+
 
     /**
      * get number of troops on the country
@@ -58,6 +65,10 @@ public class Country {
     public Player getOwner() {
 
         return owner;
+    }
+
+    public boolean hasOwner(){
+        return !owner.equals(null);
     }
 
     /**
@@ -99,6 +110,17 @@ public class Country {
 
         return adjacentCountries;
     }
+
+    /**
+    *Get the list of the countries' buttons
+    *@return countries' button
+    */
+    public JButton getCountryButton(){
+        return this.countryButton;
+    }
+
+    //for testing Attack method
+    public void setTroopsNum(int num){this.troopsNum = num;}
 
     /**
      * get the String of troops on this country

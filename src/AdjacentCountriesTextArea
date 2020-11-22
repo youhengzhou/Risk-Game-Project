@@ -11,6 +11,7 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
 
     }
 
+
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
 

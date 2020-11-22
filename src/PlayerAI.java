@@ -59,4 +59,8 @@ public class PlayerAI {
     public Country getAttackFrom() {
         return attackFrom;
     }
+
+    public Player getPlayerSource() {
+        return p;
+    }
 }

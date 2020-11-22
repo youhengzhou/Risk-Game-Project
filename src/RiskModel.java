@@ -15,6 +15,8 @@ public class RiskModel {
     public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
     private Phase State;
     private List<Player> players;
+    private List<PlayerAI> playersAI;
+
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int initialTroops = 0;
@@ -97,8 +99,45 @@ public class RiskModel {
             }
         }
         players.remove(beRemovedPlayer);
-        if (players.size() == 1) {
-            System.out.println("The winner is " + players.get(0).getName());
+        if (players.size() + playersAI.size() == 1) {
+            if (players.size() == 1) {
+                System.out.println("The winner is " + players.get(0).getName());
+            }
+            if (playersAI.size() == 1) {
+                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
+            }
+        }
+    }
+
+    /**
+     * Method remove AI players with no more country from the players arraylist
+     */
+    public void removeAIPlayerWithNoCountry() {
+        Player beRemovedPlayer = new Player("impossible");
+        PlayerAI beRemovedPlayerAI = new PlayerAI(beRemovedPlayer);
+
+        for (PlayerAI p : playersAI) {
+            try {
+
+                if (p.getPlayerSource().getCountriesOwn().isEmpty()) {
+
+                    numOfPlayer--;
+                    beRemovedPlayerAI = p;
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        playersAI.remove(beRemovedPlayerAI);
+        if (players.size() + playersAI.size() == 1) {
+            if (players.size() == 1) {
+                System.out.println("The winner is " + players.get(0).getName());
+            }
+            if (playersAI.size() == 1) {
+                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
+            }
         }
     }
 

@@ -85,6 +85,7 @@ public class Battle {
     public int getTroopSurvive() {
         return troopSurvive;
     }
+    
 
     /*
     *Check if the attacker win the battle, if true the attacker win, if false the attacker lose 

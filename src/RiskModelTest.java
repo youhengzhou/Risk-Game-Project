@@ -32,8 +32,8 @@ public class RiskModelTest {
 
     @Test
     public void attackTest() {
-        Player p1 = new Player("p1");
-        Player p2 = new Player("p2");
+        Player p1 = new Player("p1", false);
+        Player p2 = new Player("p2", false);
 
         model.setPlayerOnGoing(p1);
         Country country1 = model.gameMap.map.get("india");
@@ -90,7 +90,7 @@ public class RiskModelTest {
 
     @Test
     public void availableToMoveTest(){
-        Player p1 = new Player("p1");
+        Player p1 = new Player("p1",false);
         model.setPlayerOnGoing(p1);
         Country country1 = model.gameMap.map.get("india");
         p1.addCountry(country1);
@@ -119,7 +119,7 @@ public class RiskModelTest {
     }
     @Test
     public void resignTest() {
-        Player p1 = new Player("p1");
+        Player p1 = new Player("p1",false);
         model.setPlayerOnGoing(p1);
         Country country1 = model.getCountry("easternaustralia");
         p1.addCountry(country1);

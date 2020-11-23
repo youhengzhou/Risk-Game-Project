@@ -15,17 +15,15 @@ public class Player {
     private String name; // the player's name
     private Color color;
     private boolean isAi;
-    private PlayerAI aiLogic;  //Ai player will use aiLogic to perform the calculation.
 
     /**
     * Constructor of Player
     * make an array list for the owner's countries called countriesOwn
     */
-    public Player(String name) {
+    public Player(String name, boolean ai) {
         this.name = name;
         this.countriesOwn = new ArrayList<>();
-        this.isAi = false;
-        aiLogic = new PlayerAI(this);
+        this.isAi = ai;
     }
 
     /**

@@ -19,6 +19,7 @@ public class RiskModel {
 
     private Player playerOnGoing;
     private int numOfPlayer = 0;
+    private int numOfAI = 0;
     private int initialTroops = 0;
     public WorldMap gameMap;
     int playerIndex;
@@ -83,7 +84,7 @@ public class RiskModel {
      * Method remove player with no more country from the players arraylist
      */
     public void removePlayerWithNoCountry() {
-        Player beRemovedPlayer = new Player("impossible");
+        Player beRemovedPlayer;
         for (Player p : players) {
             try {
 
@@ -91,6 +92,7 @@ public class RiskModel {
 
                     numOfPlayer--;
                     beRemovedPlayer = p;
+                    players.remove(beRemovedPlayer);
 
                 }
 
@@ -98,48 +100,47 @@ public class RiskModel {
                 e.printStackTrace();
             }
         }
-        players.remove(beRemovedPlayer);
         if (players.size() + playersAI.size() == 1) {
             if (players.size() == 1) {
                 System.out.println("The winner is " + players.get(0).getName());
             }
             if (playersAI.size() == 1) {
-                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
+                System.out.println("The winner is " + playersAI.get(0).getName());
             }
         }
     }
-
-    /**
-     * Method remove AI players with no more country from the players arraylist
-     */
-    public void removeAIPlayerWithNoCountry() {
-        Player beRemovedPlayer = new Player("impossible");
-        PlayerAI beRemovedPlayerAI = new PlayerAI(beRemovedPlayer);
-
-        for (PlayerAI p : playersAI) {
-            try {
-
-                if (p.getPlayerSource().getCountriesOwn().isEmpty()) {
-
-                    numOfPlayer--;
-                    beRemovedPlayerAI = p;
-
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        playersAI.remove(beRemovedPlayerAI);
-        if (players.size() + playersAI.size() == 1) {
-            if (players.size() == 1) {
-                System.out.println("The winner is " + players.get(0).getName());
-            }
-            if (playersAI.size() == 1) {
-                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
-            }
-        }
-    }
+//
+//    /**
+//     * Method remove AI players with no more country from the players arraylist
+//     */
+//    public void removeAIPlayerWithNoCountry() {
+//        Player beRemovedPlayer;
+//        PlayerAI beRemovedPlayerAI = new PlayerAI(beRemovedPlayer);
+//
+//        for (PlayerAI p : playersAI) {
+//            try {
+//
+//                if (p.getPlayerSource().getCountriesOwn().isEmpty()) {
+//
+//                    numOfPlayer--;
+//                    beRemovedPlayerAI = p;
+//
+//                }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        playersAI.remove(beRemovedPlayerAI);
+//        if (players.size() + playersAI.size() == 1) {
+//            if (players.size() == 1) {
+//                System.out.println("The winner is " + players.get(0).getName());
+//            }
+//            if (playersAI.size() == 1) {
+//                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
+//            }
+//        }
+//    }
 
     /**
      * print welcome to users
@@ -301,11 +302,15 @@ public class RiskModel {
      */
     private void createPlayer() {
         Color[] colors = {Color.pink, Color.yellow, Color.cyan, Color.GREEN, Color.white, Color.orange};
-        for (int i = 0; i < numOfPlayer; i++) {
-
-            Player p = new Player("Player" + i);
-            p.addColor(colors[i]);
+        int count = 0;
+        for (int i = 0; i < numOfPlayer - numOfAI; i++) {
+            Player p = new Player("Player" + count, false);
+            p.addColor(colors[count]);
+            count++;
             players.add(p);
+        }
+        for(int i = 0; i < numOfAI; i++){
+            PlayerAI p = new PlayerAI("Player"+ count);
         }
     }
 
@@ -495,10 +500,8 @@ public class RiskModel {
      * @return
      */
     public boolean availableToMove(Country TFromCountry){
-        //return false if not owning the countries,
-        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected)) return false;
-        //return false if too few troops on the From country
-        if(firstSelected.getTroopsNum() <= 1) return false;
+        //return false if not owning the countries or too few troops on the From country
+        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getTroopsNum() <= 1) return false;
         canMove = false;
         for(Country c: TFromCountry.getAdjacentCountries()){
             if(playerOnGoing.getCountriesOwn().contains(c)){
@@ -550,5 +553,7 @@ public class RiskModel {
     {
         return newArmy;
     }
+
+
 
 }

@@ -6,6 +6,10 @@ public class Buttons implements RiskModelListener {
 
     private ArrayList<JButton> buttonList;
 
+    /**
+     * Constructor of buttons
+     * @add all the countries' buttons on the map
+     */
     public Buttons(JPanel imagePanel){
         buttonList = new ArrayList<>();
         //North America buttons
@@ -269,8 +273,14 @@ public class Buttons implements RiskModelListener {
         imagePanel.setPreferredSize(new Dimension(900, 750));
     }
 
+    /**
+     * get buttons from the button list 
+     */
     public ArrayList<JButton> getList(){return this.buttonList;}
 
+    /**
+     * update countries' situation to the system and show it at the text area
+     */
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
         RiskModel model = (RiskModel) updateEvent.getSource();

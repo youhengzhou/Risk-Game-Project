@@ -44,6 +44,9 @@ public class Country {
         troopsNum -= num;
     }
 
+    /**
+     * add country buttons in JButton
+     */
     public void addButton(JButton b)
     {
         countryButton = b;
@@ -67,6 +70,9 @@ public class Country {
         return owner;
     }
 
+    /**
+     * check if the country has a owner
+     */
     public boolean hasOwner(){
         return !owner.equals(null);
     }
@@ -232,13 +238,17 @@ public class Country {
         return false;
     }
 
+    /**
+     * check of the defence country has more troops than the attack country 
+     */
     public boolean isAStrongCountry()
     {
         return this.getEnemyCountry().stream().allMatch(e->e.getTroopsNum()*1.2 < this.getTroopsNum());
     }
 
-
-
+    /**
+     * give the country's name and show out the troop number 
+     */
     @Override
     public String toString() {
         return countryName + "(troops: "+ troopsNum + " )\n";

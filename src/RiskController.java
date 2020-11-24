@@ -111,8 +111,8 @@
 
 
             if(model.getState().equals(RiskModel.Phase.RESIGN)) {
-                new JOptionPane().showMessageDialog(view, "now, you are at Attack. when you done with Attack, just press PASS again");
-                model.updateState(RiskModel.Phase.ATTACK);
+                new JOptionPane().showMessageDialog(view, "you have to finish resign to get to next step");
+                //model.updateState(RiskModel.Phase.ATTACK);
 
             }
             else if(model.getState().equals(RiskModel.Phase.ATTACK)){

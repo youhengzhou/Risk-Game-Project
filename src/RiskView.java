@@ -26,7 +26,8 @@ public class RiskView extends JFrame implements RiskModelListener
     private JButton helpButton;
     private JButton confirmButton;
     private JButton fortifyButton;
-    private int NumOfPlayer;
+    private int NumOfTotalPlayer;
+    private int NumOfAiPlayer;
     private Buttons buttonList;
     private ArrayList<RiskModelListener> listners;
     /**
@@ -108,15 +109,24 @@ public class RiskView extends JFrame implements RiskModelListener
         this.setLocationByPlatform(true);
         this.setVisible(true);
         this.pack();
-        this.showNumOfPlayerDialog();
+        this.showNumOfTotalPlayerDialog();
+        this.showNumOfAiPlayerDialog();
     }
 
     /**
-     *get the number of player;
+     *get the number of total player;
      * @return
      */
     public int getNumOfPlayer() {
-        return NumOfPlayer;
+        return NumOfTotalPlayer;
+    }
+
+    /**
+     *get the number of ai player;
+     * @return
+     */
+    public int getNumOfAiPlayerPlayer() {
+        return NumOfAiPlayer;
     }
 
     /**
@@ -131,17 +141,34 @@ public class RiskView extends JFrame implements RiskModelListener
      * get the user input of how many players are playing.
      * @return
      */
-    public void showNumOfPlayerDialog(){
+    public void showNumOfTotalPlayerDialog(){
+    int num = 0;
+    String str = "";
+    boolean isNumeric;
+    do {
+        String numberStr = new JOptionPane().showInputDialog("How many players in the game? (2-6players)");
+        isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+        if(!isNumeric) continue;
+        num = Integer.parseInt(numberStr);
+    }while(num<2 || num>6);
+    NumOfTotalPlayer = num;
+}
+    public void showNumOfAiPlayerDialog(){
         int num = 0;
         String str = "";
         boolean isNumeric;
         do {
-            String numberStr = new JOptionPane().showInputDialog("How many players in the game? (2-6players)");
+            String numberStr = new JOptionPane().showInputDialog("How many AI players in the game? (0 -"+ (NumOfTotalPlayer-1)+" )");
             isNumeric = numberStr.chars().allMatch(Character :: isDigit);
             if(!isNumeric) continue;
             num = Integer.parseInt(numberStr);
-        }while(num<2 || num>6);
-        NumOfPlayer = num;
+        }while(num<0 || num>NumOfTotalPlayer-1);
+        NumOfAiPlayer = num;
+    }
+
+    public void clickPassButton()
+    {
+        passButton.doClick();
     }
 
 

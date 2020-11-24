@@ -15,8 +15,11 @@ public class RiskModel {
     public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
     private Phase State;
     private List<Player> players;
+
+
     private Player playerOnGoing;
     private int numOfPlayer = 0;
+    private int numOfAI = 0;
     private int initialTroops = 0;
     public WorldMap gameMap;
     int playerIndex;
@@ -33,6 +36,8 @@ public class RiskModel {
     private boolean canMove = false;
     private boolean attackWin = false;
 
+    private String AiPlayInfo = "";
+    private String AIattackInfo = "";
     /**
      * This constructor of Game
      */
@@ -51,12 +56,13 @@ public class RiskModel {
     }
 
     //used for test
-    public RiskModel(int num){
+    public RiskModel(int num, int numOfAi){
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
         gameMap = new WorldMap();
         this.State = Phase.RESIGN;
         this.setNumOfPlayer(num);
+        numOfAI = numOfAi;
         createPlayer();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
@@ -81,7 +87,7 @@ public class RiskModel {
      * Method remove player with no more country from the players arraylist
      */
     public void removePlayerWithNoCountry() {
-        Player beRemovedPlayer = new Player("impossible");
+        Player beRemovedPlayer;
         for (Player p : players) {
             try {
 
@@ -89,6 +95,7 @@ public class RiskModel {
 
                     numOfPlayer--;
                     beRemovedPlayer = p;
+                    players.remove(beRemovedPlayer);
 
                 }
 
@@ -96,11 +103,45 @@ public class RiskModel {
                 e.printStackTrace();
             }
         }
-        players.remove(beRemovedPlayer);
-        if (players.size() == 1) {
-            System.out.println("The winner is " + players.get(0).getName());
-        }
+        if (players.size() ==1 ) {
+
+                System.out.println("The winner is " + players.get(0).getName());
+
+            }
+
     }
+//
+//    /**
+//     * Method remove AI players with no more country from the players arraylist
+//     */
+//    public void removeAIPlayerWithNoCountry() {
+//        Player beRemovedPlayer;
+//        PlayerAI beRemovedPlayerAI = new PlayerAI(beRemovedPlayer);
+//
+//        for (PlayerAI p : playersAI) {
+//            try {
+//
+//                if (p.getPlayerSource().getCountriesOwn().isEmpty()) {
+//
+//                    numOfPlayer--;
+//                    beRemovedPlayerAI = p;
+//
+//                }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        playersAI.remove(beRemovedPlayerAI);
+//        if (players.size() + playersAI.size() == 1) {
+//            if (players.size() == 1) {
+//                System.out.println("The winner is " + players.get(0).getName());
+//            }
+//            if (playersAI.size() == 1) {
+//                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
+//            }
+//        }
+//    }
 
     /**
      * print welcome to users
@@ -148,11 +189,35 @@ public class RiskModel {
             return false;
         }
         if(firstSelected.getTroopsNum() < 2) return false;
-        Battle battle = new Battle(firstSelected, secondSelected, attackTroops);
+        Battle battle;
+        if(playerOnGoing.isAi())
+        {
+            PlayerAI p = (PlayerAI) playerOnGoing;
+            int attackTroop = p.getTroopNeedToAttack();
+             battle = new Battle(firstSelected, secondSelected, attackTroop);
 
-         battleResult = battle.fight();
-        this.attackWin = battle.isAttackerWin();
-         survivedTroops =battle.getTroopSurvive();
+            battleResult = battle.fight();
+            this.attackWin = battle.isAttackerWin();
+            survivedTroops =battle.getTroopSurvive();
+            secondSelected.addTroops(survivedTroops);
+            AIattackInfo+="Letting "+ firstSelected+" attacks "+secondSelected+attackTroop+" troops sent" +"\n";
+            if(attackWin)
+            {
+                AIattackInfo+="Result: battle win! conquored "+secondSelected.getCountryName()+"\n\n";
+            }
+            else
+            {
+                AIattackInfo+="Result: battle lost\n\n";
+            }
+        }
+        else {
+             battle = new Battle(firstSelected, secondSelected, attackTroops);
+            battleResult = battle.fight();
+            this.attackWin = battle.isAttackerWin();
+            survivedTroops =battle.getTroopSurvive();
+        }
+
+
         removePlayerWithNoCountry();
         return true;
     }
@@ -214,9 +279,20 @@ public class RiskModel {
     public void pass() {
         playerIndex++;
         playerOnGoing =   players.get(playerIndex % numOfPlayer);
+        if(playerOnGoing.isAi())
+        {
+            PlayerAI p= (PlayerAI) playerOnGoing;
+           Aiplay(p);
+           return;
+        }
         this.releaseSelected();
-        updateState(Phase.FORTIFY);
+        updateState(Phase.RESIGN);
         updateModelListeners();
+    }
+
+    public Player getPlayerComing()
+    {
+        return players.get(players.indexOf(playerOnGoing)+1);
     }
 
     /**
@@ -257,16 +333,89 @@ public class RiskModel {
         return true;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     *
+     * @return AIrecruitInfo
+     */
+
+
+    /**
+     * AIattackInfo
+     * @return
+     */
+    public String getAIattackInfo() {
+        return AIattackInfo;
+    }
+
+    /**
+     * AImoveInfo
+     * @return
+     */
+
+
+    /**
+     * The logic of AI play its round
+     * @param p
+     */
+    public String Aiplay(PlayerAI p)
+    {
+        AiPlayInfo ="";
+        AIattackInfo="";
+         String AIrecruitInfo = "";
+         String AImoveInfo = "";
+
+        refreshNewArmy();
+        p.setNewTroops(newArmy);
+        AIrecruitInfo = p.AIrecruit(); //recruit for AI
+        Random r = new Random();
+        int i = r.nextInt(2)+2;
+        while(i>0)
+        {
+            p.calculateAttack();
+            firstSelected = p.getAttackFromCountry();
+            secondSelected = p.getAttackToCountry();
+            attack(); //attack will assign AttackInfo
+            i--;
+        }
+
+        AImoveInfo = p.AIMove();
+      //  updateModelListeners();
+        AiPlayInfo+=AIrecruitInfo+"------------------------------------------------------------------------\n";
+        AiPlayInfo+=AIattackInfo+"---------------------------------------------------------------------------\n";
+        AiPlayInfo+=AImoveInfo+"------------------------------------------------------------------------------";
+        return AiPlayInfo;
+    }
+
+    public String getAiPlayInfo()
+    {
+        return AiPlayInfo;
+    }
+
+
     /**
      * create instances of all Player and add them into Arraylist players.
      */
     private void createPlayer() {
         Color[] colors = {Color.pink, Color.yellow, Color.cyan, Color.GREEN, Color.white, Color.orange};
+        int count = 0;
+        int leftToCreate = numOfPlayer;
+        int leftAI = numOfAI;
         for (int i = 0; i < numOfPlayer; i++) {
+            if (i % 2 == 0 && leftToCreate > leftAI) {
+                Player p = new Player("Player" + count, false);
+                p.addColor(colors[count]);
+                players.add(p);
+            } else {
+                Player p = new PlayerAI("Player" + count+"(AI)");
+                p.addColor(colors[count]);
+                players.add(p);
+            }
+            count++;
 
-            Player p = new Player("Player" + i);
-            p.addColor(colors[i]);
-            players.add(p);
         }
     }
 
@@ -456,10 +605,8 @@ public class RiskModel {
      * @return
      */
     public boolean availableToMove(Country TFromCountry){
-        //return false if not owning the countries,
-        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected)) return false;
-        //return false if too few troops on the From country
-        if(firstSelected.getTroopsNum() <= 1) return false;
+        //return false if not owning the countries or too few troops on the From country
+        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getTroopsNum() <= 1) return false;
         canMove = false;
         for(Country c: TFromCountry.getAdjacentCountries()){
             if(playerOnGoing.getCountriesOwn().contains(c)){
@@ -511,5 +658,7 @@ public class RiskModel {
     {
         return newArmy;
     }
+
+
 
 }

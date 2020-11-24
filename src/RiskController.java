@@ -1,6 +1,4 @@
-
-
-    import javax.swing.*;
+ import javax.swing.*;
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
@@ -35,8 +33,7 @@
      */
     public static void main(String[] args) {
         RiskView view = new RiskView();
-
-        RiskModel riskModel = new RiskModel(view.getNumOfPlayer());
+        RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer());
         riskModel.addRiskModelListener(view.getadjacentCountriesText());
         riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
         riskModel.addRiskModelListener(view.getNamePane());
@@ -110,15 +107,44 @@
     class passButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.ATTACK)){
+            System.out.println(model.getPlayerOnGoing().isAi());
+            System.out.println(model.getState());
+
+
+            if(model.getState().equals(RiskModel.Phase.RESIGN)) {
+                new JOptionPane().showMessageDialog(view, "now, you are at Attack. when you done with Attack, just press PASS again");
+                model.updateState(RiskModel.Phase.ATTACK);
+
+            }
+            else if(model.getState().equals(RiskModel.Phase.ATTACK)){
                 new JOptionPane().showMessageDialog(view, "now, you are at Fortify phase. when you done with Fortify, just press PASS again");
                 model.updateState(RiskModel.Phase.FORTIFY);
             } else {
-                model.pass();
-                updateView();
-                System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
-                enterRecruitState(model.getPlayerOnGoing());
-                System.out.println(model.getState());
+                System.out.println("in else");
+                //if(model.getPlayerOnGoing().isAi()) view.clickPassButton();
+                if(model.getPlayerComing().isAi())
+                {
+                    System.out.println("1");
+                    model.pass();
+                    updateView();
+                    String AiRoundInfo = model.getAiPlayInfo();
+                    new JOptionPane().showMessageDialog(view, AiRoundInfo);
+
+                    //System.out.println(aiRecruitInfo);
+                    //let view to displaythose info and then pass on to the next player.
+
+                    view.clickPassButton();
+                    return;
+
+                }
+                    System.out.println("2");
+
+                    model.pass();
+                    updateView();
+                    System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
+                    enterRecruitState(model.getPlayerOnGoing());
+                    System.out.println(model.getState());
+                System.out.println("3");
             }
         }
     }
@@ -297,7 +323,7 @@
             model.updateState(RiskModel.Phase.ATTACK);
             new JOptionPane().showMessageDialog(view, "Now please choose two countries\n First one being the country you want to use to Attack\n" +
                     "Second one being the country you are intending to attack\n The country you are using to Attack need to have more than 1 troops on it\n " +
-                    "You can not attack your own country\n Press [Confirm] after selecting Attacking and Defending countries\n Good Luck");
+                    "You can not attack your own country\n PressConfirm] after selecting Attacking and Defending countries\n Good Luck");
         }
 
     }

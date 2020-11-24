@@ -149,18 +149,95 @@ public class Country {
         return s;
     }
 
-    public ArrayList<Country> getEnemyCountry()
+    /**
+     * get list of enemy country
+     * @return
+     */
+   public ArrayList<Country> getEnemyCountry()
     {
         ArrayList<Country> enemyCountry = new ArrayList<>();
         for (Country c : this.getAdjacentCountries()) {
 
 
             if (c.getOwner().equals(this.getOwner())) continue;
-           enemyCountry.add(c);
+            enemyCountry.add(c);
 
         }
         return enemyCountry;
     }
+
+    /**
+     * get list of country that having the same owner
+     * @return
+     */
+    public ArrayList<Country> getFriendlyCountry()
+    {
+        ArrayList<Country> friendlyCountry = new ArrayList<>();
+        for (Country c : this.getAdjacentCountries()) {
+
+
+            if (!c.getOwner().equals(this.getOwner())) continue;
+            friendlyCountry.add(c);
+
+        }
+        return friendlyCountry;
+    }
+
+    /**
+     * check whether there is a stong enemy near by the country
+     * @return true if there are strong enemy cuntries near by the country passed in.
+     */
+    public boolean hasStrongEnemyCountryNearBy()
+    {
+        int troopsOnC = this.getTroopsNum();
+        for(Country country: getAdjacentCountries())
+        {
+            if(this.getOwner().getCountriesOwn().contains(country)) continue; //continue if it's a friendly country.
+            int troopOfEnemyCountry = country.getTroopsNum();
+            if((double)troopOfEnemyCountry / troopsOnC > 1.5 )
+            {
+                return true; //there is a strong enemy near by
+
+            }
+        }
+        return false; //country is safe, don't need recruit, don' need friend country to Move and help.
+    }
+
+    /**
+     *
+     * @param
+     * @return true false all countries near by are not Enemy. False if any ennemy countries are found.
+     */
+    public boolean noAdjacentEnemy(){
+        for(Country c: this.getAdjacentCountries()){
+            if(this.getEnemyCountry().isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param
+     * @return true if there are no friendly countries near by.
+     */
+    public boolean noAdjFriendCountry()
+    {
+        for(Country c: this.getAdjacentCountries()){
+            if(this.getFriendlyCountry().isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAStrongCountry()
+    {
+        return this.getEnemyCountry().stream().allMatch(e->e.getTroopsNum()*1.2 < this.getTroopsNum());
+    }
+
+
 
     @Override
     public String toString() {

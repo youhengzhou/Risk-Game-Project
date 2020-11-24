@@ -9,7 +9,7 @@ RISK, the 2-6 players game of global domination.
 
 This game is written in Java with a team of four students using IntelliJ IDEA with Java and Git/Github for version control.
 
-For the second milestone of the project, we have the deliverables of a readme file, UML and sequence diagrams, a test class for testing our java code, our up to date version of the Risk game with the View and the Controller, and also plenty of java documentation embedded inside the java classes.
+For the third milestone of the project, we have the deliverables of a readme file, UML and sequence diagrams, a test class for testing our java code, our up to date version of the Risk game with the View and the Controller, a new map for the game, a lot of fixes to the issues, and also plenty of java documentation embedded inside the java classes.
 
 Description of Deliverables:
 

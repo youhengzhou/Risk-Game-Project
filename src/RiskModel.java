@@ -163,7 +163,7 @@ public class RiskModel {
         s += "You can pick the country with your colors, shown on the upper right\n";
         s += "After selecting the attack button, select your country, and click on an adjacent country to attack\n";
         s += "Then select the confirm button to finalize it, are you ready General?\n";
-        s += "when you are at ATTACK Phase, and you done with attacking, you need to press PASS, to move on to FORTIFY";
+        s += "when you are at ATTACK Phase, and you done with attacking, you need to press PASS, to move on to FORTIFY\n";
         s += "You have the following command buttons: \n";
         s += "[Help]: bring up this pop-up window to show you how to play again\n";
         s += "[Attack]: can let you choose an enemy country to attack\n";

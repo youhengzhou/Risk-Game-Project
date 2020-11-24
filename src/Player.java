@@ -93,6 +93,9 @@ public class Player {
         return isAi;
     }
 
+    /**
+    *check if the player is an ai player 
+    */
     public void setAi(boolean ai) {
         isAi = ai;
     }

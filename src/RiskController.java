@@ -121,6 +121,7 @@
                 model.updateState(RiskModel.Phase.FORTIFY);
             } else {
                 System.out.println("in else");
+
                 //if(model.getPlayerOnGoing().isAi()) view.clickPassButton();
                 if(model.getPlayerComing().isAi())
                 {

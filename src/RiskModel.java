@@ -292,7 +292,7 @@ public class RiskModel {
 
     public Player getPlayerComing()
     {
-        return players.get(players.indexOf(playerOnGoing)+1);
+        return players.get((players.indexOf(playerOnGoing)+1) % numOfPlayer);
     }
 
     /**

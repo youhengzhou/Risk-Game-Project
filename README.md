@@ -42,7 +42,7 @@ User Manual for Game:
 
 For the third milestone, we added a PlayerAI.java class for the computer player. And we also added a WorldMap to decouple the map building process from RiskModel that would populate countries to a game world, as well, for future projects, make custom maps for the game.
 
-The AI player will attempt to make its own moves based on the information of the unit it has
+The AI player will attempt to make its own moves based on the information of the unit it has, the unit it recieves each turn
 
 We also revamped our RiskModel.java and RiskView.java to add bonus bonus army placement and troop movement phase, as well as integrating the AI player to the normal game flow in miletone 2.
 

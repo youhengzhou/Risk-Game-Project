@@ -108,6 +108,7 @@ public class PlayerAI extends Player {
     public int getTroopNeedToAttack() {
         return troopNeedToAttack;
     }
+
     /**
      * get the AttackToCountry
      * @return attactTo
@@ -237,7 +238,6 @@ public class PlayerAI extends Player {
         for(Country c: country.getEnemyCountry())
         {
             int curr = totalTroops - c.getTroopsNum();
-
             min = (curr<min) ? curr: min;
         }
 

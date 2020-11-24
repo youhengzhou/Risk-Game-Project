@@ -12,7 +12,7 @@ public class Battle {
     private Country countryAttack;
     private Country countryDefend;
     private int AttackingTroops;
-    private String battleResult;
+    private String battleResultString;
     private int troopSurvive;
     private boolean isAttackerWin;
 
@@ -23,7 +23,7 @@ public class Battle {
      * @param troopSent number of troops bing sent from attacking country
      */
     public Battle(Country attack, Country defend, int troopSent) {
-        battleResult = "";
+        battleResultString = "";
         isAttackerWin = false;
         this.countryAttack = attack;
         this.countryDefend = defend;
@@ -60,22 +60,22 @@ public class Battle {
                 }
             }
         }
-       battleResult+=("\nBattle Result:\n");
-       battleResult+=(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle\n");
-        battleResult+=(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle\n");
+       battleResultString +=("\nBattle Result:\n");
+       battleResultString +=(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle\n");
+        battleResultString +=(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle\n");
         if (countryDefend.getTroopsNum() == 0) {
              troopSurvive = AttackingTroops;
             isAttackerWin = true;
             countryDefend.getOwner().removeCountry(countryDefend); //remove the country from the country defender countryOwner
             countryDefend.changeOwner(countryAttack.getOwner());//change owner of the defendCountry
             countryAttack.getOwner().addCountry(countryDefend);//add CountryDefend into the attacker CountryOwner
-            battleResult+=("You win! Now " + countryDefend.getCountryName() + "is yours." +"\n");
-            battleResult+=("you have "+troopSurvive+" troops survived in the battle.");
+            battleResultString +=("You win! Now " + countryDefend.getCountryName() + "is yours." +"\n");
+            battleResultString +=("you have "+troopSurvive+" troops survived in the battle.");
             countryDefend.getCountryButton().setBackground(countryAttack.getOwner().getColor());
-            return battleResult;
+            return battleResultString;
         }
-       battleResult+=("Unfortunately you lose the battle with " + countryDefend.getCountryName()+"\n");
-        return battleResult;
+       battleResultString +=("Unfortunately you lose the battle with " + countryDefend.getCountryName()+"\n");
+        return battleResultString;
     }
 
     /*

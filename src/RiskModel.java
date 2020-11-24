@@ -194,6 +194,8 @@ public class RiskModel {
         {
             PlayerAI p = (PlayerAI) playerOnGoing;
             int attackTroop = p.getTroopNeedToAttack();
+            System.out.println("from "+firstSelected);
+            System.out.println("To: "+secondSelected);
              battle = new Battle(firstSelected, secondSelected, attackTroop);
             AIattackInfo+="Letting "+ firstSelected.getCountryName()+" attacks "+secondSelected.getCountryName()+"\n"+attackTroop+" troops sent" +"\n";
             battleResult = battle.fight();
@@ -364,7 +366,7 @@ public class RiskModel {
     public String Aiplay(PlayerAI p)
     {
         AiPlayInfo ="";
-        AIattackInfo="";
+        AIattackInfo="Attack Phase:\n";
          String AIrecruitInfo = "";
          String AImoveInfo = "";
 
@@ -375,7 +377,7 @@ public class RiskModel {
         int i = r.nextInt(2)+3;
         while(i>0)
         {
-            p.calculateAttack();
+            if(!p.calculateAttack()) break; // If calculateAttack() return false, then we won't perform AIattack, because no suitable country.
             firstSelected = p.getAttackFromCountry();
             secondSelected = p.getAttackToCountry();
             attack(); //attack will assign AttackInfo
@@ -386,7 +388,7 @@ public class RiskModel {
       //  updateModelListeners();
         AiPlayInfo+=AIrecruitInfo+"------------------------------------------------------------------------\n";
         AiPlayInfo+=AIattackInfo+"---------------------------------------------------------------------------\n";
-        AiPlayInfo+=AImoveInfo+"------------------------------------------------------------------------------";
+        AiPlayInfo+=AImoveInfo+"\n------------------------------------------------------------------------------";
         return AiPlayInfo;
     }
 
@@ -413,7 +415,9 @@ public class RiskModel {
                 Player p = new PlayerAI("Player" + count+"(AI)");
                 p.addColor(colors[count]);
                 players.add(p);
+                leftAI--;
             }
+            leftToCreate--;
             count++;
 
         }

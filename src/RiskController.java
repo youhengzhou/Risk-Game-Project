@@ -60,6 +60,7 @@
     }
 
 
+
     /**
      * Show out the player's information in the window
      * player's name and the contries they own
@@ -119,12 +120,12 @@
                 new JOptionPane().showMessageDialog(view, "now, you are at Fortify phase. when you done with Fortify, just press PASS again");
                 model.updateState(RiskModel.Phase.FORTIFY);
             } else {
-                System.out.println("in else");
+
 
                 //if(model.getPlayerOnGoing().isAi()) view.clickPassButton();
                 if(model.getPlayerComing().isAi())
                 {
-                    System.out.println("1");
+
                     model.pass();
                     updateView();
                     String AiRoundInfo = model.getAiPlayInfo();
@@ -137,14 +138,14 @@
                     return;
 
                 }
-                    System.out.println("2");
+
 
                     model.pass();
                     updateView();
                     System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
                     enterRecruitState(model.getPlayerOnGoing());
                     System.out.println(model.getState());
-                System.out.println("3");
+
             }
         }
     }

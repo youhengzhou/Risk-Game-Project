@@ -72,7 +72,7 @@ public class PlayerAI extends Player {
      */
     public boolean calculateAttack()
     {
-        int attackTime = 3; //test
+
         ArrayList<Country> countries = (ArrayList)getCountriesOwn();
         for(Country c:countries)
         {
@@ -90,8 +90,6 @@ public class PlayerAI extends Player {
                     attackTo = enemyCountry;
                     troopNeedToAttack = (enemyTroop==1)? 3 : (int)Math.floor(enemyTroop*(1.5));
                     troopNeedToAttack = (troopNeedToAttack == troopNum) ? (int)attackTroop : troopNeedToAttack;
-                    attackTime--;//test
-                    if(attackTime ==0) return false; //test
                     return true; //return true if countries are found and able to perfrom Attack.
                 }
             }
@@ -149,16 +147,16 @@ public class PlayerAI extends Player {
 
      public String AIMove()
      {
-         String s = "Move Phase: ";
+         String s = "Move Phase: \n";
         // System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
          int count = new Random().nextInt(3)+4;
          while(calculateMove() )
          {
              if(count == 0) break;
              count--;
-              int offer = calculateSupportCanOffer(moveFrom);
-
-              int need = calculateSupportNeeded(moveTo);
+               calculateSupportCanOffer(moveFrom);
+             System.out.println("can offer " +supportCanOffer);
+               calculateSupportNeeded(moveTo);
 
              s+="moved from "+moveFrom.getCountryName();
              s+= " to "+moveTo.getCountryName();
@@ -227,15 +225,16 @@ public class PlayerAI extends Player {
     {
 
         int min = 999;
-        int totalTroops = country.getTroopsNum();
+        int curr = 999;
+        int maxCanGive = country.getTroopsNum()-1;
         if(country.noAdjacentEnemy())
         {
-            supportCanOffer = country.getTroopsNum()-1;
+            supportCanOffer = maxCanGive;
             return supportCanOffer;
         }
         for(Country c: country.getEnemyCountry())
         {
-            int curr = totalTroops - c.getTroopsNum();
+             curr = country.getTroopsNum() - c.getTroopsNum();
             min = (curr<min) ? curr: min;
         }
 
@@ -292,11 +291,11 @@ public class PlayerAI extends Player {
      */
     public String AIrecruit()
     {
-
+        boolean findRecruit = false;
         recruitLog = this.getName()+"\nRecruit Phase: \n";
         while(newTroops!=0 && findRecruitTo()) //if we still have new troops to assign and still countries need help
         {
-
+            findRecruit =true;
             int troopGive = 0;
             if(supportNeed<newTroops)
             {
@@ -315,6 +314,18 @@ public class PlayerAI extends Player {
 
             recruitLog+="added "+troopGive+" troops to "+recruitTo.getCountryName()+"\n";
 
+        }
+        if(!findRecruit || newTroops!=0)
+        {
+            for(Country c: this.getCountriesOwn())
+            {
+                if(!c.noAdjacentEnemy())
+                {
+                    c.addTroops(newTroops);
+                    recruitLog+="added "+newTroops+" troops to "+c.getCountryName()+"\n";
+                    return recruitLog;
+                }
+            }
         }
         return recruitLog;
     }

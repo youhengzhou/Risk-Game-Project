@@ -94,7 +94,7 @@ public class RiskModelTest {
         model.setPlayerOnGoing(p1);
         Country country1 = model.gameMap.map.get("india");
         p1.addCountry(country1);
-        country1.setTroopsNum(1);
+        country1.setTroopsNum(10);
         Country country2 = model.gameMap.map.get("china");
         p1.addCountry(country2);
         Country country3 = model.gameMap.map.get("japan");

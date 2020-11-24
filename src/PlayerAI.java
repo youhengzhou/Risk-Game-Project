@@ -92,8 +92,6 @@ public class PlayerAI extends Player {
                     troopNeedToAttack = (troopNeedToAttack == troopNum) ? (int)attackTroop : troopNeedToAttack;
                     attackTime--;//test
                     if(attackTime ==0) return false; //test
-                    //System.out.println("attackFrom: " +attackFrom);
-                    //System.out.println("attackTo: "+attackTo);
                     return true; //return true if countries are found and able to perfrom Attack.
                 }
             }

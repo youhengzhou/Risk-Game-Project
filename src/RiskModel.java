@@ -110,49 +110,6 @@ public class RiskModel {
             }
 
     }
-//
-//    /**
-//     * Method remove AI players with no more country from the players arraylist
-//     */
-//    public void removeAIPlayerWithNoCountry() {
-//        Player beRemovedPlayer;
-//        PlayerAI beRemovedPlayerAI = new PlayerAI(beRemovedPlayer);
-//
-//        for (PlayerAI p : playersAI) {
-//            try {
-//
-//                if (p.getPlayerSource().getCountriesOwn().isEmpty()) {
-//
-//                    numOfPlayer--;
-//                    beRemovedPlayerAI = p;
-//
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        playersAI.remove(beRemovedPlayerAI);
-//        if (players.size() + playersAI.size() == 1) {
-//            if (players.size() == 1) {
-//                System.out.println("The winner is " + players.get(0).getName());
-//            }
-//            if (playersAI.size() == 1) {
-//                System.out.println("The winner is " + playersAI.get(0).getPlayerSource().getName());
-//            }
-//        }
-//    }
-
-    /**
-     * print welcome to users
-     */
-    private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to the RISK!");
-        System.out.println("RISK is the Hasbro game of Global Domination");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
-    }
 
     /**
      * print help to help the users to get known of the command words and their usages.

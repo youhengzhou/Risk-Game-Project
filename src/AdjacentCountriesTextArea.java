@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AdjacentCountriesTextArea extends JTextArea implements RiskModelListener {
-
+     /**
+     * Constructor of AdjacentCountriesTextArea
+     * set the text area of the adjacent countries 
+     */
     public AdjacentCountriesTextArea() {
         super("",5,1);
 
@@ -11,6 +14,9 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
 
     }
 
+    /**
+     * upload the situation of the adjacent countries at the text area 
+     */
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
 

@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CountryOwnTextArea extends JTextArea implements RiskModelListener {
+    /**
+     * Constructor of CountryOwnTextArea
+     * set the text area of the countries owned by player
+     */
     public  CountryOwnTextArea()
     {
         super("",10,1);
@@ -10,6 +14,9 @@ public class CountryOwnTextArea extends JTextArea implements RiskModelListener {
 
     }
 
+    /**
+     * upload the situation of the countries that player own at the text area 
+     */
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
 

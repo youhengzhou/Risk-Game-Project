@@ -195,12 +195,12 @@ public class RiskModel {
             PlayerAI p = (PlayerAI) playerOnGoing;
             int attackTroop = p.getTroopNeedToAttack();
              battle = new Battle(firstSelected, secondSelected, attackTroop);
-
+            AIattackInfo+="Letting "+ firstSelected.getCountryName()+" attacks "+secondSelected.getCountryName()+"\n"+attackTroop+" troops sent" +"\n";
             battleResult = battle.fight();
             this.attackWin = battle.isAttackerWin();
             survivedTroops =battle.getTroopSurvive();
             secondSelected.addTroops(survivedTroops);
-            AIattackInfo+="Letting "+ firstSelected+" attacks "+secondSelected+attackTroop+" troops sent" +"\n";
+
             if(attackWin)
             {
                 AIattackInfo+="Result: battle win! conquored "+secondSelected.getCountryName()+"\n\n";
@@ -372,7 +372,7 @@ public class RiskModel {
         p.setNewTroops(newArmy);
         AIrecruitInfo = p.AIrecruit(); //recruit for AI
         Random r = new Random();
-        int i = r.nextInt(2)+2;
+        int i = r.nextInt(2)+3;
         while(i>0)
         {
             p.calculateAttack();

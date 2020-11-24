@@ -44,7 +44,6 @@
         RiskController controller = new RiskController(riskModel, view);
 
 
-
         System.out.println("Press on your own country, then \npress confirm to add troops\n------------------------------------------------");
 
     }

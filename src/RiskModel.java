@@ -144,6 +144,17 @@ public class RiskModel {
 //    }
 
     /**
+     * print welcome to users
+     */
+    private void printWelcome() {
+        System.out.println();
+        System.out.println("Welcome to the RISK!");
+        System.out.println("RISK is the Hasbro game of Global Domination");
+        System.out.println("Type 'help' if you need help.");
+        System.out.println();
+    }
+
+    /**
      * print help to help the users to get known of the command words and their usages.
      */
     public String printHelp() {
@@ -322,9 +333,28 @@ public class RiskModel {
         return true;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     *
+     * @return AIrecruitInfo
+     */
 
 
+    /**
+     * AIattackInfo
+     * @return
+     */
+    public String getAIattackInfo() {
+        return AIattackInfo;
+    }
 
+    /**
+     * AImoveInfo
+     * @return
+     */
 
 
     /**

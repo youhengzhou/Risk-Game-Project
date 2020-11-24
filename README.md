@@ -21,6 +21,8 @@ Description of Deliverables:
           6. Player: stores all the important details for the players, such as the list of countries they own, and their names
           8. Battle: performs the fight between two countries and display the battle result, modifies the state of country owner of the attack country and
              defend country according to the result.
+          9. PlayerAI: a computer Player using the PlayerAI class can act to perform computer actions in place of a player for the RISK game
+          10. WorldMap: a helper function used to build the initial world map by populating it with countries and troops that became its own class to remove bloat to RiskModel
              
 User Manual for Game:
 
@@ -34,24 +36,19 @@ User Manual for Game:
                        You can not attack your own country 
                        Press [Confirm] after selecting Attacking and Defending countries
           5. [HELP]: well, this is going to tell you how to play this game
-          6. [PASS]: use this button when you finish your turn
+          6. [PASS]: use this button when you finish your action
           7. If you want to quit the game, just close the window
 
-We kept the Battle.java, Country.java, Dice.java, and Player.java from milestone 1.
 
-We changed Game.java into RiskController.java, and added RiskModel.java, RiskModelTest.java, and RiskView.java.
+For the third milestone, we added a PlayerAI.java class for the computer player. And we also added a WorldMap to decouple the map building process from RiskModel that would populate countries to a game world, as well, for future projects, make custom maps for the game.
 
-The RiskController.java, from Game.java serve as the logic behind our game, while RiskView displays the necessary GUI elements to the user, and using RiskController to call and receive informations about the JButton GUI events.
+We also revamped our RiskModel.java and RiskView.java to add bonus bonus army placement and troop movement phase, as well as integrating the AI player to the normal game flow in miletone 2.
 
-We have made the necessary changes to our UML diagrams which included the newly made RiskView and RiskController classes. We have also updated our previous Game class into the new RiskModel class.
+We have made the necessary changes to our UML diagrams which included the newly made PlayerAI and the WorldMap classes. As well as redrawn and revised the previous two UML diagrams' mistakes, which were known to be not up to par.
 
-By using MVC programming techniques, we were able to create a separate GUI from our main classes, that can display our information of the game, and including sending and receiving events from our JButtons, which are present on our JPanels on our GUI. In addition, we created several test cases featured in RiskModelTest.java, which can test whether our project so far works or not.
-
-We also took the feedback from last time to heart, and started wording our commit messages more carefully, and have also checked our new UML diagram in detail, to make sure our links between classes are correct.
-
-For the road ahead, we hope to increase elements of userfriendliness, and flesh out the army placement and troop placement phase of the game.
+For the road ahead, which is the final milestone, which includes the save function using XML and json
 
 Known Bugs:
-the game still cannot finish because we cannot redraft troops, and move troops from territory to territory
+
 
 

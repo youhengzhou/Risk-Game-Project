@@ -79,7 +79,6 @@ public class RiskView extends JFrame implements RiskModelListener
         adjacentCountriesSP.setPreferredSize(new Dimension(frameSize_Width/6,350));
         namePane = new PlayerNameTextPane();
 
-
         textPanel.add(namePane,BorderLayout.NORTH);
         textPanel.add(countriesOwnSP, BorderLayout.CENTER);
         textPanel.add(adjacentCountriesSP, BorderLayout.SOUTH);

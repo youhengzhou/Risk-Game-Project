@@ -8,7 +8,7 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
      */
     public AdjacentCountriesTextArea() {
         super("",5,1);
-
+         
         this.setFont(new Font("Consolas", Font.BOLD, 15));
         this.setEditable(false);
     }
@@ -18,7 +18,6 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
      */
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
-
         RiskModel model = (RiskModel)updateEvent.getSource();
         String s = model.getSelectedCountryInfo();
         this.setText(s);

@@ -11,7 +11,6 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
 
         this.setFont(new Font("Consolas", Font.BOLD, 15));
         this.setEditable(false);
-
     }
 
     /**

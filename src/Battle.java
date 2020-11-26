@@ -43,15 +43,12 @@ public class Battle {
         Dice defendDice;
 
         while (AttackingTroops != 0 && countryDefend.getTroopsNum() != 0) {
-
             attackDice = new Dice(AttackingTroops); // attack with troops picked from user
             defendDice = new Dice(countryDefend.getTroopsNum()); // defend with all troops present from defender
-
             while (!attackDice.isEmpty() && !defendDice.isEmpty()) { // make sure it is possible to attack and defend
                 int attackNum = attackDice.getNextHighest(); // choose the highest dice number to attack with
                 int defendNum = defendDice.getNextHighest(); // choose the highest dice number to defend with
                 if (attackNum > defendNum) {
-
                     countryDefend.removeTroops(1); // if attacks win once, removes defending troop once
                     defendTroopDeath++;
                 } else {

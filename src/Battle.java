@@ -37,8 +37,10 @@ public class Battle {
      */
 
     public String fight() {
+        
         int attackTroopDeath = 0; // counter for taking away troops later
         int defendTroopDeath = 0; // counter for taking away troops later
+        
         Dice attackDice;
         Dice defendDice;
 

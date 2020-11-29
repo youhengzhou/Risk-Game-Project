@@ -6,7 +6,6 @@ public class RiskModelTest {
 
     private RiskModel model = new RiskModel(2,0);
 
-
     @Test
     public void randomAssignCountry() {
        for(Country c:  model.gameMap.map.values()){

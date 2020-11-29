@@ -11,7 +11,6 @@ public class CountryOwnTextArea extends JTextArea implements RiskModelListener {
         super("",10,1);
         this.setFont(new Font("Consolas", Font.BOLD, 15));
         this.setEditable(false);
-
     }
 
     /**
@@ -23,6 +22,5 @@ public class CountryOwnTextArea extends JTextArea implements RiskModelListener {
         RiskModel model = (RiskModel)updateEvent.getSource();
         Player player = model.getPlayerOnGoing();
         this.setText("Countries You Own:\n" + player.getAvailableCountries());
-
     }
 }

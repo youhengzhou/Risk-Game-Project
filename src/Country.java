@@ -243,6 +243,7 @@ public class Country {
      */
     public boolean isAStrongCountry()
     {
+
         return this.getEnemyCountry().stream().allMatch(e->e.getTroopsNum()*1.2 < this.getTroopsNum());
     }
 

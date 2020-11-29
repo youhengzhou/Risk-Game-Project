@@ -168,7 +168,7 @@ public class WorldMap {
         NorthwestTerritory.addAdjacentCountry(Ontario);
         NorthwestTerritory.addAdjacentCountry(Greenland);
         //7
-        Ontario.addAdjacentCountry(CentralAmerica);
+        Ontario.addAdjacentCountry(Alberta);
         Ontario.addAdjacentCountry(EasternUnitedStates);
         Ontario.addAdjacentCountry(Greenland);
         Ontario.addAdjacentCountry(NorthwestTerritory);

@@ -251,7 +251,7 @@ public class RiskView extends JFrame implements RiskModelListener
      */
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
-    private String mapImagePath;
+    private String mapImagePath = "/NEW MAP.png";
 
     public CustomPanel(){
         setLayout(null);

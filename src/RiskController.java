@@ -23,6 +23,7 @@
         view.addAttackButtonListener(new attackButtonListener());
         view.addPassButtonListener(new passButtonListener());
         view.addFortifyButtonListener(new fortifyButtonListener());
+        view.addMapListener(new mapListener());
         enterRecruitState(model.getPlayerOnGoing());
 
     }
@@ -348,7 +349,14 @@
         }
     }
 
+    class mapListener implements ActionListener {
 
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
+}
 
 

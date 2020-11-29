@@ -218,7 +218,15 @@ public class RiskView extends JFrame implements RiskModelListener
      */
     public void addAttackButtonListener(ActionListener al){this.attackButton.addActionListener(al);}
 
+    /**
+     * add fortify button listener
+     */
     public void addFortifyButtonListener(ActionListener al){this.fortifyButton.addActionListener(al);}
+
+    /**
+     * add load map button listener
+     */
+    public void addMapListener(ActionListener al){this.loadMapButton.addActionListener(al);}
 
     /**
      * show help information

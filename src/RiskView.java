@@ -241,6 +241,7 @@ public class RiskView extends JFrame implements RiskModelListener
      */
 class CustomPanel extends JPanel{
     private BufferedImage Inputimage;
+    private String mapImagePath;
 
     public CustomPanel(){
         setLayout(null);
@@ -248,22 +249,23 @@ class CustomPanel extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
-            Inputimage = ImageIO.read(getClass().getResource("/NEW MAP.png"));
+            Inputimage = ImageIO.read(getClass().getResource(mapImagePath));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * set the map image in the window
-     */
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        g.drawImage(Inputimage,0,0,900,750,null);
+         /**
+          * set the map image in the window
+          */
+         @Override
+         protected void paintComponent(Graphics g)
+         {
+             super.paintComponent(g);
+             g.drawImage(Inputimage,0,0,900,750,null);
 //        g.dispose();
-    }
+         }
+
 }
 

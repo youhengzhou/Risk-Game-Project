@@ -38,6 +38,9 @@ public class RiskModel {
 
     private String AiPlayInfo = "";
     private String AIattackInfo = "";
+
+    private String mapImagePath = "";
+
     /**
      * This constructor of Game
      */
@@ -659,6 +662,5 @@ public class RiskModel {
         return newArmy;
     }
 
-
-
+    public String getGameMapImagePath(){return mapImagePath;}
 }

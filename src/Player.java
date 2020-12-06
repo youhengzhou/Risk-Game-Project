@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @since  2020-10-25
  *
  */
-public class Player {
+public class Player implements Serializable {
     private List<Country> countriesOwn; // the player's owned countries
     private String name; // the player's name
     private Color color;

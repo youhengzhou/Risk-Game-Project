@@ -1,4 +1,13 @@
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.beans.Transient;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +18,19 @@ import java.util.ArrayList;
  * @since  2020-10-25
  *
  */
-public class Country {
+public class Country extends DefaultHandler implements Serializable {
     private String countryName;
     private Player owner;
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
     private JButton countryButton;
+    private adjacentCountriesList adjacentCountriesList;
 
+    private boolean isCountryName = false;
+    private boolean isOwner = false;
+    private boolean isTN = false;
+    private boolean ismainName = false;
+    private boolean isName = false;
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
      */
@@ -24,7 +39,7 @@ public class Country {
         countryName = name;
         adjacentCountries = new ArrayList<>();
         owner = null;
-
+        adjacentCountriesList = new adjacentCountriesList();
     }
 
     /**
@@ -254,4 +269,94 @@ public class Country {
     public String toString() {
         return countryName + "(troops: "+ troopsNum + " )\n";
     }
+
+    private void moveAdjacentCountries(){
+        for(Country c: adjacentCountries){
+            adjacentCountriesList.addCountryName(c.getCountryName());
+        }
+    }
+
+    public String toXML(){
+        moveAdjacentCountries();
+        String s = "<Country>\n";
+        s += "<countryName>" + countryName + "</countryName>\n";
+        s += "<owner>" + owner + "</owner>\n";
+        s += "<troopsNum>" + troopsNum + "</troopsNum>\n";
+        s += "</Country>\n";
+        return s;
+    }
+//
+//    //testing
+//    public void exportToXMLFile(String fileName) throws IOException{
+//        FileWriter os = new FileWriter(fileName + ".txt");
+//        BufferedWriter bufferedWriter = new BufferedWriter(os);
+//        bufferedWriter.write(this.toXML());
+//        bufferedWriter.close();
+//    }
+
+//    //testing
+//    public void importFromXmlFile(String fileName){
+//        try {
+//            File inputFile = new File(fileName+".txt");
+//            SAXParserFactory factory = SAXParserFactory.newInstance();
+//            SAXParser saxParser = factory.newSAXParser();
+//            saxParser.parse(inputFile, this);
+//        } catch (ParserConfigurationException e) {
+//            e.printStackTrace();
+//        } catch (SAXException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void startElement(String namespaceURI, String localName, String qName, Attributes attributes) throws SAXException{
+//        if(qName.equalsIgnoreCase("countryName")){
+//            isCountryName = true;
+//        } else if(qName.equalsIgnoreCase("owner")){
+//            isOwner = true;
+//        } else if(qName.equalsIgnoreCase("troopsNum")){
+//            isTN = true;
+//        } else if(qName.equalsIgnoreCase("mainCountryName")){
+//            ismainName = true;
+//        } else if(qName.equalsIgnoreCase("name")){
+//            isName = true;
+//        }
+//    }
+//
+////    @Override
+////    public void endElement(String uri, String localName, String qName) throws SAXException {
+////
+////    }
+//
+//    @Override
+//    public void characters(char ch[], int start, int length) throws SAXException {
+//        if(isCountryName){
+//            countryName = new String(ch, start, length);
+//            isCountryName = false;
+//        } else if(isOwner){
+//            owner = new Player(new String(ch, start, length), false);
+//            isOwner = false;
+//        }  else if(isTN){
+//            troopsNum = Integer.parseInt(new String(ch, start, length));
+//            isTN = false;
+//        } else if(isName){
+//            adjacentCountriesList.addCountryName(new String(ch, start, length));
+//        }
+//    }
+
+
+
+    public static void main (String[] args){
+        Country a = new Country("Canada");
+        a.addAdjacentCountry(new Country("aaa"));
+        a.addAdjacentCountry(new Country("bbb"));
+        a.addAdjacentCountry(new Country("ccc"));
+        a.addAdjacentCountry(new Country("ddd"));
+        System.out.println(a.toXML());
+
+
+    }
+
 }

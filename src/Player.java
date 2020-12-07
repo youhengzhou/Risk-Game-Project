@@ -104,13 +104,14 @@ public class Player implements Serializable {
     public String toXML(){
         String s = "<Player>\n";
         s += "<name>" + name + "</name>\n";
-        s += "<color>" + color + "</color>\n";
         s += "<isAi>" + isAi + "</isAi>\n";
+        s += "<color>" + Integer.toString(color.getRGB()) + "</color>\n";
         s += "<countriesOwn>\n";
         for(Country c: countriesOwn){
             s += c.toXML();
         }
         s += "</countriesOwn>\n";
+        s += "</Player>\n";
         return s;
     }
 

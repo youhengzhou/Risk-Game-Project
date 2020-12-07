@@ -1,5 +1,13 @@
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -10,7 +18,7 @@ import java.util.List;
  * @auther Avengers
  * @since 2020-10-25
  */
-public class RiskModel {
+public class RiskModel extends DefaultHandler {
 
     public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
     private Phase State;
@@ -41,6 +49,21 @@ public class RiskModel {
 
     private String mapImagePath = "";
 
+    private boolean isState = false;
+    private boolean isPlayerOnGoing = false;
+    private boolean isCountryName = false;
+    private boolean isTroopsNum = false;
+    private boolean isPlayerName = false;
+    private boolean isColor = false;
+    private boolean isisAI = false;
+    private boolean isNumOfPlayer = false;
+    private boolean isNumOfAI = false;
+
+
+    private String loadingPlayerName = "";
+    private String loadingCountryName = "";
+    private boolean isAI;
+    private Player loadingPlayer = null;
     /**
      * This constructor of Game
      */
@@ -624,4 +647,141 @@ public class RiskModel {
     }
 
     public String getGameMapImagePath(){return mapImagePath;}
+
+    public String toXML(){
+        String s = "<RiskModel>\n";
+        s += "<State>" + State.toString() + "</State>\n";
+        s += "<numOfPlayer>" + numOfPlayer + "</numOfPlayer>\n";
+        s += "<numOfAI>" + numOfAI + "</numOfAI>\n";
+        for(Player p: players){
+            s += p.toXML();
+        }
+        s += "<playerOnGoing>" + playerOnGoing.getName() + "</playerOnGoing>\n";
+        s += "</RiskModel>\n";
+        return s;
+    }
+
+    public void exportToXMLFile(String fileName) throws IOException {
+        FileWriter os = new FileWriter(fileName + ".txt");
+        BufferedWriter bufferedWriter = new BufferedWriter(os);
+        bufferedWriter.write(this.toXML());
+        bufferedWriter.close();
+    }
+
+    //testing
+    public void importFromXmlFile(String fileName){
+        try {
+            File inputFile = new File(fileName+".txt");
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+            saxParser.parse(inputFile, this);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //PlayerIndex is not done
+    @Override
+    public void startElement(String namespaceURI, String localName, String qName, Attributes attributes) throws SAXException{
+        if (qName.equalsIgnoreCase("RiskModel")){
+            players.clear();
+        } else if(qName.equalsIgnoreCase("State")){
+            isState = true;
+        } else if(qName.equalsIgnoreCase("playerOnGoing")) {
+            isPlayerOnGoing = true;
+        } else if(qName.equalsIgnoreCase("name")){
+            isPlayerName = true;
+        } else if(qName.equalsIgnoreCase("isAi")){
+            isisAI = true;
+        } else if(qName.equalsIgnoreCase("color")){
+            isColor = true;
+        } else if(qName.equalsIgnoreCase("countryName")){
+            isCountryName = true;
+        } else if(qName.equalsIgnoreCase("troopsNum")) {
+            isTroopsNum = true;
+        } else if(qName.equalsIgnoreCase("numOfPlayer")){
+            isNumOfPlayer = true;
+        } else if(qName.equalsIgnoreCase("numOfAI")){
+            isNumOfAI = true;
+        }
+    }
+
+    @Override
+    public void characters(char ch[], int start, int length) throws SAXException {
+
+//        int num = Integer.parseInt(s);
+
+        if(isState){
+            State = Phase.valueOf(new String(ch, start, length));
+            isState = false;
+        } else if(isNumOfPlayer){
+            setNumOfPlayer(Integer.parseInt(new String(ch, start, length)));
+            isNumOfPlayer = false;
+        } else if(isNumOfAI){
+            numOfAI = Integer.parseInt(new String(ch, start, length));
+            isNumOfAI = false;
+        } else if(isPlayerName){
+            loadingPlayerName = new String(ch, start, length);
+            isPlayerName = false;
+        } else if(isisAI){
+            isAI = Boolean.getBoolean(new String(ch, start, length));
+            isisAI = false;
+        } else if(isColor){
+            loadingPlayer.addColor(new Color(Integer.parseInt(new String(ch, start, length))));
+            isColor = false;
+        } else if(isCountryName) {
+            loadingCountryName = "";
+            String[] strings = new String(ch, start, length).toLowerCase().split(" ");
+            for(String string: strings){
+                loadingCountryName += string;
+            }
+            isCountryName = false;
+        } else if(isTroopsNum){
+            int num = Integer.parseInt(new String(ch, start, length));
+            gameMap.getCountry(loadingCountryName).setTroopsNum(num);
+            isTroopsNum = false;
+        } else if(isPlayerOnGoing){
+            findPlayer(new String(ch, start, length));
+            isPlayerOnGoing = false;
+        }
+    }
+
+    //adding Country to the Player is not yet done
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        if(qName.equalsIgnoreCase("isAi")){
+            if(isAI){
+                loadingPlayer = new PlayerAI(loadingCountryName);
+            } else {
+                loadingPlayer = new Player(loadingCountryName, false);
+            }
+            players.add(loadingPlayer);
+        }
+    }
+
+    public boolean findPlayer(String name){
+        for(Player p: players){
+            if(p.getName().equals(name)){
+                playerOnGoing = p;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main (String[] args){
+        RiskModel model = new RiskModel(2,1);
+        try {
+            model.exportToXMLFile("testing");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RiskModel testingModel = new RiskModel(3,1);
+        model.importFromXmlFile("testing");
+        System.out.print(model.toXML());
+    }
 }

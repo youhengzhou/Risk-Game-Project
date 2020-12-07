@@ -101,4 +101,31 @@ public class Player implements Serializable {
         isAi = ai;
     }
 
+    public String toXML(){
+        String s = "<Player>\n";
+        s += "<name>" + name + "</name>\n";
+        s += "<color>" + color + "</color>\n";
+        s += "<isAi>" + isAi + "</isAi>\n";
+        s += "<countriesOwn>\n";
+        for(Country c: countriesOwn){
+            s += c.toXML();
+        }
+        s += "</countriesOwn>\n";
+        return s;
+    }
+
+    public static void main (String[] args){
+        Player a = new Player("a", false);
+        Country c1 = new Country("Canada");
+        a.addCountry(c1);
+        Country c2 = new Country("c2");
+        a.addCountry(c2);
+        c1.addAdjacentCountry(new Country("aaa"));
+        c1.addAdjacentCountry(new Country("bbb"));
+        c1.addAdjacentCountry(new Country("ccc"));
+        c1.addAdjacentCountry(new Country("ddd"));
+        System.out.println(a.toXML());
+
+
+    }
 }

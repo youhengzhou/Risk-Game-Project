@@ -24,7 +24,6 @@ public class Country extends DefaultHandler implements Serializable {
     private int troopsNum;
     private ArrayList<Country> adjacentCountries;
     private JButton countryButton;
-    private adjacentCountriesList adjacentCountriesList;
 
     private boolean isCountryName = false;
     private boolean isOwner = false;
@@ -39,7 +38,6 @@ public class Country extends DefaultHandler implements Serializable {
         countryName = name;
         adjacentCountries = new ArrayList<>();
         owner = null;
-        adjacentCountriesList = new adjacentCountriesList();
     }
 
     /**
@@ -270,14 +268,7 @@ public class Country extends DefaultHandler implements Serializable {
         return countryName + "(troops: "+ troopsNum + " )\n";
     }
 
-    private void moveAdjacentCountries(){
-        for(Country c: adjacentCountries){
-            adjacentCountriesList.addCountryName(c.getCountryName());
-        }
-    }
-
     public String toXML(){
-        moveAdjacentCountries();
         String s = "<Country>\n";
         s += "<countryName>" + countryName + "</countryName>\n";
         s += "<owner>" + owner + "</owner>\n";

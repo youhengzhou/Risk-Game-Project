@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class RiskModel extends DefaultHandler {
 
-    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
+    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY, LOAD}
     private Phase State;
     private List<Player> players;
 
@@ -648,6 +648,13 @@ public class RiskModel extends DefaultHandler {
     }
 
     public String getGameMapImagePath(){return mapImagePath;}
+
+    /**
+     * set the SelectedMap to the map name loaded from the XML
+     */
+    public void setSelectedMap() {
+
+    }
 
     public String toXML(){
         String s = "<RiskModel>\n";

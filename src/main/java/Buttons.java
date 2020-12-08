@@ -3,10 +3,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.ArrayList;
 
 public class Buttons implements RiskModelListener {
 
-   @XmlElement(name="button")
+    @XmlElement(type = Object.class)
     private ArrayList<JButton> buttonList;
 
     /**
@@ -22,9 +19,12 @@ public class Buttons implements RiskModelListener {
      * @add all the countries' buttons on the map
      */
     public Buttons()
-    {}
-    public Buttons(JPanel imagePanel){
+    {
         buttonList = new ArrayList<>();
+    }
+    /**
+    public Buttons(JPanel imagePanel){// constructor for the original world map
+        /**buttonList = new ArrayList<>();
         //North America buttons
         JButton alaskaButton = new JButton("");
         imagePanel.add(alaskaButton);
@@ -284,6 +284,24 @@ public class Buttons implements RiskModelListener {
         buttonList.add(westernaustraliaButton);
 
         imagePanel.setPreferredSize(new Dimension(900, 750));
+
+    }
+**/
+    public static Buttons build(ButtonInfoStore bs,JPanel imagePanel)
+    {
+        Buttons buttons= new Buttons();
+        for(ButtonInfo b : bs.getButtonInfoList())
+            {
+
+                JButton button = new JButton("");
+                imagePanel.add(button);
+                buttons.buttonList.add(button);
+                button.setActionCommand(b.getActionCommand());
+                int[] lo = b.getLocation();
+                button.setBounds(lo[0],lo[1],lo[2],lo[3]);
+            }
+        return buttons;
+
     }
 
     /**
@@ -296,54 +314,19 @@ public class Buttons implements RiskModelListener {
      */
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+
         RiskModel model = (RiskModel) updateEvent.getSource();
-        for(JButton b:buttonList)
-        {
+
+        for(JButton b:buttonList) {
             Country c = model.getCountry(b.getActionCommand());
             b.setBackground(c.getOwner().getColor());
             b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getCountryTroopsNumber()));
         }
     }
 
-    public void saveToXML(String fileName)
-    {
+    public static void main(String[] args) {
 
-        try {
-
-            //File file = new File("D:/work/3110/Risk-Game-Project/src/main/java/OriginalMap.xml");
-            File file = new File (fileName);
-            JAXBContext jaxbContext = JAXBContext.newInstance(Buttons.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-            // output pretty printed
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            jaxbMarshaller.marshal(this, file);
-            jaxbMarshaller.marshal(this, System.out);
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Buttons loadFromXML(String fileName)
-    {
-        Buttons buttons= null;
-        try {
-
-            File file = new File(fileName);
-            JAXBContext jaxbContext = JAXBContext.newInstance(Buttons.class);
-
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            buttons = (Buttons) jaxbUnmarshaller.unmarshal(file);
-
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return buttons;
 
     }
-
 
 }

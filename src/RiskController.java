@@ -350,14 +350,16 @@
     }
 
     class mapListener implements ActionListener {
+        String MapName;
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if(model.getState().equals(RiskModel.Phase.LOAD)) {
-                new JOptionPane().showMessageDialog(view, "Please assign all new troops first");
+                new JOptionPane().showMessageDialog(view, "Please Insert Name Of Map");
                 return;
             }
+            model.updateState(RiskModel.Phase.LOAD);
         }
     }
 }

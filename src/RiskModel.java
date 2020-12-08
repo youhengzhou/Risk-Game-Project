@@ -651,7 +651,8 @@ public class RiskModel extends DefaultHandler {
     /**
      * set the SelectedMap to the map name loaded from the XML
      */
-    public void setSelectedMap() {
+    public void setSelectedMap(String mapImagePath) {
+        this.mapImagePath = mapImagePath;
 
     }
 

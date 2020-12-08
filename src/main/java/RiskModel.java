@@ -70,8 +70,7 @@ public class RiskModel extends DefaultHandler {
     public RiskModel() {
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
-        gameMap = new WorldMap();
-        createPlayer();
+        gameMap = WorldMap.loadMapFromXML("map.xml");
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         modelListeners = new ArrayList<>();
@@ -85,7 +84,7 @@ public class RiskModel extends DefaultHandler {
     public RiskModel(int num, int numOfAi){
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
-        gameMap = new WorldMap();
+        gameMap = WorldMap.loadMapFromXML("map.xml");
         this.State = Phase.RESIGN;
         this.setNumOfPlayer(num);
         numOfAI = numOfAi;
@@ -167,11 +166,11 @@ public class RiskModel extends DefaultHandler {
             System.out.println("return false");
             return false;
         }
-        if (!firstSelected.getAdjacentCountries().contains(secondSelected)) {
+        if (!firstSelected.getAdjacentCountries(gameMap).contains(secondSelected)) {
             System.out.println("return ");
             return false;
         }
-        if(firstSelected.getTroopsNum() < 2) return false;
+        if(firstSelected.getCountryTroopsNumber() < 2) return false;
         Battle battle;
         if(playerOnGoing.isAi())
         {
@@ -355,19 +354,19 @@ public class RiskModel extends DefaultHandler {
 
         refreshNewArmy();
         p.setNewTroops(newArmy);
-        AIrecruitInfo = p.AIrecruit(); //recruit for AI
+        AIrecruitInfo = p.AIrecruit(gameMap); //recruit for AI
         Random r = new Random();
         int i = r.nextInt(2)+3;
         while(i>0)
         {
-            if(!p.calculateAttack()) break; // If calculateAttack() return false, then we won't perform AIattack, because no suitable country.
+            if(!p.calculateAttack(gameMap)) break; // If calculateAttack() return false, then we won't perform AIattack, because no suitable country.
             firstSelected = p.getAttackFromCountry();
             secondSelected = p.getAttackToCountry();
             attack(); //attack will assign AttackInfo
             i--;
         }
 
-        AImoveInfo = p.AIMove();
+        AImoveInfo = p.AIMove(gameMap);
       //  updateModelListeners();
         AiPlayInfo+=AIrecruitInfo+"------------------------------------------------------------------------\n";
         AiPlayInfo+=AIattackInfo+"---------------------------------------------------------------------------\n";
@@ -411,17 +410,18 @@ public class RiskModel extends DefaultHandler {
      */
     public void randomAssignCountry() {
         //randomly assign Country-Owner pairs
-        Set<String> keySet = gameMap.map.keySet();
+
+        Set<String> keySet = gameMap.getMap().keySet();
         ArrayList<String> keyList = new ArrayList<>(); //convert to List structure in order to use .shuffle method in Collection.
         keyList.addAll(keySet);
         Collections.shuffle(keyList);//Shuffle the keyList to get it randomized.
         Country countrytemp;
-        double numCountryEach = Math.ceil((double) gameMap.map.size() / players.size());
+        double numCountryEach = Math.ceil((double) gameMap.getMap().size() / players.size());
         int listIndex = 0; //listIndex to keep track of the keyList.
         for (Player p : players) {
             for (int i = 0; i < numCountryEach; i++) {
                 try {
-                    countrytemp = gameMap.map.get(keyList.get(listIndex));
+                    countrytemp = gameMap.getMap().get(keyList.get(listIndex));
                 } catch (Exception e) {
                     break;
                 }
@@ -530,7 +530,7 @@ public class RiskModel extends DefaultHandler {
      *@return false if no
      */
     public boolean setAttackTroops(int num) {
-        if (num < firstSelected.getTroopsNum()) {
+        if (num < firstSelected.getCountryTroopsNumber()) {
             this.attackTroops = num;
             return true;
         }
@@ -555,7 +555,7 @@ public class RiskModel extends DefaultHandler {
      */
     public void assignButtonToCountry(JButton button) {
         String countryName = button.getActionCommand();
-        Country c = gameMap.map.get(countryName);
+        Country c = gameMap.getMap().get(countryName);
         c.addButton(button);
     }
 
@@ -569,11 +569,11 @@ public class RiskModel extends DefaultHandler {
      * Set the adjacentCountryInfo for the use of AdjacentCountriesText in RiskView
      */
     public void setSelectedCountryInfo(String countryName) {
-        Country country = gameMap.map.get(countryName);
+        Country country = gameMap.getMap().get(countryName);
         String s = "";
-        s += "COUNTRY SELECTED \n" + country.printState() +
+        s += "COUNTRY SELECTED \n" + country.printTrumpNumState() +
                 "\n\nOwner: " + country.getOwner().getName() + "\n\nAdjacent Enemy Country: \n" +
-                country.printEnemyCountry();
+                country.printEnemyCountry(gameMap);
         selectedCountryInfo = s;
     }
 
@@ -593,9 +593,10 @@ public class RiskModel extends DefaultHandler {
      */
     public boolean availableToMove(Country TFromCountry){
         //return false if not owning the countries or too few troops on the From country
-        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getTroopsNum() <= 1) return false;
+        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getCountryTroopsNumber() <= 1) return false;
         canMove = false;
-        for(Country c: TFromCountry.getAdjacentCountries()){
+        for(Country c: TFromCountry.getAdjacentCountries(gameMap)){
+
             if(playerOnGoing.getCountriesOwn().contains(c)){
                 if(preCountries.contains(c))continue;
                 if(c.equals(secondSelected)) {
@@ -742,7 +743,7 @@ public class RiskModel extends DefaultHandler {
             isCountryName = false;
         } else if(isTroopsNum){
             int num = Integer.parseInt(new String(ch, start, length));
-            gameMap.getCountry(loadingCountryName).setTroopsNum(num);
+            gameMap.getCountry(loadingCountryName).setCountryTroopsNumber(num);
             isTroopsNum = false;
         } else if(isPlayerOnGoing){
             findPlayer(new String(ch, start, length));
@@ -761,6 +762,10 @@ public class RiskModel extends DefaultHandler {
             }
             players.add(loadingPlayer);
         }
+    }
+
+    public WorldMap getGameMap() {
+        return gameMap;
     }
 
     public boolean findPlayer(String name){

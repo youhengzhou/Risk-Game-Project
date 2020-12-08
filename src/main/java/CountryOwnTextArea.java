@@ -21,6 +21,6 @@ public class CountryOwnTextArea extends JTextArea implements RiskModelListener {
 
         RiskModel model = (RiskModel)updateEvent.getSource();
         Player player = model.getPlayerOnGoing();
-        this.setText("Countries You Own:\n" + player.getAvailableCountries());
+        this.setText("Countries You Own:\n" + player.getAvailableCountries(model.getGameMap()));
     }
 }

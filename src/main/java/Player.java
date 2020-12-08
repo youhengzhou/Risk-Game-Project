@@ -68,12 +68,12 @@ public class Player implements Serializable {
     * getAvailableCountries checks of the country has more than 1 troops, if true print out the countries' name
     * @ return a list of available countries
     */
-    public String getAvailableCountries() {
+    public String getAvailableCountries(WorldMap map) {
         String s = "";
 
         for (Country country : countriesOwn) {
-            if ( !country.printEnemyCountry().equals("")) {
-                s += "->" + country.printState() + "\n";
+            if ( !country.printEnemyCountry(map).equals("")) {
+                s += "->" + country.printTrumpNumState() + "\n";
             }
         }
         return s;
@@ -116,16 +116,7 @@ public class Player implements Serializable {
     }
 
     public static void main (String[] args){
-        Player a = new Player("a", false);
-        Country c1 = new Country("Canada");
-        a.addCountry(c1);
-        Country c2 = new Country("c2");
-        a.addCountry(c2);
-        c1.addAdjacentCountry(new Country("aaa"));
-        c1.addAdjacentCountry(new Country("bbb"));
-        c1.addAdjacentCountry(new Country("ccc"));
-        c1.addAdjacentCountry(new Country("ddd"));
-        System.out.println(a.toXML());
+
 
 
     }

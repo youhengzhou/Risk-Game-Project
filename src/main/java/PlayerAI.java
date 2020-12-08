@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,11 +37,13 @@ public class PlayerAI extends Player {
 
     }
 
-    public Country calculateResignTroops(){
+
+
+    public Country calculateResignTroops(WorldMap map){
         Country country =getCountriesOwn().get(0);
-        int enemiesNum = calculateEnemiesNum(country);
+        int enemiesNum = calculateEnemiesNum(country,map);
         for(Country c: getCountriesOwn()){
-            int count = calculateEnemiesNum(c);
+            int count = calculateEnemiesNum(c,map);
             if(count > enemiesNum){
                 country = c;
                 enemiesNum = count;
@@ -56,11 +57,12 @@ public class PlayerAI extends Player {
      * @param country
      * @return count, enemy troop numbers
      */
-    public int calculateEnemiesNum(Country country){
+    public int calculateEnemiesNum(Country country,WorldMap map){
         int count = 0;
-        for(Country c: country.getAdjacentCountries()){ //loop though all adj countries
+        for(Country c: country.getAdjacentCountries(map)){ //loop though all adj countries
+
             if(!isFriendlyCountry(c)){
-                count += c.getTroopsNum();
+                count += c.getCountryTroopsNumber();
             }
         }
         return count;
@@ -70,20 +72,19 @@ public class PlayerAI extends Player {
      * loop through the player's country list and find the desire country of AttackTo and AttackFrom
      * @return  true if countries are found and able to perfrom Attack. false when no more country to attack
      */
-    public boolean calculateAttack()
+    public boolean calculateAttack(WorldMap map)
     {
 
         ArrayList<Country> countries = (ArrayList)getCountriesOwn();
         for(Country c:countries)
         {
-
-            double troopNum = c.getTroopsNum();
+            double troopNum = c.getCountryTroopsNumber();
             if(troopNum==1) continue;
             double attackTroop = troopNum-1;
-            ArrayList<Country> adjEnemyCountries = c.getEnemyCountry();
+            ArrayList<Country> adjEnemyCountries = c.getEnemyCountry(map);
             for(Country enemyCountry:adjEnemyCountries)
             {
-                double enemyTroop = enemyCountry.getTroopsNum();
+                double enemyTroop = enemyCountry.getCountryTroopsNumber();
                 if(attackTroop/enemyTroop > 1.5)
                 {
                     attackFrom = c;
@@ -122,17 +123,17 @@ public class PlayerAI extends Player {
         return attackFrom;
     }
 
-    public boolean calculateMove(){
+    public boolean calculateMove(WorldMap map){
         moveFrom =null;
         moveTo = null;
         for(Country country: getCountriesOwn()){
 
             //System.out.println("in dat for loop");
-            if(country.noAdjFriendCountry() ||country.getTroopsNum() < 2 || !country.isAStrongCountry())continue;
+            if(country.noAdjFriendCountry(map) ||country.getCountryTroopsNumber() < 2 || !country.isAStrongCountry(map))continue;
             //if country is not suitable to support any other country, continue;
             moveFrom = country;
            // System.out.println("potential move from: "+moveFrom.getCountryName());
-            lookForMoveToCountry(country); //this line of code will modify found, found if there's country need help and can be helped.
+            lookForMoveToCountry(country,map); //this line of code will modify found, found if there's country need help and can be helped.
             if(found){
               //  System.out.println("country found to move");
                 found = false;
@@ -145,18 +146,18 @@ public class PlayerAI extends Player {
 
 
 
-     public String AIMove()
+     public String AIMove(WorldMap map)
      {
          String s = "Move Phase: \n";
         // System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
          int count = new Random().nextInt(3)+4;
-         while(calculateMove() )
+         while(calculateMove(map) )
          {
              if(count == 0) break;
              count--;
-               calculateSupportCanOffer(moveFrom);
+               calculateSupportCanOffer(moveFrom,map);
              System.out.println("can offer " +supportCanOffer);
-               calculateSupportNeeded(moveTo);
+               calculateSupportNeeded(moveTo,map);
 
              s+="moved from "+moveFrom.getCountryName();
              s+= " to "+moveTo.getCountryName();
@@ -176,28 +177,28 @@ public class PlayerAI extends Player {
      * recursively look for the country that need support and then assign Country to MoveTo, modify "found" value if country is found.
      * @param startAtCountry
      */
-    public void lookForMoveToCountry(Country startAtCountry){
+    public void lookForMoveToCountry(Country startAtCountry,WorldMap map){
         //System.out.println("here to LookForMoveTo");
 
         loopedCountries.add(startAtCountry);
-        boolean allFriendlyCountryVisited = startAtCountry.getFriendlyCountry().stream().allMatch(e -> loopedCountries.contains(e));
+        boolean allFriendlyCountryVisited = startAtCountry.getFriendlyCountry(map).stream().allMatch(e -> loopedCountries.contains(e));
         if(allFriendlyCountryVisited) return;   //dead end
 
-        for(Country c: startAtCountry.getFriendlyCountry()){// loop through all adj countries
+        for(Country c: startAtCountry.getFriendlyCountry(map)){// loop through all adj countries
             //System.out.println("looping for "+c.getCountryName());
 
             if(loopedCountries.contains(c)) continue;
 
-            if(c.hasStrongEnemyCountryNearBy()) { //c needs help
+            if(c.hasStrongEnemyCountryNearBy(map)) { //c needs help
                 moveTo = c;
-                calculateSupportNeeded(c);
+                calculateSupportNeeded(c,map);
                 found = true;
                 return;
             }
             else
             {
                 //System.out.println("recursive "+c.getCountryName());
-                lookForMoveToCountry(c);
+                lookForMoveToCountry(c,map);
             }
 
         }
@@ -221,20 +222,20 @@ public class PlayerAI extends Player {
      * @param country
      * @return
      */
-    public int calculateSupportCanOffer(Country country)
+    public int calculateSupportCanOffer(Country country,WorldMap map)
     {
 
         int min = 999;
         int curr = 999;
-        int maxCanGive = country.getTroopsNum()-1;
-        if(country.noAdjacentEnemy())
+        int maxCanGive = country.getCountryTroopsNumber()-1;
+        if(country.noAdjacentEnemy(map))
         {
             supportCanOffer = maxCanGive;
             return supportCanOffer;
         }
-        for(Country c: country.getEnemyCountry())
+        for(Country c: country.getEnemyCountry(map))
         {
-             curr = country.getTroopsNum() - c.getTroopsNum();
+             curr = country.getCountryTroopsNumber() - c.getCountryTroopsNumber();
             min = (curr<min) ? curr: min;
         }
 
@@ -248,14 +249,14 @@ public class PlayerAI extends Player {
      * @param country
      * @return
      */
-    public int calculateSupportNeeded(Country country)
+    public int calculateSupportNeeded(Country country,WorldMap map)
     {
         supportNeed = 0;
-        int troops = country.getTroopsNum();
+        int troops = country.getCountryTroopsNumber();
         int max = 0 ;
-        for(Country c : country.getEnemyCountry())
+        for(Country c : country.getEnemyCountry(map))
         {
-            int enemyTroops = c.getTroopsNum();
+            int enemyTroops = c.getCountryTroopsNumber();
             int curr = enemyTroops-troops;
             max = (curr>max) ? curr:max; //find the maximum number of troops needed.
 
@@ -271,14 +272,14 @@ public class PlayerAI extends Player {
         //System.out.println("newTroops is set to" + newTroops);
     }
 
-    public boolean findRecruitTo()
+    public boolean findRecruitTo(WorldMap map)
     {
         for(Country c: this.getCountriesOwn())
         {
-            if(c.hasStrongEnemyCountryNearBy())
+            if(c.hasStrongEnemyCountryNearBy(map))
             {
                 recruitTo = c;
-                supportNeed = calculateSupportNeeded(c);
+                supportNeed = calculateSupportNeeded(c,map);
                 return true;
             }
         }
@@ -289,11 +290,11 @@ public class PlayerAI extends Player {
      * Perform recruit for AI
      * @return the recruitLog containing text information about what AIplayer did in the recruit round.
      */
-    public String AIrecruit()
+    public String AIrecruit(WorldMap map)
     {
         boolean findRecruit = false;
         recruitLog = this.getName()+"\nRecruit Phase: \n";
-        while(newTroops!=0 && findRecruitTo()) //if we still have new troops to assign and still countries need help
+        while(newTroops!=0 && findRecruitTo(map)) //if we still have new troops to assign and still countries need help
         {
             findRecruit =true;
             int troopGive = 0;
@@ -319,7 +320,7 @@ public class PlayerAI extends Player {
         {
             for(Country c: this.getCountriesOwn())
             {
-                if(!c.noAdjacentEnemy())
+                if(!c.noAdjacentEnemy(map))
                 {
                     c.addTroops(newTroops);
                     recruitLog+="added "+newTroops+" troops to "+c.getCountryName()+"\n";

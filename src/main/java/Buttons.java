@@ -1,15 +1,28 @@
 import javax.swing.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
+@XmlRootElement(name = "buttons")
 
 public class Buttons implements RiskModelListener {
 
+   @XmlElement(name="button")
     private ArrayList<JButton> buttonList;
 
     /**
      * Constructor of buttons
      * @add all the countries' buttons on the map
      */
+    public Buttons()
+    {}
     public Buttons(JPanel imagePanel){
         buttonList = new ArrayList<>();
         //North America buttons
@@ -288,7 +301,49 @@ public class Buttons implements RiskModelListener {
         {
             Country c = model.getCountry(b.getActionCommand());
             b.setBackground(c.getOwner().getColor());
-            b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getTroopsNum()));
+            b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getCountryTroopsNumber()));
         }
     }
+
+    public void saveToXML(String fileName)
+    {
+
+        try {
+
+            //File file = new File("D:/work/3110/Risk-Game-Project/src/main/java/OriginalMap.xml");
+            File file = new File (fileName);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Buttons.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            jaxbMarshaller.marshal(this, file);
+            jaxbMarshaller.marshal(this, System.out);
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Buttons loadFromXML(String fileName)
+    {
+        Buttons buttons= null;
+        try {
+
+            File file = new File(fileName);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Buttons.class);
+
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            buttons = (Buttons) jaxbUnmarshaller.unmarshal(file);
+
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return buttons;
+
+    }
+
+
 }

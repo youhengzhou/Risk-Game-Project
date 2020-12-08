@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 public class MapListener extends CustomPanel implements RiskModelListener {
 
     private String gameMapImagePath;
@@ -6,7 +8,7 @@ public class MapListener extends CustomPanel implements RiskModelListener {
      * Constructor of MapListener
      * set the game map to a custom png image
      */
-    public MapListener() {
+    public MapListener() throws FileNotFoundException {
         super();
     }
 

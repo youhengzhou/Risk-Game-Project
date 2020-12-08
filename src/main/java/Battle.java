@@ -44,9 +44,9 @@ public class Battle {
         Dice attackDice;
         Dice defendDice;
 
-        while (AttackingTroops != 0 && countryDefend.getTroopsNum() != 0) {
+        while (AttackingTroops != 0 && countryDefend.getCountryTroopsNumber() != 0) {
             attackDice = new Dice(AttackingTroops); // attack with troops picked from user
-            defendDice = new Dice(countryDefend.getTroopsNum()); // defend with all troops present from defender
+            defendDice = new Dice(countryDefend.getCountryTroopsNumber()); // defend with all troops present from defender
             while (!attackDice.isEmpty() && !defendDice.isEmpty()) { // make sure it is possible to attack and defend
                 int attackNum = attackDice.getNextHighest(); // choose the highest dice number to attack with
                 int defendNum = defendDice.getNextHighest(); // choose the highest dice number to defend with
@@ -62,7 +62,7 @@ public class Battle {
        battleResultString +=("\nBattle Result:\n");
        battleResultString +=(countryAttack.getCountryName() + " lost " + attackTroopDeath + " troops in this battle\n");
         battleResultString +=(countryDefend.getCountryName() + " lost " + defendTroopDeath + " troops in this battle\n");
-        if (countryDefend.getTroopsNum() == 0) {
+        if (countryDefend.getCountryTroopsNumber() == 0) {
              troopSurvive = AttackingTroops;
             isAttackerWin = true;
             countryDefend.getOwner().removeCountry(countryDefend); //remove the country from the country defender countryOwner

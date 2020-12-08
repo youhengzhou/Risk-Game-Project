@@ -6,10 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class RiskView extends JFrame implements RiskModelListener
 {
@@ -34,7 +33,7 @@ public class RiskView extends JFrame implements RiskModelListener
     /**
      * Constructor for RiskView
      */
-    public RiskView (){
+    public RiskView () throws FileNotFoundException {
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -250,22 +249,20 @@ public class RiskView extends JFrame implements RiskModelListener
      * insert the risk map in the system
      */
 class CustomPanel extends JPanel{
-    private BufferedImage Inputimage;
-    private String mapImagePath = "/NEW MAP.png";
-
-    public CustomPanel(){
+    private Image im;
+    private String mapImagePath = "D:/work/3110/Risk-Game-Project/src/main/java/NEW MAP.png";
+    public CustomPanel() throws FileNotFoundException {
         setLayout(null);
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.black,1));
 
         try{
-            Inputimage = ImageIO.read(getClass().getResource(mapImagePath));
-
+            im = ImageIO.read(new File(mapImagePath));
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
+    }
          /**
           * set the map image in the window
           */
@@ -273,9 +270,13 @@ class CustomPanel extends JPanel{
          protected void paintComponent(Graphics g)
          {
              super.paintComponent(g);
-             g.drawImage(Inputimage,0,0,900,750,null);
-//        g.dispose();
+             g.drawImage(im,0,0,900,750,null);
          }
 
+         public static void main(String[] args) throws FileNotFoundException {
+             Buttons buttonList;
+             buttonList = new Buttons(new CustomPanel());
+             buttonList.saveToXML("buttons.xml");
+         }
 }
 

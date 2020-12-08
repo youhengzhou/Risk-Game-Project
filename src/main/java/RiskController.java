@@ -2,6 +2,7 @@
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
+    import java.io.FileNotFoundException;
 
     public class RiskController {
     private RiskModel model;
@@ -32,7 +33,7 @@
      *This is the main function
      *@param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         RiskView view = new RiskView();
         RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer());
         riskModel.addRiskModelListener(view.getadjacentCountriesText());
@@ -90,13 +91,13 @@
 
                 }
                 if (model.getState() == RiskModel.Phase.ATTACK) {
-                    model.setSelected(model.gameMap.map.get(button.getActionCommand()));
-                    System.out.println("Attacking Country : \n" + model.getFirstSelected().printState());
-                    System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState()) + "\n--------------------------------------------");
+                    model.setSelected(model.gameMap.getMap().get(button.getActionCommand()));
+                    System.out.println("Attacking Country : \n" + model.getFirstSelected().printTrumpNumState());
+                    System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printTrumpNumState()) + "\n--------------------------------------------");
                 } else if(model.getState().equals(RiskModel.Phase.FORTIFY)){
-                    model.setSelected(model.gameMap.map.get(button.getActionCommand()));
-                    System.out.println("Fortifying from Country : \n" + model.getFirstSelected().printState());
-                    System.out.println("\nFortifying to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printState()) + "\n--------------------------------------------");
+                    model.setSelected(model.gameMap.getMap().get(button.getActionCommand()));
+                    System.out.println("Fortifying from Country : \n" + model.getFirstSelected().printTrumpNumState());
+                    System.out.println("\nFortifying to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printTrumpNumState()) + "\n--------------------------------------------");
                 }
             });
         }
@@ -198,11 +199,11 @@
                     new JOptionPane().showMessageDialog(view, "You don't want to attack your own country\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
                     return;
-                } else if (!model.getFirstSelected().getAdjacentCountries().contains(model.getSecondSelected())) {
+                } else if (!model.getFirstSelected().getAdjacentCountries(model.getGameMap()).contains(model.getSecondSelected())) {
                     new JOptionPane().showMessageDialog(view, "The two country you chosen is not adjacent to each other\n Please press [Attack] again and choose another one\n");
                     model.releaseSelected();
                     return;
-                } else if (model.getFirstSelected().getTroopsNum() < 2) {
+                } else if (model.getFirstSelected().getCountryTroopsNumber() < 2) {
                     new JOptionPane().showMessageDialog(view, "the country you select has no enough troops to attack\n Please press [Attack] again and choose another one");
                     model.releaseSelected();
                     return;
@@ -210,11 +211,11 @@
                 int num = 999;
                 boolean isNumeric;
                 do {
-                    String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getTroopsNum() - 1) + ")");
+                    String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getCountryTroopsNumber() - 1) + ")");
 
                     if(!isNumeric(numberStr)) continue;
                     num = Integer.parseInt(numberStr);
-                }while(num>model.getFirstSelected().getTroopsNum() - 1 ||num<1); //keep looping until the num satisfies the requirement.
+                }while(num>model.getFirstSelected().getCountryTroopsNumber() - 1 ||num<1); //keep looping until the num satisfies the requirement.
 
                 model.setAttackTroops(num);
                 model.attack();
@@ -240,8 +241,8 @@
             if(model.getState().equals(RiskModel.Phase.FORTIFY)){
                 if(model.availableToMove(model.getFirstSelected())){
                     int num = 999;
-                    while(num < 1  || num > (model.getFirstSelected().getTroopsNum()-1)){
-                        String numberStr = new JOptionPane().showInputDialog("how many troops you want to move (1 to " + (model.getFirstSelected().getTroopsNum()-1));
+                    while(num < 1  || num > (model.getFirstSelected().getCountryTroopsNumber()-1)){
+                        String numberStr = new JOptionPane().showInputDialog("how many troops you want to move (1 to " + (model.getFirstSelected().getCountryTroopsNumber()-1));
                         if(!isNumeric(numberStr)) continue;
                         num = Integer.parseInt(numberStr);
 

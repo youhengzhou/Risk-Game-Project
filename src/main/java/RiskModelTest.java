@@ -8,15 +8,15 @@ public class RiskModelTest {
 
     @Test
     public void randomAssignCountry() {
-       for(Country c:  model.gameMap.map.values()){
+       for(Country c:  model.gameMap.getMap().values()){
            assertEquals(true,c.hasOwner());
        }
     }
 
     @Test
     public void randomAssignTroops() {
-        for(Country c:  model.gameMap.map.values()){
-            assertEquals(true,c.getTroopsNum() != 0);
+        for(Country c:  model.gameMap.getMap().values()){
+            assertEquals(true,c.getCountryTroopsNumber() != 0);
         }
     }
 
@@ -37,7 +37,7 @@ public class RiskModelTest {
         model.setPlayerOnGoing(p1);
         Country country1 = model.gameMap.map.get("india");
         p1.addCountry(country1);
-        country1.setTroopsNum(1);
+        country1.setCountryTroopsNumber(1);
         Country country2 = model.gameMap.map.get("siam");
         p2.addCountry(country2);
 
@@ -55,8 +55,8 @@ public class RiskModelTest {
         assertEquals(false,model.attack()); // test when the player doesn't contains the Country
 
         p1.addCountry(country1);
-        country1.setTroopsNum(5);
-        country2.setTroopsNum(5);
+        country1.setCountryTroopsNumber(5);
+        country2.setCountryTroopsNumber(5);
         model.setAttackTroops(3);
         assertEquals(true,model.attack());
         System.out.println(model.printBattleResult());
@@ -93,7 +93,7 @@ public class RiskModelTest {
         model.setPlayerOnGoing(p1);
         Country country1 = model.gameMap.map.get("india");
         p1.addCountry(country1);
-        country1.setTroopsNum(10);
+        country1.setCountryTroopsNumber(10);
         Country country2 = model.gameMap.map.get("china");
         p1.addCountry(country2);
         Country country3 = model.gameMap.map.get("japan");
@@ -122,7 +122,7 @@ public class RiskModelTest {
         model.setPlayerOnGoing(p1);
         Country country1 = model.getCountry("easternaustralia");
         p1.addCountry(country1);
-        country1.setTroopsNum(1);
+        country1.setCountryTroopsNumber(1);
         Country country2 = model.gameMap.map.get("indonesia");
         p1.addCountry(country2);
         Country country3 = model.gameMap.map.get("newguinea");
@@ -139,7 +139,7 @@ public class RiskModelTest {
         //now we add 3 more counties to p1.
         Country country5 = model.getCountry("kamchatka");
         p1.addCountry(country5);
-        country1.setTroopsNum(1);
+        country1.setCountryTroopsNumber(1);
         Country country6 = model.gameMap.map.get("middleeast");
         p1.addCountry(country6);
         Country country7 = model.gameMap.map.get("siberia");

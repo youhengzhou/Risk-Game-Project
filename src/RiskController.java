@@ -354,7 +354,10 @@
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if(model.getState().equals(RiskModel.Phase.LOAD)) {
+                new JOptionPane().showMessageDialog(view, "Please assign all new troops first");
+                return;
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class RiskModel extends DefaultHandler {
 
-    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
+    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY, LOAD}
     private Phase State;
     private List<Player> players;
 

@@ -5,14 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class RiskView extends JFrame implements RiskModelListener
 {
-
+    private int mode;
     private CustomPanel imagePanel;
     private JPanel textPanel;
     private JPanel buttonPanel;
@@ -33,12 +31,13 @@ public class RiskView extends JFrame implements RiskModelListener
     /**
      * Constructor for RiskView
      */
-    public RiskView () throws FileNotFoundException {
+    public RiskView (int mode) throws FileNotFoundException {
         super("view");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-        this.imagePanel = new CustomPanel();
-        this.buttonList = new Buttons(imagePanel);
+        this.mode = mode;
+        this.imagePanel = new CustomPanel(mode);
+        iniButtons();
         this.textPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.countriesOwnText = new CountryOwnTextArea();
@@ -53,6 +52,7 @@ public class RiskView extends JFrame implements RiskModelListener
         this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
+        this.mode = mode;
 
         //setup for console
         System.setOut(new PrintStream(new OutputStream() {
@@ -178,6 +178,18 @@ public class RiskView extends JFrame implements RiskModelListener
         return (RiskModelListener)adjacentCountriesText;
     }
 
+    public void iniButtons()
+    {
+        if(mode == RiskController.ORIGINAL)
+        {
+            this.buttonList = Buttons.build(ButtonInfoStore.loadFromXML("worldMapButtons.xml"),imagePanel);
+        }
+        else
+        {
+            this.buttonList = Buttons.build(ButtonInfoStore.loadFromXML("starMapButtons.xml"),imagePanel);
+        }
+    }
+
     /**
      * get countries name
      *@return namepane
@@ -250,12 +262,21 @@ public class RiskView extends JFrame implements RiskModelListener
      */
 class CustomPanel extends JPanel{
     private Image im;
-    private String mapImagePath = "D:/work/3110/Risk-Game-Project/src/main/java/NEW MAP.png";
-    public CustomPanel() throws FileNotFoundException {
+    int mode;
+    private String mapImagePath = "D:/work/3110/Risk-Game-Project/src/main/java/NEW STAR MAP.png";
+    public CustomPanel(int mode) throws FileNotFoundException {
         setLayout(null);
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.black,1));
-
+        mode = mode;
+        if(mode==RiskController.ORIGINAL)
+        {
+            mapImagePath = "NEW MAP.png";
+        }
+        else
+        {
+            mapImagePath = "NEW STAR MAP.png";
+        }
         try{
             im = ImageIO.read(new File(mapImagePath));
         } catch (Exception e) {
@@ -274,9 +295,7 @@ class CustomPanel extends JPanel{
          }
 
          public static void main(String[] args) throws FileNotFoundException {
-             Buttons buttonList;
-             buttonList = new Buttons(new CustomPanel());
-             buttonList.saveToXML("buttons.xml");
+
          }
 }
 

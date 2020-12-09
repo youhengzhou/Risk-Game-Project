@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @XmlRootElement(name = "originalWorldMap")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,8 +34,90 @@ public class WorldMap {
         return map;
     }
 
-    public WorldMap(){
-        /**
+    public WorldMap() //constructor for star map
+    {
+        northAmericaContient = new ArrayList<>();
+        southAmericaContient = new ArrayList<>();
+        europeContient = new ArrayList<>();
+        africaContient = new ArrayList<>();
+        asiaContient = new ArrayList<>();
+        australiaContient = new ArrayList<>();
+
+
+        map = new HashMap<>();
+        Country Russia = new Country("Russia");
+        Russia.addAdjacentCountry("france");
+        Russia.addAdjacentCountry("switzerland");
+        map.put("russia",Russia);
+
+        Country France = new Country("France");
+        France.addAdjacentCountry("russia");
+        France.addAdjacentCountry("german");
+        France.addAdjacentCountry("belgium");
+        map.put("france",France);
+
+
+        Country German = new Country("German");
+        German.addAdjacentCountry("france");
+        German.addAdjacentCountry("poland");
+        map.put("german",German);
+
+
+        Country Switzerland = new Country("Switzerland");
+        Switzerland.addAdjacentCountry("russia");
+        Switzerland.addAdjacentCountry("belgium");
+        Switzerland.addAdjacentCountry("sweden");
+        map.put("switzerland",Switzerland);
+
+        Country Belgium = new Country("Belgium");
+        Belgium.addAdjacentCountry("france");
+        Belgium.addAdjacentCountry("switzerland");
+        Belgium.addAdjacentCountry("poland");
+        Belgium.addAdjacentCountry("norway");
+        Belgium.addAdjacentCountry("denmark");
+        map.put("belgium",Belgium);
+
+
+        Country Poland = new Country("Poland");
+        Poland.addAdjacentCountry("german");
+        Poland.addAdjacentCountry("belgium");
+        Poland.addAdjacentCountry("italy");
+        map.put("poland",Poland);
+
+        Country Sweden = new Country("Sweden");
+        Sweden.addAdjacentCountry("switzerland");
+        Sweden.addAdjacentCountry("norway");
+        map.put("sweden",Sweden);
+
+        Country Norway = new Country("Norway");
+        Norway.addAdjacentCountry("sweden");
+        Norway.addAdjacentCountry("belgium");
+        Norway.addAdjacentCountry("finland");
+        map.put("norway",Norway);
+
+
+        Country Denmark = new Country("Denmark");
+        Denmark.addAdjacentCountry("belgium");
+        Denmark.addAdjacentCountry("italy");
+        Denmark.addAdjacentCountry("finland");
+        map.put("denmark",Denmark);
+
+
+        Country Italy = new Country("Italy");
+        Italy.addAdjacentCountry("poland");
+        Italy.addAdjacentCountry("denmark");
+        map.put("italy",Italy);
+
+        Country Finland = new Country("Finland");
+        Finland.addAdjacentCountry("norway");
+        Finland.addAdjacentCountry("denmark");
+        map.put("finland",Finland);
+
+
+    }
+/**
+    public WorldMap(){ // constructor for original map
+
         northAmericaContient = new ArrayList<>();
         southAmericaContient = new ArrayList<>();
         europeContient = new ArrayList<>();
@@ -382,8 +465,8 @@ public class WorldMap {
         map.put("indonesia", Indonesia);
         map.put("newguinea", NewGuinea);
         map.put("westernaustralia", WesternAustralia);
-        **/
-    }
+
+    }**/
 
     public void saveMapToXML(String fileName)
     {
@@ -487,9 +570,7 @@ public class WorldMap {
      */
     private int asiaRecruit(ArrayList<Country> countryown)
     {
-
         boolean containAll = asiaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
-
         return containAll? 7:0;
     }
 
@@ -500,9 +581,7 @@ public class WorldMap {
      */
     private int australiaRecruit(ArrayList<Country> countryown)
     {
-
         boolean containAll = australiaContient.stream().allMatch(country -> countryown.indexOf(country)>-1);
-
         return containAll? 2:0;
     }
 
@@ -534,20 +613,32 @@ public class WorldMap {
      * @param player
      * @return number of army
      */
-    public int getNumOfNewArmy(Player player)
+    public int getNumOfNewArmy(Player player,int mode)
     {
-        int numOfArmy = getNewArmyByContient(player)+getNewArmyByNumOfCountry(player);
-        return (numOfArmy>=3)? numOfArmy:3;
+        int numOfArmy=0;
+        if(mode == RiskController.ORIGINAL) {
+             numOfArmy = getNewArmyByContient(player) + getNewArmyByNumOfCountry(player);
+        }
+        else
+        {
+            numOfArmy =  getNewArmyByNumOfCountry(player)*2;
+        }
+        return Math.max(numOfArmy, 3);
+    }
+    public void toStrings()
+    {
+        HashSet<String> keys = (HashSet)map.keySet();
+        for(String key:keys)
+        {
+            System.out.println(map.get(key).getCountryName());
+        }
     }
 
     public static void main(String[] args) {
         WorldMap map = new WorldMap();
-        map.saveMapToXML("map.xml");
-        WorldMap map2 = WorldMap.loadMapFromXML("map.xml");
-        map.getCountry("argentina").getCountryTroopsNumber();
-        System.out.println(map.getCountry("scandinavia").getCountryName());
-        System.out.println(map2.getCountry("scandinavia").getCountryName());
-        System.out.println(map.getMap().size());
+        map.saveMapToXML("starMap.xml");
+        WorldMap map2 = WorldMap.loadMapFromXML("starMap.xml");
         System.out.println(map2.getMap().size());
     }
+
 }

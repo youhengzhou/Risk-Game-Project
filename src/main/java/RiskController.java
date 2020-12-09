@@ -7,6 +7,8 @@
     public class RiskController {
     private RiskModel model;
     private RiskView view;
+    public static int ORIGINAL = 1;
+    public static int STAR =2;
 
     /**
      * Constructor for RiskController
@@ -34,8 +36,14 @@
      *@param args
      */
     public static void main(String[] args) throws FileNotFoundException {
-        RiskView view = new RiskView();
-        RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer());
+        int mode = 999;
+        while(mode!=ORIGINAL && mode!=STAR){
+            String numberStr = new JOptionPane().showInputDialog("                       Choose a MAP                    \n \"1\" for original world map, \"2\" for star war map " );
+            if(!isNumeric(numberStr)) continue;
+            mode = Integer.parseInt(numberStr);
+        }
+        RiskView view = new RiskView(mode);
+        RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer(),mode);
         riskModel.addRiskModelListener(view.getadjacentCountriesText());
         riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
         riskModel.addRiskModelListener(view.getNamePane());
@@ -78,7 +86,9 @@
     public void addButtonListener() {
         for (JButton button : view.getButtonList()) {
             button.setFont(new Font("Arial", Font.PLAIN, 10));
+
             button.setMargin(new Insets(0,0,0,0));
+
 //            button.setText(Integer.toString(model.getCountry(button.getActionCommand()).getTroopsNum()));
             button.addActionListener(e -> {
                 model.setSelected(model.getCountry(button.getActionCommand()));
@@ -109,8 +119,7 @@
     class passButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(model.getPlayerOnGoing().isAi());
-            System.out.println(model.getState());
+
 
 
             if(model.getState().equals(RiskModel.Phase.RESIGN)) {
@@ -249,6 +258,9 @@
                     }
                     model.moveTroops(num);
                     model.clearPreCountries();
+                    new JOptionPane().showMessageDialog(view,"move success, your turn is done");
+                    view.clickPassButton();
+
                 } else {
                     new JOptionPane().showMessageDialog(view,"failed to move, make sure selcting your own country with enough troops on it");
                 }
@@ -304,7 +316,7 @@
         return noTroopsLeft;
 
     }
-    public boolean isNumeric(String s){
+    public static boolean isNumeric(String s){
         return s.chars().allMatch(Character :: isDigit);
     }
     /**

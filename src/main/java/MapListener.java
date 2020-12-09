@@ -9,7 +9,7 @@ public class MapListener extends CustomPanel implements RiskModelListener {
      * set the game map to a custom png image
      */
     public MapListener() throws FileNotFoundException {
-        super();
+        super(1);
     }
 
     /**

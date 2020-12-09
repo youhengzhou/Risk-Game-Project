@@ -150,13 +150,12 @@ public class PlayerAI extends Player {
      {
          String s = "Move Phase: \n";
         // System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-         int count = new Random().nextInt(3)+4;
+         int count = 1;
          while(calculateMove(map) )
          {
              if(count == 0) break;
              count--;
                calculateSupportCanOffer(moveFrom,map);
-             System.out.println("can offer " +supportCanOffer);
                calculateSupportNeeded(moveTo,map);
 
              s+="moved from "+moveFrom.getCountryName();

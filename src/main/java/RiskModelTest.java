@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 public class RiskModelTest {
 
-    private RiskModel model = new RiskModel(2,0);
+    private RiskModel model = new RiskModel(2,0,RiskController.ORIGINAL);
 
     @Test
     public void randomAssignCountry() {

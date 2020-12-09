@@ -20,7 +20,8 @@ import java.util.List;
  */
 public class RiskModel extends DefaultHandler {
 
-    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY, LOAD}
+    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
+
     private Phase State;
     private List<Player> players;
 
@@ -58,20 +59,21 @@ public class RiskModel extends DefaultHandler {
     private boolean isisAI = false;
     private boolean isNumOfPlayer = false;
     private boolean isNumOfAI = false;
-    private boolean isPlayerIndex = false;
 
 
     private String loadingPlayerName = "";
     private String loadingCountryName = "";
     private boolean isAI;
     private Player loadingPlayer = null;
+    private int mode;
+
     /**
      * This constructor of Game
      */
     public RiskModel() {
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
-        gameMap = WorldMap.loadMapFromXML("map.xml");
+        gameMap = new WorldMap();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         modelListeners = new ArrayList<>();
@@ -82,10 +84,11 @@ public class RiskModel extends DefaultHandler {
     }
 
     //used for test
-    public RiskModel(int num, int numOfAi){
+    public RiskModel(int num, int numOfAi,int mode) {
+        this.mode = mode;
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
-        gameMap = WorldMap.loadMapFromXML("map.xml");
+        iniMap();
         this.State = Phase.RESIGN;
         this.setNumOfPlayer(num);
         numOfAI = numOfAi;
@@ -96,7 +99,7 @@ public class RiskModel extends DefaultHandler {
         randomAssignCountry();
         randomAssignTroops();
         refreshNewArmy();
-        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing,mode);
         selectedCountryInfo = "Click on country \nto see its information";
     }
 
@@ -107,6 +110,18 @@ public class RiskModel extends DefaultHandler {
      */
     public boolean hasWinner() {
         return players.size() < 2;
+    }
+
+    public void iniMap()
+    {
+        if(mode==RiskController.ORIGINAL)
+        {
+            gameMap = WorldMap.loadMapFromXML("map.xml");
+        }
+        else
+        {
+            gameMap = WorldMap.loadMapFromXML("starMap.xml");
+        }
     }
 
     /**
@@ -129,11 +144,11 @@ public class RiskModel extends DefaultHandler {
                 e.printStackTrace();
             }
         }
-        if (players.size() ==1 ) {
+        if (players.size() == 1) {
 
-                System.out.println("The winner is " + players.get(0).getName());
+            System.out.println("The winner is " + players.get(0).getName());
 
-            }
+        }
 
     }
 
@@ -163,7 +178,7 @@ public class RiskModel extends DefaultHandler {
             System.out.println("return false here");
             return false;
         }
-        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)){
+        if (!playerOnGoing.getCountriesOwn().contains(firstSelected)) {
             System.out.println("return false");
             return false;
         }
@@ -171,35 +186,30 @@ public class RiskModel extends DefaultHandler {
             System.out.println("return ");
             return false;
         }
-        if(firstSelected.getCountryTroopsNumber() < 2) return false;
+        if (firstSelected.getCountryTroopsNumber() < 2) return false;
         Battle battle;
-        if(playerOnGoing.isAi())
-        {
+        if (playerOnGoing.isAi()) {
             PlayerAI p = (PlayerAI) playerOnGoing;
             int attackTroop = p.getTroopNeedToAttack();
-            System.out.println("from "+firstSelected);
-            System.out.println("To: "+secondSelected);
-             battle = new Battle(firstSelected, secondSelected, attackTroop);
-            AIattackInfo+="Letting "+ firstSelected.getCountryName()+" attacks "+secondSelected.getCountryName()+"\n"+attackTroop+" troops sent" +"\n";
+            System.out.println("from " + firstSelected);
+            System.out.println("To: " + secondSelected);
+            battle = new Battle(firstSelected, secondSelected, attackTroop);
+            AIattackInfo += "Letting " + firstSelected.getCountryName() + " attacks " + secondSelected.getCountryName() + "\n" + attackTroop + " troops sent" + "\n";
             battleResult = battle.fight();
             this.attackWin = battle.isAttackerWin();
-            survivedTroops =battle.getTroopSurvive();
+            survivedTroops = battle.getTroopSurvive();
             secondSelected.addTroops(survivedTroops);
 
-            if(attackWin)
-            {
-                AIattackInfo+="Result: battle win! conquored "+secondSelected.getCountryName()+"\n\n";
+            if (attackWin) {
+                AIattackInfo += "Result: battle win! conquored " + secondSelected.getCountryName() + "\n\n";
+            } else {
+                AIattackInfo += "Result: battle lost\n\n";
             }
-            else
-            {
-                AIattackInfo+="Result: battle lost\n\n";
-            }
-        }
-        else {
-             battle = new Battle(firstSelected, secondSelected, attackTroops);
+        } else {
+            battle = new Battle(firstSelected, secondSelected, attackTroops);
             battleResult = battle.fight();
             this.attackWin = battle.isAttackerWin();
-            survivedTroops =battle.getTroopSurvive();
+            survivedTroops = battle.getTroopSurvive();
         }
 
 
@@ -208,53 +218,55 @@ public class RiskModel extends DefaultHandler {
     }
 
     /**
-     * set attackWin is false 
+     * set attackWin is false
      */
-    public void iniAttackWin(){attackWin = false;}
+    public void iniAttackWin() {
+        attackWin = false;
+    }
 
-    public void addRiskModelListener(RiskModelListener rml)
-    {
+    public void addRiskModelListener(RiskModelListener rml) {
         modelListeners.add(rml);
     }
 
-    public void updateModelListeners()
-    {
-        for(RiskModelListener rml:modelListeners)
-        {
+    public void updateModelListeners() {
+        for (RiskModelListener rml : modelListeners) {
             rml.handleRiskModelUpdate(new RiskModelUpdateEvent(this));
         }
     }
-    
+
     /**
      * check if the attacker win
-     *@return attackwin
+     *
+     * @return attackwin
      */
-    public boolean getAttackWin(){return attackWin;}
-    
+    public boolean getAttackWin() {
+        return attackWin;
+    }
+
     /**
      * get the number of the survied troops
-     *@return the surviedTroops 
+     *
+     * @return the surviedTroops
      */
     public int getSurvivedTroops() {
         return survivedTroops;
     }
-    
+
     /**
      * make the player choose how many troops they want to move to the new country after attack
      */
-    public void handleSurvivedTroops(int num)
-    {
+    public void handleSurvivedTroops(int num) {
 
-        firstSelected.addTroops(getSurvivedTroops()-num);
+        firstSelected.addTroops(getSurvivedTroops() - num);
         secondSelected.addTroops(num);
     }
-    
+
     /**
      * print out the battle result
-     *@return battle result
+     *
+     * @return battle result
      */
-    public String printBattleResult()
-    {
+    public String printBattleResult() {
         return battleResult;
     }
 
@@ -263,21 +275,19 @@ public class RiskModel extends DefaultHandler {
      */
     public void pass() {
         playerIndex++;
-        playerOnGoing =   players.get(playerIndex % numOfPlayer);
-        if(playerOnGoing.isAi())
-        {
-            PlayerAI p= (PlayerAI) playerOnGoing;
-           Aiplay(p);
-           return;
+        playerOnGoing = players.get(playerIndex % numOfPlayer);
+        if (playerOnGoing.isAi()) {
+            PlayerAI p = (PlayerAI) playerOnGoing;
+            Aiplay(p);
+            return;
         }
         this.releaseSelected();
         updateState(Phase.RESIGN);
         updateModelListeners();
     }
 
-    public Player getPlayerComing()
-    {
-        return players.get((players.indexOf(playerOnGoing)+1) % numOfPlayer);
+    public Player getPlayerComing() {
+        return players.get((players.indexOf(playerOnGoing) + 1) % numOfPlayer);
     }
 
     /**
@@ -289,7 +299,6 @@ public class RiskModel extends DefaultHandler {
     private boolean isValidNum(int num) {
         return num >= 2 && num <= 6;
     }
-
 
 
     /**
@@ -330,6 +339,7 @@ public class RiskModel extends DefaultHandler {
 
     /**
      * AIattackInfo
+     *
      * @return
      */
     public String getAIattackInfo() {
@@ -344,23 +354,23 @@ public class RiskModel extends DefaultHandler {
 
     /**
      * The logic of AI play its round
+     *
      * @param p
      */
-    public String Aiplay(PlayerAI p)
-    {
-        AiPlayInfo ="";
-        AIattackInfo="Attack Phase:\n";
-         String AIrecruitInfo = "";
-         String AImoveInfo = "";
+    public String Aiplay(PlayerAI p) {
+        AiPlayInfo = "";
+        AIattackInfo = "Attack Phase:\n";
+        String AIrecruitInfo = "";
+        String AImoveInfo = "";
 
         refreshNewArmy();
         p.setNewTroops(newArmy);
         AIrecruitInfo = p.AIrecruit(gameMap); //recruit for AI
         Random r = new Random();
-        int i = r.nextInt(2)+3;
-        while(i>0)
-        {
-            if(!p.calculateAttack(gameMap)) break; // If calculateAttack() return false, then we won't perform AIattack, because no suitable country.
+        int i = r.nextInt(2) + 3;
+        while (i > 0) {
+            if (!p.calculateAttack(gameMap))
+                break; // If calculateAttack() return false, then we won't perform AIattack, because no suitable country.
             firstSelected = p.getAttackFromCountry();
             secondSelected = p.getAttackToCountry();
             attack(); //attack will assign AttackInfo
@@ -368,15 +378,14 @@ public class RiskModel extends DefaultHandler {
         }
 
         AImoveInfo = p.AIMove(gameMap);
-      //  updateModelListeners();
-        AiPlayInfo+=AIrecruitInfo+"------------------------------------------------------------------------\n";
-        AiPlayInfo+=AIattackInfo+"---------------------------------------------------------------------------\n";
-        AiPlayInfo+=AImoveInfo+"\n------------------------------------------------------------------------------";
+        //  updateModelListeners();
+        AiPlayInfo += AIrecruitInfo + "------------------------------------------------------------------------\n";
+        AiPlayInfo += AIattackInfo + "---------------------------------------------------------------------------\n";
+        AiPlayInfo += AImoveInfo + "\n------------------------------------------------------------------------------";
         return AiPlayInfo;
     }
 
-    public String getAiPlayInfo()
-    {
+    public String getAiPlayInfo() {
         return AiPlayInfo;
     }
 
@@ -395,7 +404,7 @@ public class RiskModel extends DefaultHandler {
                 p.addColor(colors[count]);
                 players.add(p);
             } else {
-                Player p = new PlayerAI("Player" + count+"(AI)");
+                Player p = new PlayerAI("Player" + count + "(AI)");
                 p.addColor(colors[count]);
                 players.add(p);
                 leftAI--;
@@ -464,71 +473,78 @@ public class RiskModel extends DefaultHandler {
     }
 
     /**
-     *set the number of the players in this game
+     * set the number of the players in this game
      */
-    public void setPlayerOnGoing(Player p){this.playerOnGoing = p;}
+    public void setPlayerOnGoing(Player p) {
+        this.playerOnGoing = p;
+    }
 
     /**
      * get the number of the players
-     *@return the number of players 
+     *
+     * @return the number of players
      */
     public int getNumOfPlayer() {
         return this.numOfPlayer;
     }
 
-    
+
     /**
      * get the number of the players if chnaged
-     *@return the new number of players 
+     *
+     * @return the new number of players
      */
     public Player getPlayerOnGoing() {
         return this.playerOnGoing;
     }
- 
-    
+
+
     /**
      * get the first selected country
-     *@return the first selected country
+     *
+     * @return the first selected country
      */
     public Country getFirstSelected() {
         return firstSelected;
     }
 
-     /**
+    /**
      * get the second selected country
-     *@return the second selected country
+     *
+     * @return the second selected country
      */
     public Country getSecondSelected() {
         return secondSelected;
     }
 
-     /**
+    /**
      * release the first and second selected country
      */
-    public void releaseSelected(){
+    public void releaseSelected() {
         this.firstSelected = null;
         this.secondSelected = null;
     }
 
-     /**
-     * update the state of the countries 
+    /**
+     * update the state of the countries
      */
     public void updateState(Phase phase) {
         this.State = phase;
     }
 
-     /**
-     * get the state of the countries 
-     *@return the state
+    /**
+     * get the state of the countries
+     *
+     * @return the state
      */
     public Phase getState() {
         return this.State;
     }
 
-     /**
+    /**
      * check if the attacker's troops number is smaller than the the country that get attack
-     *@return true if yes
-     *@return false if no
+     *
+     * @return false if no
      */
     public boolean setAttackTroops(int num) {
         if (num < firstSelected.getCountryTroopsNumber()) {
@@ -538,8 +554,8 @@ public class RiskModel extends DefaultHandler {
         return false;
     }
 
-     /**
-     * set the attacked country under by new owner if the new owner won 
+    /**
+     * set the attacked country under by new owner if the new owner won
      */
     public void setSelected(Country country) {
         if (!State.equals(Phase.ATTACK) && !State.equals(Phase.FORTIFY)) {
@@ -551,7 +567,7 @@ public class RiskModel extends DefaultHandler {
         }
     }
 
-     /**
+    /**
      * assign the buttons under the countries on the map
      */
     public void assignButtonToCountry(JButton button) {
@@ -560,14 +576,13 @@ public class RiskModel extends DefaultHandler {
         c.addButton(button);
     }
 
-    public Country getCountry(String key)
-    {
-        return gameMap.getCountry(key);
+    public Country getCountry(String key) {
+        return gameMap.getMap().get(key);
     }
 
     /**
      * @param countryName the name of country
-     * Set the adjacentCountryInfo for the use of AdjacentCountriesText in RiskView
+     *                    Set the adjacentCountryInfo for the use of AdjacentCountriesText in RiskView
      */
     public void setSelectedCountryInfo(String countryName) {
         Country country = gameMap.getMap().get(countryName);
@@ -580,31 +595,33 @@ public class RiskModel extends DefaultHandler {
 
     /**
      * get the selectedCountryInfo for the use of AdjacentCountriesText in RiskView
+     *
      * @return selectedCountryInfo
      */
-    public String getSelectedCountryInfo()
-    {
+    public String getSelectedCountryInfo() {
         return selectedCountryInfo;
     }
 
     /**
      * recursive method to see if we can reach the target Country from the firstSelected Country
+     *
      * @param TFromCountry
      * @return
      */
-    public boolean availableToMove(Country TFromCountry){
+    public boolean availableToMove(Country TFromCountry) {
         //return false if not owning the countries or too few troops on the From country
-        if(!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getCountryTroopsNumber() <= 1) return false;
+        if (!playerOnGoing.getCountriesOwn().contains(firstSelected) || !playerOnGoing.getCountriesOwn().contains(secondSelected) || firstSelected.getCountryTroopsNumber() <= 1)
+            return false;
         canMove = false;
-        for(Country c: TFromCountry.getAdjacentCountries(gameMap)){
+        for (Country c : TFromCountry.getAdjacentCountries(gameMap)) {
 
-            if(playerOnGoing.getCountriesOwn().contains(c)){
-                if(preCountries.contains(c))continue;
-                if(c.equals(secondSelected)) {
+            if (playerOnGoing.getCountriesOwn().contains(c)) {
+                if (preCountries.contains(c)) continue;
+                if (c.equals(secondSelected)) {
                     canMove = true;
                     break;
                 }
-                if(canMove) break;
+                if (canMove) break;
                 preCountries.add(TFromCountry);
                 availableToMove(c);
             }
@@ -612,10 +629,13 @@ public class RiskModel extends DefaultHandler {
         return canMove;
     }
 
-    public void clearPreCountries(){preCountries.clear();}
+    public void clearPreCountries() {
+        preCountries.clear();
+    }
 
     /**
      * move num of player to from one country to another.
+     *
      * @param num
      */
     public void moveTroops(int num) {
@@ -626,45 +646,37 @@ public class RiskModel extends DefaultHandler {
     /**
      * assign a new value to the newArmy, method would be called when pass to next player
      */
-    public void refreshNewArmy()
-    {
-        newArmy = gameMap.getNumOfNewArmy(playerOnGoing);
+    public void refreshNewArmy() {
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing,mode);
 
     }
 
     /**
      * decrement the NewArmy variable after the player assigned number of new Troops
-      * @param num
+     *
+     * @param num
      * @return true is there are no more troops left to be assigned.
      */
     public boolean decrementNewArmy(int num) // will be true when all army have been assigned
     {
-        newArmy-=num;
-        return newArmy==0;
+        newArmy -= num;
+        return newArmy == 0;
     }
 
-    public int getNewArmyLeft()
-    {
+    public int getNewArmyLeft() {
         return newArmy;
     }
 
-    public String getGameMapImagePath(){return mapImagePath;}
-
-    /**
-     * set the SelectedMap to the map name loaded from the XML
-     */
-    public void setSelectedMap(String mapImagePath) {
-        this.mapImagePath = mapImagePath;
-
+    public String getGameMapImagePath() {
+        return mapImagePath;
     }
 
-    public String toXML(){
+    public String toXML() {
         String s = "<RiskModel>\n";
         s += "<State>" + State.toString() + "</State>\n";
         s += "<numOfPlayer>" + numOfPlayer + "</numOfPlayer>\n";
         s += "<numOfAI>" + numOfAI + "</numOfAI>\n";
-        s += "<playerIndex>" + playerIndex + "</playerIndex>\n";
-        for(Player p: players){
+        for (Player p : players) {
             s += p.toXML();
         }
         s += "<playerOnGoing>" + playerOnGoing.getName() + "</playerOnGoing>\n";
@@ -680,9 +692,9 @@ public class RiskModel extends DefaultHandler {
     }
 
     //testing
-    public void importFromXmlFile(String fileName){
+    public void importFromXmlFile(String fileName) {
         try {
-            File inputFile = new File(fileName+".txt");
+            File inputFile = new File(fileName + ".txt");
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             saxParser.parse(inputFile, this);
@@ -697,84 +709,80 @@ public class RiskModel extends DefaultHandler {
 
     //PlayerIndex is not done
     @Override
-    public void startElement(String namespaceURI, String localName, String qName, Attributes attributes) throws SAXException{
-        if (qName.equalsIgnoreCase("RiskModel")){
+    public void startElement(String namespaceURI, String localName, String qName, Attributes attributes) throws SAXException {
+        if (qName.equalsIgnoreCase("RiskModel")) {
             players.clear();
-        } else if(qName.equalsIgnoreCase("State")){
+        } else if (qName.equalsIgnoreCase("State")) {
             isState = true;
-        } else if(qName.equalsIgnoreCase("playerOnGoing")) {
+        } else if (qName.equalsIgnoreCase("playerOnGoing")) {
             isPlayerOnGoing = true;
-        } else if(qName.equalsIgnoreCase("name")){
+        } else if (qName.equalsIgnoreCase("name")) {
             isPlayerName = true;
-        } else if(qName.equalsIgnoreCase("isAi")){
+        } else if (qName.equalsIgnoreCase("isAi")) {
             isisAI = true;
-        } else if(qName.equalsIgnoreCase("color")){
+        } else if (qName.equalsIgnoreCase("color")) {
             isColor = true;
-        } else if(qName.equalsIgnoreCase("countryName")){
+        } else if (qName.equalsIgnoreCase("countryName")) {
             isCountryName = true;
-        } else if(qName.equalsIgnoreCase("troopsNum")) {
+        } else if (qName.equalsIgnoreCase("troopsNum")) {
             isTroopsNum = true;
-        } else if(qName.equalsIgnoreCase("numOfPlayer")){
+        } else if (qName.equalsIgnoreCase("numOfPlayer")) {
             isNumOfPlayer = true;
-        } else if(qName.equalsIgnoreCase("numOfAI")){
+        } else if (qName.equalsIgnoreCase("numOfAI")) {
             isNumOfAI = true;
-        } else if(qName.equalsIgnoreCase("playerIndex")){
-            isPlayerIndex = true;
         }
     }
 
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-        if(isState){
+
+//        int num = Integer.parseInt(s);
+
+        if (isState) {
             State = Phase.valueOf(new String(ch, start, length));
             isState = false;
-        } else if(isNumOfPlayer){
+        } else if (isNumOfPlayer) {
             setNumOfPlayer(Integer.parseInt(new String(ch, start, length)));
             isNumOfPlayer = false;
-        } else if(isNumOfAI){
+        } else if (isNumOfAI) {
             numOfAI = Integer.parseInt(new String(ch, start, length));
             isNumOfAI = false;
-        } else if(isPlayerName){
+        } else if (isPlayerName) {
             loadingPlayerName = new String(ch, start, length);
             isPlayerName = false;
-        } else if(isisAI){
+        } else if (isisAI) {
             isAI = Boolean.getBoolean(new String(ch, start, length));
             isisAI = false;
-        } else if(isColor){
+        } else if (isColor) {
             loadingPlayer.addColor(new Color(Integer.parseInt(new String(ch, start, length))));
             isColor = false;
-        } else if(isCountryName) {
+        } else if (isCountryName) {
             loadingCountryName = "";
             String[] strings = new String(ch, start, length).toLowerCase().split(" ");
-            for(String string: strings){
+            for (String string : strings) {
                 loadingCountryName += string;
             }
             isCountryName = false;
-        } else if(isTroopsNum){
+        } else if (isTroopsNum) {
             int num = Integer.parseInt(new String(ch, start, length));
             gameMap.getCountry(loadingCountryName).setCountryTroopsNumber(num);
             isTroopsNum = false;
-        } else if(isPlayerOnGoing){
+        } else if (isPlayerOnGoing) {
             findPlayer(new String(ch, start, length));
             isPlayerOnGoing = false;
-        } else if(isPlayerIndex){
-             this.playerIndex = Integer.parseInt(new String(ch, start, length));
-             isPlayerIndex = false;
         }
     }
 
     //adding Country to the Player is not yet done
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if(qName.equalsIgnoreCase("isAi")){
-            if(isAI){
-                loadingPlayer = new PlayerAI(loadingPlayerName);
+        if (qName.equalsIgnoreCase("isAi")) {
+            if (isAI) {
+                loadingPlayer = new PlayerAI(loadingCountryName);
             } else {
-                loadingPlayer = new Player(loadingPlayerName, false);
+                loadingPlayer = new Player(loadingCountryName, false);
             }
             players.add(loadingPlayer);
-        } else if(qName.equalsIgnoreCase("countryName")){
-            loadingPlayer.addCountry(gameMap.getCountry(loadingCountryName));
         }
     }
 
@@ -782,9 +790,9 @@ public class RiskModel extends DefaultHandler {
         return gameMap;
     }
 
-    public boolean findPlayer(String name){
-        for(Player p: players){
-            if(p.getName().equals(name)){
+    public boolean findPlayer(String name) {
+        for (Player p : players) {
+            if (p.getName().equals(name)) {
                 playerOnGoing = p;
                 return true;
             }
@@ -792,15 +800,5 @@ public class RiskModel extends DefaultHandler {
         return false;
     }
 
-    public static void main (String[] args){
-        RiskModel model = new RiskModel(2,1);
-        try {
-            model.exportToXMLFile("testing");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        RiskModel testingModel = new RiskModel(3,1);
-        model.importFromXmlFile("testing");
-        System.out.print(model.toXML());
-    }
+
 }

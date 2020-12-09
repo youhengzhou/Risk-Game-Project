@@ -1,0 +1,7 @@
+<RiskModel>
+<State>RESIGN</State>
+<numOfPlayer>4</numOfPlayer>
+<numOfAI>1</numOfAI>
+<playerIndex>2</playerIndex>
+<playerOnGoing>Player2</playerOnGoing>
+</RiskModel>

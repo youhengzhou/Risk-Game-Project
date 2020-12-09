@@ -10,6 +10,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
@@ -26,6 +27,7 @@ public class RiskModel extends DefaultHandler {
     private List<Player> players;
 
 
+    private Player ownerForLoadingCountry;
     private Player playerOnGoing;
     private int numOfPlayer = 0;
     private int numOfAI = 0;
@@ -60,6 +62,7 @@ public class RiskModel extends DefaultHandler {
     private boolean isisAI = false;
     private boolean isNumOfPlayer = false;
     private boolean isNumOfAI = false;
+    private boolean isOwner = false;
 
 
     private String loadingPlayerName = "";
@@ -400,7 +403,13 @@ public class RiskModel extends DefaultHandler {
         int leftToCreate = numOfPlayer;
         int leftAI = numOfAI;
         for (int i = 0; i < numOfPlayer; i++) {
-            if (i % 2 == 0 && leftToCreate > leftAI) {
+            if(leftAI == 0)
+            {
+                Player p = new Player("Player" + count, false);
+                p.addColor(colors[count]);
+                players.add(p);
+            }
+            else if (i % 2 == 0 && leftToCreate > leftAI) {
                 Player p = new Player("Player" + count, false);
                 p.addColor(colors[count]);
                 players.add(p);
@@ -711,7 +720,7 @@ public class RiskModel extends DefaultHandler {
             players.clear();
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            saxParser.parse(inputFile, this);
+            saxParser.parse(inputFile,this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -746,6 +755,10 @@ public class RiskModel extends DefaultHandler {
             isNumOfAI = true;
         } else if(qName.equalsIgnoreCase("playerIndex")){
             isPlayerIndex = true;
+        }
+        else if (qName.equalsIgnoreCase("owner"))
+        {
+            isOwner = true;
         }
     }
 
@@ -783,7 +796,14 @@ public class RiskModel extends DefaultHandler {
             int num = Integer.parseInt(new String(ch, start, length));
             gameMap.getCountry(loadingCountryName).setCountryTroopsNumber(num);
             isTroopsNum = false;
-        } else if (isPlayerOnGoing) {
+        }
+        else if (isOwner)
+        {
+            String playerName = new String(ch, start, length);
+             ownerForLoadingCountry = this.findPlayerByName(playerName);
+            isOwner = false;
+        }
+        else if (isPlayerOnGoing) {
             findPlayer(new String(ch, start, length));
             isPlayerOnGoing = false;
         } else if(isPlayerIndex){
@@ -802,10 +822,12 @@ public class RiskModel extends DefaultHandler {
                 loadingPlayer = new Player(loadingPlayerName, false);
             }
             players.add(loadingPlayer);
-        }  else if(qName.equalsIgnoreCase("countryName")) {
+        }
+        else if(qName.equalsIgnoreCase("countryName")) {
 
 //            gameMap.getCountry(loadingCountryName).setOwner(loadingPlayer);
             loadingPlayer.addCountry(gameMap.getCountry(loadingCountryName));
+            gameMap.getCountry(loadingCountryName).changeOwner(ownerForLoadingCountry);
         }
     }
 
@@ -827,8 +849,19 @@ public class RiskModel extends DefaultHandler {
         return false;
     }
 
+    public Player findPlayerByName(String playerName)
+    {
+
+        Optional<Player> potentialObj= players.stream()
+                .filter(p->p.getName().equalsIgnoreCase(playerName))
+                .findAny();
+
+        return potentialObj.get();
+    }
+
     public static void main (String[] args) {
-        RiskModel model = new RiskModel(2, 1,1);
+
+        RiskModel model = new RiskModel(4, 1,1);
         try {
             model.exportToXMLFile("testing");
 
@@ -838,7 +871,16 @@ public class RiskModel extends DefaultHandler {
         RiskModel testingModel = new RiskModel(3,1,1);
         testingModel.setMode(1);
         testingModel.importFromXmlFile("testing");
-        System.out.print(testingModel.toXML());
+        WorldMap map1 = model.getGameMap();
+        WorldMap map2 = testingModel.getGameMap();
+        Set<String> mapKeys = model.getGameMap().getMap().keySet();
+        for(String key:mapKeys)
+        {
+            System.out.println("for country: "+key);
+            System.out.println("in map1 owner is "+map1.getCountry(key).getOwner().getName());
+            System.out.println("in map2 owner is "+map2.getCountry(key).getOwner().getName());
+        }
+
 
     }
 }

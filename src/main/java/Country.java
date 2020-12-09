@@ -284,6 +284,7 @@ public class Country extends DefaultHandler implements Serializable {
 
     public String toXML(){
         String s = "<Country>\n";
+        s += "<owner>" + this.getOwner().getName() + "</owner>\n";
         s += "<countryName>" + countryName + "</countryName>\n";
         s += "<troopsNum>" + countryTroopsNumber + "</troopsNum>\n";
         s += "</Country>\n";

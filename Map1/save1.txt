@@ -1,8 +1,8 @@
 <RiskModel>
 <State>RESIGN</State>
-<numOfPlayer>2</numOfPlayer>
+<numOfPlayer>3</numOfPlayer>
 <numOfAI>1</numOfAI>
-<playerIndex>2</playerIndex>
+<playerIndex>0</playerIndex>
 <Player>
 <name>Player0</name>
 <isAi>false</isAi>
@@ -10,58 +10,23 @@
 <countriesOwn>
 <Country>
 <owner>Player0</owner>
-<countryName>Egypt</countryName>
-<troopsNum>1</troopsNum>
+<countryName>Great Britain</countryName>
+<troopsNum>3</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>Eastern Australia</countryName>
-<troopsNum>9</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Southern Europe</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>New Guinea</countryName>
-<troopsNum>10</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>East Africa</countryName>
+<countryName>Madagascar</countryName>
 <troopsNum>5</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>India</countryName>
-<troopsNum>1</troopsNum>
+<countryName>Ontario</countryName>
+<troopsNum>9</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>Mongolia</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Western Europe</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Siam</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Japan</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Western Australia</countryName>
-<troopsNum>1</troopsNum>
+<countryName>Peru</countryName>
+<troopsNum>8</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
@@ -70,17 +35,12 @@
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>Brazil</countryName>
+<countryName>Central America</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>South Africa</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player0</owner>
-<countryName>Congo</countryName>
+<countryName>Eastern Australia</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
@@ -90,18 +50,33 @@
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>Peru</countryName>
+<countryName>Northern Europe</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>Argentina</countryName>
+<countryName>India</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player0</owner>
-<countryName>North Africa</countryName>
-<troopsNum>15</troopsNum>
+<countryName>Siberia</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player0</owner>
+<countryName>Eastern United States</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player0</owner>
+<countryName>South Africa</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player0</owner>
+<countryName>Iceland</countryName>
+<troopsNum>1</troopsNum>
 </Country>
 </countriesOwn>
 </Player>
@@ -112,47 +87,27 @@
 <countriesOwn>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Ural</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>Greenland</countryName>
-<troopsNum>4</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>China</countryName>
-<troopsNum>4</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>Madagascar</countryName>
-<troopsNum>8</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>Siberia</countryName>
-<troopsNum>4</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
 <countryName>Alberta</countryName>
-<troopsNum>4</troopsNum>
+<troopsNum>9</troopsNum>
+</Country>
+<Country>
+<owner>Player1(AI)</owner>
+<countryName>Western Europe</countryName>
+<troopsNum>6</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
 <countryName>Scandinavia</countryName>
-<troopsNum>2</troopsNum>
+<troopsNum>7</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Western United States</countryName>
-<troopsNum>1</troopsNum>
+<countryName>Southern Europe</countryName>
+<troopsNum>3</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Eastern United States</countryName>
+<countryName>Brazil</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
@@ -162,17 +117,17 @@
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Ontario</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
 <countryName>Kamchatka</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Quebec</countryName>
+<countryName>East Africa</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player1(AI)</owner>
+<countryName>Greenland</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
@@ -182,48 +137,100 @@
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
-<countryName>Central America</countryName>
+<countryName>Congo</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
 <countryName>Middle East</countryName>
-<troopsNum>5</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>Northern Europe</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
 <owner>Player1(AI)</owner>
+<countryName>Western Australia</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player1(AI)</owner>
+<countryName>Siam</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+</countriesOwn>
+</Player>
+<Player>
+<name>Player2</name>
+<isAi>false</isAi>
+<color>-16711681</color>
+<countriesOwn>
+<Country>
+<owner>Player2</owner>
+<countryName>Ural</countryName>
+<troopsNum>7</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Western United States</countryName>
+<troopsNum>3</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Ukraine</countryName>
+<troopsNum>9</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Egypt</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Japan</countryName>
+<troopsNum>3</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>China</countryName>
+<troopsNum>4</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Argentina</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Mongolia</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>Afghanistan</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
 <countryName>Northwest Territory</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
-<owner>Player1(AI)</owner>
-<countryName>Iceland</countryName>
+<owner>Player2</owner>
+<countryName>North Africa</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
-<owner>Player1(AI)</owner>
-<countryName>Great Britain</countryName>
-<troopsNum>1</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
+<owner>Player2</owner>
 <countryName>Yakutsk</countryName>
-<troopsNum>3</troopsNum>
-</Country>
-<Country>
-<owner>Player1(AI)</owner>
-<countryName>Ukraine</countryName>
 <troopsNum>1</troopsNum>
 </Country>
 <Country>
-<owner>Player1(AI)</owner>
-<countryName>Afghanistan</countryName>
-<troopsNum>2</troopsNum>
+<owner>Player2</owner>
+<countryName>Quebec</countryName>
+<troopsNum>1</troopsNum>
+</Country>
+<Country>
+<owner>Player2</owner>
+<countryName>New Guinea</countryName>
+<troopsNum>1</troopsNum>
 </Country>
 </countriesOwn>
 </Player>

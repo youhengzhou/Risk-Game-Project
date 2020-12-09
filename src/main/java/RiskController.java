@@ -367,7 +367,7 @@
     class saveButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            String fileName = new JOptionPane().showInputDialog("Please input the name of the file you want to save to");
+            String fileName = new JOptionPane().showInputDialog("Please give a name for the saving point");
             try {
                 model.exportToXMLFile(fileName);
             } catch (IOException ioException) {
@@ -380,7 +380,7 @@
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String fileName = new JOptionPane().showInputDialog("Please input the name of the file you want to import");
+            String fileName = new JOptionPane().showInputDialog("Which saving point would you like to access");
             model.importFromXmlFile(fileName);
             model.updateModelListeners();
         }

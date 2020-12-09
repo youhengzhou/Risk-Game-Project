@@ -258,7 +258,7 @@
                     }
                     model.moveTroops(num);
                     model.clearPreCountries();
-                    new JOptionPane().showMessageDialog(view,"move success, your turn is done");
+                    new JOptionPane().showMessageDialog(view,"move success, your turn is done ");
                     view.clickPassButton();
 
                 } else {

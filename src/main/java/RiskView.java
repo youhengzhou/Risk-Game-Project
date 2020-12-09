@@ -330,7 +330,7 @@ class CustomPanel extends JPanel implements RiskModelListener{
          @Override
          public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
              RiskModel model =(RiskModel) updateEvent.getSource();
-             if(model.getFileNotFound())new JOptionPane().showMessageDialog(this, "No such a saving point is found");
+             if(model.getFileNotFound())new JOptionPane().showMessageDialog(this, "No such a saving point is found for this map");
          }
      }
 

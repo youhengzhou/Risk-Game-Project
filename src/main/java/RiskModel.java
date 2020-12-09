@@ -64,7 +64,7 @@ public class RiskModel extends DefaultHandler {
     private boolean isNumOfPlayer = false;
     private boolean isNumOfAI = false;
     private boolean isOwner = false;
-
+    private boolean isNewArmy = false;
 
     private String loadingPlayerName = "";
     private String loadingCountryName = "";
@@ -685,6 +685,7 @@ public class RiskModel extends DefaultHandler {
     public String toXML() {
         String s = "<RiskModel>\n";
         s += "<State>" + State.toString() + "</State>\n";
+        s += "<NewArmy>" + newArmy + "</NewArmy>\n";
         s += "<numOfPlayer>" + numOfPlayer + "</numOfPlayer>\n";
         s += "<numOfAI>" + numOfAI + "</numOfAI>\n";
         s += "<playerIndex>" + playerIndex + "</playerIndex>\n";
@@ -725,8 +726,8 @@ public class RiskModel extends DefaultHandler {
 
         } catch (Exception e) {
            fileNotFound = true;
-            updateModelListeners(); //update the fileNotFound error handling in imagepane
-            fileNotFound=false;
+           updateModelListeners(); //update the fileNotFound error handling in imagepane
+           fileNotFound=false;
         }
 
     }
@@ -762,9 +763,11 @@ public class RiskModel extends DefaultHandler {
         } else if(qName.equalsIgnoreCase("playerIndex")){
             isPlayerIndex = true;
         }
-        else if (qName.equalsIgnoreCase("owner"))
-        {
+        else if (qName.equalsIgnoreCase("owner")) {
             isOwner = true;
+        }
+        else if(qName.equalsIgnoreCase("NewArmy")){
+            isNewArmy = true;
         }
     }
 
@@ -803,18 +806,18 @@ public class RiskModel extends DefaultHandler {
             gameMap.getCountry(loadingCountryName).setCountryTroopsNumber(num);
             isTroopsNum = false;
         }
-        else if (isOwner)
-        {
-            String playerName = new String(ch, start, length);
+        else if (isOwner) { String playerName = new String(ch, start, length);
              ownerForLoadingCountry = this.findPlayerByName(playerName);
             isOwner = false;
-        }
-        else if (isPlayerOnGoing) {
+        } else if (isPlayerOnGoing) {
             findPlayer(new String(ch, start, length));
             isPlayerOnGoing = false;
         } else if(isPlayerIndex){
             this.playerIndex = Integer.parseInt(new String(ch, start, length));
             isPlayerIndex = false;
+        } else if(isNewArmy){
+            this.newArmy = Integer.parseInt(new String(ch, start, length));
+            isNewArmy = false;
         }
     }
 

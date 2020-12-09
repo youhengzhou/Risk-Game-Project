@@ -320,7 +320,16 @@
 
     }
     public static boolean isNumeric(String s){
-        return s.chars().allMatch(Character :: isDigit);
+        boolean b = false;
+        try
+        {
+            b= s.chars().allMatch(Character :: isDigit);
+        }
+        catch (Exception e)
+        {
+
+        }
+        return b;
     }
     /**
      * Choose the country that the player wants to use to attack

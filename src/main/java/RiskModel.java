@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class RiskModel extends DefaultHandler {
 
-    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY}
+    public static enum Phase {ATTACK, AIATTACK, RESIGN, FORTIFY, LOAD}
     private Phase State;
     private List<Player> players;
 
@@ -58,6 +58,7 @@ public class RiskModel extends DefaultHandler {
     private boolean isisAI = false;
     private boolean isNumOfPlayer = false;
     private boolean isNumOfAI = false;
+    private boolean isPlayerIndex = false;
 
 
     private String loadingPlayerName = "";
@@ -649,11 +650,20 @@ public class RiskModel extends DefaultHandler {
 
     public String getGameMapImagePath(){return mapImagePath;}
 
+    /**
+     * set the SelectedMap to the map name loaded from the XML
+     */
+    public void setSelectedMap(String mapImagePath) {
+        this.mapImagePath = mapImagePath;
+
+    }
+
     public String toXML(){
         String s = "<RiskModel>\n";
         s += "<State>" + State.toString() + "</State>\n";
         s += "<numOfPlayer>" + numOfPlayer + "</numOfPlayer>\n";
         s += "<numOfAI>" + numOfAI + "</numOfAI>\n";
+        s += "<playerIndex>" + playerIndex + "</playerIndex>\n";
         for(Player p: players){
             s += p.toXML();
         }
@@ -708,14 +718,13 @@ public class RiskModel extends DefaultHandler {
             isNumOfPlayer = true;
         } else if(qName.equalsIgnoreCase("numOfAI")){
             isNumOfAI = true;
+        } else if(qName.equalsIgnoreCase("playerIndex")){
+            isPlayerIndex = true;
         }
     }
 
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-
-//        int num = Integer.parseInt(s);
-
         if(isState){
             State = Phase.valueOf(new String(ch, start, length));
             isState = false;
@@ -748,6 +757,9 @@ public class RiskModel extends DefaultHandler {
         } else if(isPlayerOnGoing){
             findPlayer(new String(ch, start, length));
             isPlayerOnGoing = false;
+        } else if(isPlayerIndex){
+             this.playerIndex = Integer.parseInt(new String(ch, start, length));
+             isPlayerIndex = false;
         }
     }
 
@@ -756,11 +768,13 @@ public class RiskModel extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if(qName.equalsIgnoreCase("isAi")){
             if(isAI){
-                loadingPlayer = new PlayerAI(loadingCountryName);
+                loadingPlayer = new PlayerAI(loadingPlayerName);
             } else {
-                loadingPlayer = new Player(loadingCountryName, false);
+                loadingPlayer = new Player(loadingPlayerName, false);
             }
             players.add(loadingPlayer);
+        } else if(qName.equalsIgnoreCase("countryName")){
+            loadingPlayer.addCountry(gameMap.getCountry(loadingCountryName));
         }
     }
 

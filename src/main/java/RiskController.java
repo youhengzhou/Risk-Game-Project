@@ -351,11 +351,16 @@
     }
 
     class mapListener implements ActionListener {
-
+        String mapImagePath;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if(model.getState().equals(RiskModel.Phase.LOAD)) {
+                mapImagePath = new JOptionPane().showInputDialog(view, "Please Insert Name Of Map");
+                return;
+            }
+            model.updateState(RiskModel.Phase.LOAD);
+            model.setSelectedMap(mapImagePath);
         }
     }
 }

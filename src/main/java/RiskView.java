@@ -25,7 +25,6 @@ public class RiskView extends JFrame implements RiskModelListener
     private JButton helpButton;
     private JButton confirmButton;
     private JButton fortifyButton;
-    private JButton loadMapButton;
     private int NumOfTotalPlayer;
     private int NumOfAiPlayer;
     private Buttons buttonList;
@@ -49,7 +48,6 @@ public class RiskView extends JFrame implements RiskModelListener
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
         this.fortifyButton = new JButton("FORTIFY");
-        this.loadMapButton = new JButton("LOAD MAP");
         this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
@@ -92,7 +90,6 @@ public class RiskView extends JFrame implements RiskModelListener
         buttonPanel.add(fortifyButton);
         buttonPanel.add(passButton);
         buttonPanel.add(confirmButton);
-        buttonPanel.add(loadMapButton);
 
         imagePanel.setLayout(null);
 
@@ -223,11 +220,6 @@ public class RiskView extends JFrame implements RiskModelListener
     public void addFortifyButtonListener(ActionListener al){this.fortifyButton.addActionListener(al);}
 
     /**
-     * add load map button listener
-     */
-    public void addMapListener(ActionListener al){this.loadMapButton.addActionListener(al);}
-
-    /**
      * show help information
      */
     public void showHelp(String s){
@@ -250,7 +242,7 @@ public class RiskView extends JFrame implements RiskModelListener
      */
 class CustomPanel extends JPanel{
     private Image im;
-    private String mapImagePath = "D:/work/3110/Risk-Game-Project/src/main/java/NEW MAP.png";
+    private String mapImagePath = "D:/Users/Anthony/IdeaProjects/RISK/Risk-Game-Project/NEW MAP.png";
     public CustomPanel() throws FileNotFoundException {
         setLayout(null);
         setOpaque(true);

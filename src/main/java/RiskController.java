@@ -3,6 +3,7 @@
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
     import java.io.FileNotFoundException;
+    import java.io.IOException;
 
     public class RiskController {
     private RiskModel model;
@@ -26,6 +27,8 @@
         view.addAttackButtonListener(new attackButtonListener());
         view.addPassButtonListener(new passButtonListener());
         view.addFortifyButtonListener(new fortifyButtonListener());
+        view.addSaveButtonListener(new saveButtonListener());
+        view.addLoadButtonListener(new loadButtonListener());
         enterRecruitState(model.getPlayerOnGoing());
 
     }
@@ -358,6 +361,28 @@
             model.updateState(RiskModel.Phase.FORTIFY);
             new JOptionPane().showMessageDialog(view, "Fortify! Please choose two countries, From and To\n then press confirm to move your armies");
 
+        }
+    }
+
+    class saveButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String fileName = new JOptionPane().showInputDialog("Please input the name of the file you want to save to");
+            try {
+                model.exportToXMLFile(fileName);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    class loadButtonListener implements  ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String fileName = new JOptionPane().showInputDialog("Please input the name of the file you want to import");
+            model.importFromXmlFile(fileName);
+            model.updateModelListeners();
         }
     }
 }

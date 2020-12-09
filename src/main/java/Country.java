@@ -3,6 +3,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.swing.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -75,6 +76,15 @@ public class Country extends DefaultHandler implements Serializable {
     public int getCountryTroopsNumber() {
           return countryTroopsNumber;
     }
+
+
+//    /**
+//     * set the owner of the country
+//     * @param player
+//     */
+//    public void setOwner(Player player){
+//        this.owner = player;
+//    }
 
     /**
      * get the owner of the country
@@ -258,6 +268,10 @@ public class Country extends DefaultHandler implements Serializable {
     {
 
         return this.getEnemyCountry(map).stream().allMatch(e->e.getCountryTroopsNumber()*1.2 < this.getCountryTroopsNumber());
+    }
+
+    public void setColor(Color color){
+        countryButton.setForeground(color);
     }
 
     /**

@@ -39,6 +39,7 @@ public class RiskModel extends DefaultHandler {
     private int survivedTroops;
     private List<RiskModelListener> modelListeners;
     private String selectedCountryInfo;
+    private boolean isPlayerIndex = false;
     private int newArmy;
 
     private ArrayList<Country> preCountries;
@@ -63,7 +64,7 @@ public class RiskModel extends DefaultHandler {
 
     private String loadingPlayerName = "";
     private String loadingCountryName = "";
-    private boolean isAI;
+    private boolean loadingisAI;
     private Player loadingPlayer = null;
     private int mode;
 
@@ -676,6 +677,7 @@ public class RiskModel extends DefaultHandler {
         s += "<State>" + State.toString() + "</State>\n";
         s += "<numOfPlayer>" + numOfPlayer + "</numOfPlayer>\n";
         s += "<numOfAI>" + numOfAI + "</numOfAI>\n";
+        s += "<playerIndex>" + playerIndex + "</playerIndex>\n";
         for (Player p : players) {
             s += p.toXML();
         }
@@ -685,7 +687,13 @@ public class RiskModel extends DefaultHandler {
     }
 
     public void exportToXMLFile(String fileName) throws IOException {
-        FileWriter os = new FileWriter(fileName + ".txt");
+        FileWriter os;
+        if(mode == 1){
+             os = new FileWriter( "Map1/"+ fileName + ".txt");
+        } else {
+             os = new FileWriter( "Map2/"+ fileName + ".txt");
+        }
+
         BufferedWriter bufferedWriter = new BufferedWriter(os);
         bufferedWriter.write(this.toXML());
         bufferedWriter.close();
@@ -693,8 +701,14 @@ public class RiskModel extends DefaultHandler {
 
     //testing
     public void importFromXmlFile(String fileName) {
+        File inputFile;
+        if(mode == 1){
+            inputFile = new File("Map1/" + fileName + ".txt");
+        } else {
+            inputFile = new File("Map2/" + fileName + ".txt");
+        }
         try {
-            File inputFile = new File(fileName + ".txt");
+            players.clear();
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             saxParser.parse(inputFile, this);
@@ -730,6 +744,8 @@ public class RiskModel extends DefaultHandler {
             isNumOfPlayer = true;
         } else if (qName.equalsIgnoreCase("numOfAI")) {
             isNumOfAI = true;
+        } else if(qName.equalsIgnoreCase("playerIndex")){
+            isPlayerIndex = true;
         }
     }
 
@@ -751,7 +767,7 @@ public class RiskModel extends DefaultHandler {
             loadingPlayerName = new String(ch, start, length);
             isPlayerName = false;
         } else if (isisAI) {
-            isAI = Boolean.getBoolean(new String(ch, start, length));
+            loadingisAI = Boolean.parseBoolean(new String(ch, start, length));
             isisAI = false;
         } else if (isColor) {
             loadingPlayer.addColor(new Color(Integer.parseInt(new String(ch, start, length))));
@@ -770,6 +786,9 @@ public class RiskModel extends DefaultHandler {
         } else if (isPlayerOnGoing) {
             findPlayer(new String(ch, start, length));
             isPlayerOnGoing = false;
+        } else if(isPlayerIndex){
+            this.playerIndex = Integer.parseInt(new String(ch, start, length));
+            isPlayerIndex = false;
         }
     }
 
@@ -777,13 +796,21 @@ public class RiskModel extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (qName.equalsIgnoreCase("isAi")) {
-            if (isAI) {
-                loadingPlayer = new PlayerAI(loadingCountryName);
+            if (loadingisAI) {
+                loadingPlayer = new PlayerAI(loadingPlayerName);
             } else {
-                loadingPlayer = new Player(loadingCountryName, false);
+                loadingPlayer = new Player(loadingPlayerName, false);
             }
             players.add(loadingPlayer);
+        }  else if(qName.equalsIgnoreCase("countryName")) {
+
+//            gameMap.getCountry(loadingCountryName).setOwner(loadingPlayer);
+            loadingPlayer.addCountry(gameMap.getCountry(loadingCountryName));
         }
+    }
+
+    public void setMode(int num) {
+        mode = num;
     }
 
     public WorldMap getGameMap() {
@@ -800,5 +827,18 @@ public class RiskModel extends DefaultHandler {
         return false;
     }
 
+    public static void main (String[] args) {
+        RiskModel model = new RiskModel(2, 1,1);
+        try {
+            model.exportToXMLFile("testing");
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RiskModel testingModel = new RiskModel(3,1,1);
+        testingModel.setMode(1);
+        testingModel.importFromXmlFile("testing");
+        System.out.print(testingModel.toXML());
+
+    }
 }

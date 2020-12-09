@@ -23,6 +23,8 @@ public class RiskView extends JFrame implements RiskModelListener
     private JButton helpButton;
     private JButton confirmButton;
     private JButton fortifyButton;
+    private JButton saveButton;
+    private JButton loadButton;
     private int NumOfTotalPlayer;
     private int NumOfAiPlayer;
     private Buttons buttonList;
@@ -47,6 +49,8 @@ public class RiskView extends JFrame implements RiskModelListener
         this.helpButton = new JButton("HELP");
         this.confirmButton = new JButton("CONFIRM");
         this.fortifyButton = new JButton("FORTIFY");
+        this.saveButton = new JButton("SAVE");
+        this.loadButton = new JButton("LOAD");
         this.listners = new ArrayList<>();
         int frameSize_Width = 1350;
         int frameSize_Height = 800;
@@ -86,6 +90,8 @@ public class RiskView extends JFrame implements RiskModelListener
         //setup for buttonPanel
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(helpButton,FlowLayout.LEFT);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(loadButton);
         buttonPanel.add(attackButton);
         buttonPanel.add(fortifyButton);
         buttonPanel.add(passButton);
@@ -232,6 +238,18 @@ public class RiskView extends JFrame implements RiskModelListener
     public void addFortifyButtonListener(ActionListener al){this.fortifyButton.addActionListener(al);}
 
     /**
+     * add saveButton listener
+     * @param al
+     */
+    public void addSaveButtonListener(ActionListener al){this.saveButton.addActionListener(al);}
+
+    /**
+     * add loadButton listener
+     * @param al
+     */
+    public void addLoadButtonListener(ActionListener al){this.loadButton.addActionListener(al);}
+
+    /**
      * show help information
      */
     public void showHelp(String s){
@@ -245,7 +263,17 @@ public class RiskView extends JFrame implements RiskModelListener
         {
             rl.handleRiskModelUpdate(updateEvent);
         }
-
+        RiskModel model = (RiskModel)updateEvent.getSource();
+//        for(Player p: model.getPlayers()){
+//            for(Country c: p.getCountriesOwn()){
+//                c.setColor(p.getColor());
+//            }
+//        }
+        for(JButton b:buttonList.getList()) {
+            Country c = model.getCountry(b.getActionCommand());
+            b.setForeground(c.getOwner().getColor());
+            b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getCountryTroopsNumber()));
+        }
     }
 }
 

@@ -50,6 +50,7 @@
         riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
         riskModel.addRiskModelListener(view.getNamePane());
         riskModel.addRiskModelListener(view.getCountriesOwnText());
+        riskModel.addRiskModelListener(view.getImagePanel());
 
         view.showHelp(riskModel.printHelp());
 

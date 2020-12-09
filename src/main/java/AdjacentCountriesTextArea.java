@@ -19,6 +19,7 @@ public class AdjacentCountriesTextArea extends JTextArea implements RiskModelLis
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
         RiskModel model = (RiskModel)updateEvent.getSource();
+        //if(model.getFileNotFound())new JOptionPane().showMessageDialog(this, "No such a saving point is found");
         String s = model.getSelectedCountryInfo();
         this.setText(s);
     }

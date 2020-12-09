@@ -141,6 +141,11 @@ public class RiskView extends JFrame implements RiskModelListener
         return this.countriesOwnText;
     }
 
+    public CustomPanel getImagePanel()
+    {
+        return imagePanel;
+    }
+
     /**
      * get the user input of how many players are playing.
      * @return
@@ -259,6 +264,7 @@ public class RiskView extends JFrame implements RiskModelListener
 
     @Override
     public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+
         for(RiskModelListener rl:listners)
         {
             rl.handleRiskModelUpdate(updateEvent);
@@ -269,6 +275,9 @@ public class RiskView extends JFrame implements RiskModelListener
 //                c.setColor(p.getColor());
 //            }
 //        }
+
+
+
         for(JButton b:buttonList.getList()) {
             Country c = model.getCountry(b.getActionCommand());
             b.setForeground(c.getOwner().getColor());
@@ -280,7 +289,7 @@ public class RiskView extends JFrame implements RiskModelListener
      /**
      * insert the risk map in the system
      */
-class CustomPanel extends JPanel{
+class CustomPanel extends JPanel implements RiskModelListener{
     private Image im;
     int mode;
     private String mapImagePath = "D:/work/3110/Risk-Game-Project/src/main/java/NEW STAR MAP.png";
@@ -317,5 +326,11 @@ class CustomPanel extends JPanel{
          public static void main(String[] args) throws FileNotFoundException {
 
          }
-}
+
+         @Override
+         public void handleRiskModelUpdate(RiskModelUpdateEvent updateEvent) {
+             RiskModel model =(RiskModel) updateEvent.getSource();
+             if(model.getFileNotFound())new JOptionPane().showMessageDialog(this, "No such a saving point is found");
+         }
+     }
 

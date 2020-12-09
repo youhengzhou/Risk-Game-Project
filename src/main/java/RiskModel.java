@@ -43,6 +43,7 @@ public class RiskModel extends DefaultHandler {
     private String selectedCountryInfo;
     private boolean isPlayerIndex = false;
     private int newArmy;
+    private boolean fileNotFound = false;
 
     private ArrayList<Country> preCountries;
     private boolean canMove = false;
@@ -721,13 +722,18 @@ public class RiskModel extends DefaultHandler {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             saxParser.parse(inputFile,this);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } catch (Exception e) {
+           fileNotFound = true;
+            updateModelListeners(); //update the fileNotFound error handling in imagepane
+            fileNotFound=false;
         }
+
+    }
+
+    public boolean getFileNotFound()
+    {
+        return fileNotFound;
     }
 
     //PlayerIndex is not done

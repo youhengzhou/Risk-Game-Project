@@ -378,7 +378,6 @@ public class RiskController {
     }
 
     class loadButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             String fileName = new JOptionPane().showInputDialog("Which saving point would you like to access");

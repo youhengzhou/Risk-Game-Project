@@ -325,10 +325,4 @@ public class Buttons implements RiskModelListener {
             b.setText(Integer.toString(model.getCountry(b.getActionCommand()).getCountryTroopsNumber()));
         }
     }
-
-    public static void main(String[] args) {
-
-
-    }
-
 }

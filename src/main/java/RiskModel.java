@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * the Game class is used to run and execute the game, it has lists for players and countries, and a parser built in for getting simple commands
  *
  * @version 1.0
- * @auther Avengers
+ * @author Avengers
  * @since 2020-10-25
  */
 public class RiskModel extends DefaultHandler {

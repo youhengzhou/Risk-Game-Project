@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * the Country class is used to store information of Country instance
  *
  * @version 1.0
- * @auther Avengers
+ * @author Avengers
  * @since 2020-10-25
  */
 @XmlRootElement(name = "Country")
@@ -27,7 +27,6 @@ public class Country extends DefaultHandler implements Serializable {
     private ArrayList<String> adjacentCountries;
     //@XmlElement(name = "CountryButton")
     private JButton countryButton;
-
 
     /**
      * Constructor for Country,initializing troopsNum,owner and countryName
@@ -285,5 +284,4 @@ public class Country extends DefaultHandler implements Serializable {
         s += "</Country>\n";
         return s;
     }
-
 }

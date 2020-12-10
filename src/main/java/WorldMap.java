@@ -43,7 +43,6 @@ public class WorldMap {
         asiaContient = new ArrayList<>();
         australiaContient = new ArrayList<>();
 
-
         map = new HashMap<>();
         Country Russia = new Country("Russia");
         Russia.addAdjacentCountry("france");
@@ -640,5 +639,4 @@ public class WorldMap {
         WorldMap map2 = WorldMap.loadMapFromXML("starMap.xml");
         System.out.println(map2.getMap().size());
     }
-
 }

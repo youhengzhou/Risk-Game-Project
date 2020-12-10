@@ -100,7 +100,6 @@ public class ButtonInfoStore {
         return bis;
     }
 
-
     public void saveToXML(String fileName)
     {
         try {

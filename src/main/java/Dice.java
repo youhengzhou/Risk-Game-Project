@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 /**
  * the Dice class is used for random number generations and putting numbers in integer queues for multiple dice rolls
  *
- * @auther Avengers
+ * @author Avengers
  * @version 1.0
  * @since  2020-10-25
  *

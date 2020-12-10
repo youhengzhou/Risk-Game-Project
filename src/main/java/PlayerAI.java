@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * the PlayerAI class stores all the important details for the AI Player, such as the list of countries they own, and their names
  *
- * @auther Avengers
+ * @author Avengers
  * @version 1.0
  * @since  2020-11-18
  *

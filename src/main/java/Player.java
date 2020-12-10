@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * the Player class stores all the important details for the players, such as the list of countries they own, and their names
  *
- * @auther Avengers
+ * @author Avengers
  * @version 1.0
  * @since  2020-10-25
  *
@@ -116,8 +116,5 @@ public class Player implements Serializable {
     }
 
     public static void main (String[] args){
-
-
-
     }
 }

@@ -2,7 +2,7 @@
  * the Battle class performs the fight between two countries and display the battle result, modifies the state of country owner of the attack country and
  * defend country according to the result.
  *
- * @auther Avengers
+ * @author Avengers
  * @version 1.0
  * @since  2020-10-25
  *
@@ -73,7 +73,7 @@ public class Battle {
             countryDefend.getCountryButton().setBackground(countryAttack.getOwner().getColor());
             return battleResultString;
         }
-       battleResultString +=("Unfortunately you lose the battle with " + countryDefend.getCountryName()+"\n");
+        battleResultString +=("Unfortunately you lose the battle with " + countryDefend.getCountryName()+"\n");
         return battleResultString;
     }
 

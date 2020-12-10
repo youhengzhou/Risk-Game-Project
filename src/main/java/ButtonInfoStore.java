@@ -14,7 +14,7 @@ public class ButtonInfoStore {
 
     ArrayList<ButtonInfo> bis;
 
-    public ButtonInfoStore()
+    /*public ButtonInfoStore()
     {
         bis = new ArrayList<>();
         bis.add(new ButtonInfo("russia",285,245,25,15));
@@ -32,7 +32,7 @@ public class ButtonInfoStore {
         //bis.add(new ButtonInfo("france",100,210,25,15));
         //bis.add(new ButtonInfo("german",170,315,25,15));
        // bis.add(new ButtonInfo("belgium",187,290,25,15));
-    }
+    }*/
     /**
     public ButtonInfoStore()
     {
@@ -88,9 +88,6 @@ public class ButtonInfoStore {
         bis.add(new ButtonInfo("indonesia",709,437,25,15));
         bis.add(new ButtonInfo("newguinea",841,447,25,15));
         bis.add(new ButtonInfo("westernaustralia",721,558,25,15));
-
-
-
     }
      **/
 
@@ -148,7 +145,6 @@ public class ButtonInfoStore {
     }
 
     public static void main(String[] args) {
-
         ButtonInfoStore b = new ButtonInfoStore();
         b.saveToXML("starMapButtons.xml");
         ButtonInfoStore b2 = ButtonInfoStore.loadFromXML("starMapButtons.xml");

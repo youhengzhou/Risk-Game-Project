@@ -1,19 +1,19 @@
-    import javax.swing.*;
-    import java.awt.*;
-    import java.awt.event.ActionEvent;
-    import java.awt.event.ActionListener;
-    import java.io.FileNotFoundException;
-    import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-    public class RiskController {
+public class RiskController {
     private RiskModel model;
     private RiskView view;
     public static int ORIGINAL = 1;
-    public static int STAR =2;
+    public static int STAR = 2;
 
     /**
      * Constructor for RiskController
-     *initializing view, model, playerinfo, buttonlistener, buttoninfo
+     * initializing view, model, playerinfo, buttonlistener, buttoninfo
      */
     public RiskController(RiskModel model, RiskView view) {
         this.view = view;
@@ -34,18 +34,25 @@
     }
 
     /**
-     *This is the main function
-     *@param args
+     * This is the main function
+     *
+     * @param args
      */
     public static void main(String[] args) throws FileNotFoundException {
         int mode = 999;
-        while(mode!=ORIGINAL && mode!=STAR){
-            String numberStr = new JOptionPane().showInputDialog("                       Choose a MAP                    \n \"1\" for original world map, \"2\" for star war map " );
-            if(!isNumeric(numberStr)) continue;
+        RiskModel testingModel;
+        while (mode != ORIGINAL && mode != STAR) {
+            String numberStr = new JOptionPane().showInputDialog("                       Choose a MAP                    \n \"1\" for original world map, \"2\" for star war map ");
+            if (!isNumeric(numberStr)) continue;
             mode = Integer.parseInt(numberStr);
+            testingModel = new RiskModel(mode);
+            if(!testingModel.checkMap()){
+                System.out.println("this map is invalid");
+                mode = 999;
+            }
         }
         RiskView view = new RiskView(mode);
-        RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer(),mode);
+        RiskModel riskModel = new RiskModel(view.getNumOfPlayer(), view.getNumOfAiPlayerPlayer(), mode);
         riskModel.addRiskModelListener(view.getadjacentCountriesText());
         riskModel.addRiskModelListener(view.getButtonListAsRiskModelListener());
         riskModel.addRiskModelListener(view.getNamePane());
@@ -73,7 +80,6 @@
     }
 
 
-
     /**
      * Show out the player's information in the window
      * player's name and the contries they own
@@ -90,7 +96,7 @@
         for (JButton button : view.getButtonList()) {
             button.setFont(new Font("Arial", Font.PLAIN, 10));
 
-            button.setMargin(new Insets(0,0,0,0));
+            button.setMargin(new Insets(0, 0, 0, 0));
 
 //            button.setText(Integer.toString(model.getCountry(button.getActionCommand()).getTroopsNum()));
             button.addActionListener(e -> {
@@ -107,7 +113,7 @@
                     model.setSelected(model.gameMap.getMap().get(button.getActionCommand()));
                     System.out.println("Attacking Country : \n" + model.getFirstSelected().printTrumpNumState());
                     System.out.println("\nAttacking to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printTrumpNumState()) + "\n--------------------------------------------");
-                } else if(model.getState().equals(RiskModel.Phase.FORTIFY)){
+                } else if (model.getState().equals(RiskModel.Phase.FORTIFY)) {
                     model.setSelected(model.gameMap.getMap().get(button.getActionCommand()));
                     System.out.println("Fortifying from Country : \n" + model.getFirstSelected().printTrumpNumState());
                     System.out.println("\nFortifying to: \n" + ((model.getSecondSelected() == null) ? "" : model.getSecondSelected().printTrumpNumState()) + "\n--------------------------------------------");
@@ -124,21 +130,18 @@
         public void actionPerformed(ActionEvent e) {
 
 
-
-            if(model.getState().equals(RiskModel.Phase.RESIGN)) {
+            if (model.getState().equals(RiskModel.Phase.RESIGN)) {
                 new JOptionPane().showMessageDialog(view, "you have to finish resign to get to next step");
                 //model.updateState(RiskModel.Phase.ATTACK);
 
-            }
-            else if(model.getState().equals(RiskModel.Phase.ATTACK)){
+            } else if (model.getState().equals(RiskModel.Phase.ATTACK)) {
                 new JOptionPane().showMessageDialog(view, "now, you are at Fortify phase. when you done with Fortify, just press PASS again");
                 model.updateState(RiskModel.Phase.FORTIFY);
             } else {
 
 
                 //if(model.getPlayerOnGoing().isAi()) view.clickPassButton();
-                if(model.getPlayerComing().isAi())
-                {
+                if (model.getPlayerComing().isAi()) {
 
                     model.pass();
                     updateView();
@@ -152,13 +155,11 @@
                     return;
 
                 }
-
-
-                    model.pass();
-                    updateView();
-                    System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
-                    enterRecruitState(model.getPlayerOnGoing());
-                    System.out.println(model.getState());
+                model.pass();
+                updateView();
+                System.out.println("Press on any country you want to \n" + "check their status, \nwhen you feel ready, press [attack]\n------------------------------------------------");
+                enterRecruitState(model.getPlayerOnGoing());
+                System.out.println(model.getState());
 
             }
         }
@@ -182,13 +183,11 @@
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.RESIGN))
-            {
+            if (model.getState().equals(RiskModel.Phase.RESIGN)) {
 
                 Country c = model.getFirstSelected();
-                if(!model.getPlayerOnGoing().getCountriesOwn().contains(c))
-                {
-                    new JOptionPane().showMessageDialog(view,"You can only choose your own country to assign new troops, do it again");
+                if (!model.getPlayerOnGoing().getCountriesOwn().contains(c)) {
+                    new JOptionPane().showMessageDialog(view, "You can only choose your own country to assign new troops, do it again");
                     return;
                 }
                 assignNewTroops(c);
@@ -198,8 +197,7 @@
             }
             if (model.getState().equals(RiskModel.Phase.ATTACK)) {
 
-                    if(model.getFirstSelected()==(null) || model.getFirstSelected()==(null))
-                {
+                if (model.getFirstSelected() == (null) || model.getFirstSelected() == (null)) {
                     new JOptionPane().showMessageDialog(view, "Please select attack and defend countries first");
                     return;
                 }
@@ -225,9 +223,9 @@
                 do {
                     String numberStr = new JOptionPane().showInputDialog("please input the number of troops you want to send (1-" + (model.getFirstSelected().getCountryTroopsNumber() - 1) + ")");
 
-                    if(!isNumeric(numberStr)) continue;
+                    if (!isNumeric(numberStr)) continue;
                     num = Integer.parseInt(numberStr);
-                }while(num>model.getFirstSelected().getCountryTroopsNumber() - 1 ||num<1); //keep looping until the num satisfies the requirement.
+                } while (num > model.getFirstSelected().getCountryTroopsNumber() - 1 || num < 1); //keep looping until the num satisfies the requirement.
 
                 model.setAttackTroops(num);
                 model.attack();
@@ -239,33 +237,33 @@
                     do {
                         String numberStr = new JOptionPane().showInputDialog("how many survived troops you want to send to " + model.getSecondSelected().getCountryName() + "\n maximum " + model.getSurvivedTroops() +
                                 "minimum 1 \n The remaining troops will be sent back to their home land " + model.getFirstSelected().getCountryName());
-       //                 isNumeric = numberStr.chars().allMatch(Character :: isDigit);
+                        //                 isNumeric = numberStr.chars().allMatch(Character :: isDigit);
 
-                        if(!isNumeric(numberStr)) continue;
+                        if (!isNumeric(numberStr)) continue;
                         num = Integer.parseInt(numberStr);
-                    }while(num > model.getSurvivedTroops() || num < 1);
+                    } while (num > model.getSurvivedTroops() || num < 1);
                     model.iniAttackWin();
                     model.handleSurvivedTroops(num);
                 }
                 updateView();
 
             }
-            if(model.getState().equals(RiskModel.Phase.FORTIFY)){
-                if(model.availableToMove(model.getFirstSelected())){
+            if (model.getState().equals(RiskModel.Phase.FORTIFY)) {
+                if (model.availableToMove(model.getFirstSelected())) {
                     int num = 999;
-                    while(num < 1  || num > (model.getFirstSelected().getCountryTroopsNumber()-1)){
-                        String numberStr = new JOptionPane().showInputDialog("how many troops you want to move (1 to " + (model.getFirstSelected().getCountryTroopsNumber()-1));
-                        if(!isNumeric(numberStr)) continue;
+                    while (num < 1 || num > (model.getFirstSelected().getCountryTroopsNumber() - 1)) {
+                        String numberStr = new JOptionPane().showInputDialog("how many troops you want to move (1 to " + (model.getFirstSelected().getCountryTroopsNumber() - 1));
+                        if (!isNumeric(numberStr)) continue;
                         num = Integer.parseInt(numberStr);
 
                     }
                     model.moveTroops(num);
                     model.clearPreCountries();
-                    new JOptionPane().showMessageDialog(view,"move success, your turn is done ");
+                    new JOptionPane().showMessageDialog(view, "move success, your turn is done ");
                     view.clickPassButton();
 
                 } else {
-                    new JOptionPane().showMessageDialog(view,"failed to move, make sure selcting your own country with enough troops on it");
+                    new JOptionPane().showMessageDialog(view, "failed to move, make sure selcting your own country with enough troops on it");
                 }
                 updateView();
                 return;
@@ -280,57 +278,50 @@
     }
 
 
-    public void enterRecruitState(Player player)
-    {
+    public void enterRecruitState(Player player) {
         model.updateState(RiskModel.Phase.RESIGN);
         model.refreshNewArmy();
         int newTroops = model.getNewArmyLeft();
 
 
-             new JOptionPane().showMessageDialog(view,"It's your turn "+player.getName()+ ".\n you have "+newTroops+" new troops in this round,\n plase click on the country you want to assign troops\n when you ready, press confirm ");
+        new JOptionPane().showMessageDialog(view, "It's your turn " + player.getName() + ".\n you have " + newTroops + " new troops in this round,\n plase click on the country you want to assign troops\n when you ready, press confirm ");
     }
 
-    public boolean assignNewTroops(Country country)
-    {
+    public boolean assignNewTroops(Country country) {
 
         int newTroops = model.getNewArmyLeft();
         int num = 999;
         do {
-            String numberStr = new JOptionPane().showInputDialog("how many troop do you want to add to "+country.getCountryName()+"\n Max "+newTroops);
+            String numberStr = new JOptionPane().showInputDialog("how many troop do you want to add to " + country.getCountryName() + "\n Max " + newTroops);
 
-            if(!isNumeric(numberStr)) continue;
+            if (!isNumeric(numberStr)) continue;
             num = Integer.parseInt(numberStr);
-        }while(num > newTroops|| num<0);
+        } while (num > newTroops || num < 0);
         country.addTroops(num);
         boolean noTroopsLeft = model.decrementNewArmy(num);
-        System.out.println(num +" troops assign to "+country.getCountryName());
+        System.out.println(num + " troops assign to " + country.getCountryName());
         updateView();
-        if(noTroopsLeft)
-        {
-            new JOptionPane().showMessageDialog(view,"You have assigned all new army\n press Attack when you are ready to fight");
+        if (noTroopsLeft) {
+            new JOptionPane().showMessageDialog(view, "You have assigned all new army\n press Attack when you are ready to fight");
             model.updateState(RiskModel.Phase.ATTACK);
-        }
-
-        else
-        {
-            System.out.println("You still have "+model.getNewArmyLeft()+" troops left \nto be assign, please continue");
+        } else {
+            System.out.println("You still have " + model.getNewArmyLeft() + " troops left \nto be assign, please continue");
 
         }
         return noTroopsLeft;
 
     }
-    public static boolean isNumeric(String s){
+
+    public static boolean isNumeric(String s) {
         boolean b = false;
-        try
-        {
-            b= s.chars().allMatch(Character :: isDigit);
-        }
-        catch (Exception e)
-        {
+        try {
+            b = s.chars().allMatch(Character::isDigit);
+        } catch (Exception e) {
 
         }
         return b;
     }
+
     /**
      * Choose the country that the player wants to use to attack
      */
@@ -338,11 +329,11 @@
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.RESIGN)) {
+            if (model.getState().equals(RiskModel.Phase.RESIGN)) {
                 new JOptionPane().showMessageDialog(view, "Please assign all new troops before Attack");
                 return;
             }
-            if(model.getState().equals(RiskModel.Phase.FORTIFY)) {
+            if (model.getState().equals(RiskModel.Phase.FORTIFY)) {
                 new JOptionPane().showMessageDialog(view, "Now is Fortify Phase, you can't attack now \n Please wait for the next round");
                 return;
             }
@@ -355,15 +346,15 @@
 
     }
 
-    class fortifyButtonListener implements ActionListener{
+    class fortifyButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(model.getState().equals(RiskModel.Phase.RESIGN)) {
+            if (model.getState().equals(RiskModel.Phase.RESIGN)) {
                 new JOptionPane().showMessageDialog(view, "Please assign all new troops first");
                 return;
             }
-            if(model.getState().equals(RiskModel.Phase.ATTACK)) {
+            if (model.getState().equals(RiskModel.Phase.ATTACK)) {
                 new JOptionPane().showMessageDialog(view, "Now is Attack Phase, you can't, leave this alone");
                 return;
             }
@@ -374,7 +365,7 @@
         }
     }
 
-    class saveButtonListener implements ActionListener{
+    class saveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String fileName = new JOptionPane().showInputDialog("Please give a name for the saving point");
@@ -386,7 +377,7 @@
         }
     }
 
-    class loadButtonListener implements  ActionListener{
+    class loadButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

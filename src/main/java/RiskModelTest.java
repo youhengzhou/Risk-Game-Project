@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -111,10 +112,6 @@ public class RiskModelTest {
         model.setSelected(country5);
         assertEquals(false, model.availableToMove(model.getFirstSelected()));
 
-//        model.releaseSelected();
-//        model.setSelected(country1);
-//        model.setSelected(model.gameMap.map.get("china"));
-//        assertEquals(false,  model.availableToMove(model.getFirstSelected(), null));
     }
     @Test
     public void resignTest() {
@@ -149,5 +146,18 @@ public class RiskModelTest {
         //should return true when there's no more troops left to assign
         assertEquals(true,model.decrementNewArmy(4));
 
+    }
+
+    @Test
+    public void checkMapTest(){
+        RiskModel testModel;
+
+        testModel = new RiskModel(1, "testmap");
+        testModel.checkMap();
+        assertEquals(false,testModel.checkMap());
+
+        testModel = new RiskModel(1, "map");
+          testModel.checkMap();
+        assertEquals(true,model.checkMap());
     }
 }

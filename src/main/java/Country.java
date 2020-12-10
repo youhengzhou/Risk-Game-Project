@@ -10,10 +10,9 @@ import java.util.ArrayList;
 /**
  * the Country class is used to store information of Country instance
  *
- * @auther Avengers
  * @version 1.0
- * @since  2020-10-25
- *
+ * @auther Avengers
+ * @since 2020-10-25
  */
 @XmlRootElement(name = "Country")
 
@@ -40,11 +39,12 @@ public class Country extends DefaultHandler implements Serializable {
         owner = null;
     }
 
-    public Country()
-    {}
+    public Country() {
+    }
 
     /**
      * add troops to the country
+     *
      * @param num the number of troops to be add.
      */
     public void addTroops(int num) {
@@ -53,6 +53,7 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * Remove troops from the country.
+     *
      * @param num number of troops to be removed
      */
     public void removeTroops(int num) {
@@ -63,32 +64,24 @@ public class Country extends DefaultHandler implements Serializable {
     /**
      * add country buttons in JButton
      */
-    public void addButton(JButton b)
-    {
+    public void addButton(JButton b) {
         countryButton = b;
     }
 
 
     /**
      * get number of troops on the country
+     *
      * @return troopsNum number of troops on the country
      */
     public int getCountryTroopsNumber() {
-          return countryTroopsNumber;
+        return countryTroopsNumber;
     }
-
-
-//    /**
-//     * set the owner of the country
-//     * @param player
-//     */
-//    public void setOwner(Player player){
-//        this.owner = player;
-//    }
 
     /**
      * get the owner of the country
-     * @return  the owner of the country
+     *
+     * @return the owner of the country
      */
     public Player getOwner() {
 
@@ -98,12 +91,13 @@ public class Country extends DefaultHandler implements Serializable {
     /**
      * check if the country has a owner
      */
-    public boolean hasOwner(){
+    public boolean hasOwner() {
         return !owner.equals(null);
     }
 
     /**
      * get the name of the country
+     *
      * @return countryName name of the country
      */
     public String getCountryName() {
@@ -112,6 +106,7 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * Change the owner of the country
+     *
      * @param newOwner the new owner of the country
      */
     public void changeOwner(Player newOwner) {
@@ -125,6 +120,7 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * add adjacent countries to the AdjacentCountries list
+     *
      * @param countryName the adjacent country to be add.
      */
     public void addAdjacentCountry(String countryName) {
@@ -134,31 +130,35 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * get the list of the adjacent countries
+     *
      * @return adjacentCountries Arraylist of the adjacent counties.
      */
     public ArrayList<Country> getAdjacentCountries(WorldMap map) {
-        ArrayList<Country>  adjs= new ArrayList<Country>();
-        for(String c: adjacentCountries)
-        {
+        ArrayList<Country> adjs = new ArrayList<Country>();
+        for (String c : adjacentCountries) {
             adjs.add(map.getCountry(c));
         }
         return adjs;
     }
 
     /**
-    *Get the list of the countries' buttons
-    *@return countries' button
-    */
-    public JButton getCountryButton(){
+     * Get the list of the countries' buttons
+     *
+     * @return countries' button
+     */
+    public JButton getCountryButton() {
         return this.countryButton;
     }
 
     //for testing Attack method
-    public void setCountryTroopsNumber(int num){this.countryTroopsNumber = num;}
+    public void setCountryTroopsNumber(int num) {
+        this.countryTroopsNumber = num;
+    }
 
     /**
      * get the String of troops on this country
-     * @return  the String of troops on this country
+     *
+     * @return the String of troops on this country
      */
     public String printTrumpNumState() {
         // print name and troops
@@ -169,6 +169,7 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * get the string of adjacent enemy countries.
+     *
      * @return a string of adjacent enemy countries.
      */
     public String printEnemyCountry(WorldMap map) {
@@ -184,10 +185,10 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * get list of enemy country
+     *
      * @return
      */
-   public ArrayList<Country> getEnemyCountry(WorldMap map)
-    {
+    public ArrayList<Country> getEnemyCountry(WorldMap map) {
         ArrayList<Country> enemyCountry = new ArrayList<>();
         for (Country c : this.getAdjacentCountries(map)) {
             if (c.getOwner().equals(this.getOwner())) continue;
@@ -199,10 +200,10 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * get list of country that having the same owner
+     *
      * @return
      */
-    public ArrayList<Country> getFriendlyCountry(WorldMap map)
-    {
+    public ArrayList<Country> getFriendlyCountry(WorldMap map) {
         ArrayList<Country> friendlyCountry = new ArrayList<>();
         for (Country c : this.getAdjacentCountries(map)) {
             if (!c.getOwner().equals(this.getOwner())) continue;
@@ -214,17 +215,15 @@ public class Country extends DefaultHandler implements Serializable {
 
     /**
      * check whether there is a stong enemy near by the country
+     *
      * @return true if there are strong enemy cuntries near by the country passed in.
      */
-    public boolean hasStrongEnemyCountryNearBy(WorldMap map)
-    {
+    public boolean hasStrongEnemyCountryNearBy(WorldMap map) {
         int troopsOnC = this.getCountryTroopsNumber();
-        for(Country country: getAdjacentCountries(map))
-        {
-            if(this.getOwner().getCountriesOwn().contains(country)) continue; //continue if it's a friendly country.
+        for (Country country : getAdjacentCountries(map)) {
+            if (this.getOwner().getCountriesOwn().contains(country)) continue; //continue if it's a friendly country.
             int troopOfEnemyCountry = country.getCountryTroopsNumber();
-            if((double)troopOfEnemyCountry / troopsOnC > 1.5 )
-            {
+            if ((double) troopOfEnemyCountry / troopsOnC > 1.5) {
                 return true; //there is a strong enemy near by
 
             }
@@ -233,13 +232,12 @@ public class Country extends DefaultHandler implements Serializable {
     }
 
     /**
-     *
      * @param
      * @return true false all countries near by are not Enemy. False if any ennemy countries are found.
      */
-    public boolean noAdjacentEnemy(WorldMap map){
-        for(Country c: this.getAdjacentCountries(map)){
-            if(this.getEnemyCountry(map).isEmpty()){
+    public boolean noAdjacentEnemy(WorldMap map) {
+        for (Country c : this.getAdjacentCountries(map)) {
+            if (this.getEnemyCountry(map).isEmpty()) {
                 return true;
             }
         }
@@ -247,42 +245,39 @@ public class Country extends DefaultHandler implements Serializable {
     }
 
     /**
-     *
      * @param
      * @return true if there are no friendly countries near by.
      */
-    public boolean noAdjFriendCountry(WorldMap map)
-    {
+    public boolean noAdjFriendCountry(WorldMap map) {
 
-            if(this.getFriendlyCountry(map).isEmpty()){
-                return true;
-            }
+        if (this.getFriendlyCountry(map).isEmpty()) {
+            return true;
+        }
 
         return false;
     }
 
     /**
-     * check of the defence country has more troops than the attack country 
+     * check of the defence country has more troops than the attack country
      */
-    public boolean isAStrongCountry(WorldMap map)
-    {
+    public boolean isAStrongCountry(WorldMap map) {
 
-        return this.getEnemyCountry(map).stream().allMatch(e->e.getCountryTroopsNumber()*1.2 < this.getCountryTroopsNumber());
+        return this.getEnemyCountry(map).stream().allMatch(e -> e.getCountryTroopsNumber() * 1.2 < this.getCountryTroopsNumber());
     }
 
-    public void setColor(Color color){
+    public void setColor(Color color) {
         countryButton.setForeground(color);
     }
 
     /**
-     * give the country's name and show out the troop number 
+     * give the country's name and show out the troop number
      */
     @Override
     public String toString() {
-        return countryName + "(troops: "+ countryTroopsNumber + " )\n";
+        return countryName + "(troops: " + countryTroopsNumber + " )\n";
     }
 
-    public String toXML(){
+    public String toXML() {
         String s = "<Country>\n";
         s += "<owner>" + this.getOwner().getName() + "</owner>\n";
         s += "<countryName>" + countryName + "</countryName>\n";
@@ -290,7 +285,5 @@ public class Country extends DefaultHandler implements Serializable {
         s += "</Country>\n";
         return s;
     }
-
-
 
 }

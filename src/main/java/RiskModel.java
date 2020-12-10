@@ -54,6 +54,7 @@ public class RiskModel extends DefaultHandler {
 
     private String mapImagePath = "";
 
+    //used for import/export
     private boolean isState = false;
     private boolean isPlayerOnGoing = false;
     private boolean isCountryName = false;
@@ -72,23 +73,55 @@ public class RiskModel extends DefaultHandler {
     private Player loadingPlayer = null;
     private int mode;
 
-    /**
-     * This constructor of Game
-     */
-    public RiskModel() {
+    //validating map
+    private int numOfCountry;
+    private int countCountry;
+    private boolean validMap;
+
+
+
+    //used for test
+    public RiskModel(int mode, String fileName) {
+        this.mode = mode;
         preCountries = new ArrayList<>();
         players = new ArrayList<>();
-        gameMap = new WorldMap();
+        loadMap(fileName);
+        this.State = Phase.RESIGN;
+        this.setNumOfPlayer(2);
+        numOfAI = 0;
+        createPlayer();
         playerIndex = 0;
         playerOnGoing = players.get(playerIndex % numOfPlayer);
         modelListeners = new ArrayList<>();
         randomAssignCountry();
         randomAssignTroops();
         refreshNewArmy();
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing,mode);
         selectedCountryInfo = "Click on country \nto see its information";
     }
 
-    //used for test
+    public RiskModel(int mode){
+        this.mode = mode;
+        preCountries = new ArrayList<>();
+        players = new ArrayList<>();
+        iniMap();
+        this.State = Phase.RESIGN;
+        this.setNumOfPlayer(2);
+        numOfAI = 0;
+        createPlayer();
+        playerIndex = 0;
+        playerOnGoing = players.get(playerIndex % numOfPlayer);
+        modelListeners = new ArrayList<>();
+        randomAssignCountry();
+        randomAssignTroops();
+        refreshNewArmy();
+        newArmy = gameMap.getNumOfNewArmy(playerOnGoing,mode);
+        selectedCountryInfo = "Click on country \nto see its information";
+    }
+
+    /**
+     * This constructor of Game
+     */
     public RiskModel(int num, int numOfAi,int mode) {
         this.mode = mode;
         preCountries = new ArrayList<>();
@@ -115,6 +148,13 @@ public class RiskModel extends DefaultHandler {
      */
     public boolean hasWinner() {
         return players.size() < 2;
+    }
+
+    /**
+     * used to test the CheckMap()
+     */
+    public void loadMap(String fileName){
+        gameMap = WorldMap.loadMapFromXML(fileName + ".xml");
     }
 
     public void iniMap()
@@ -697,6 +737,35 @@ public class RiskModel extends DefaultHandler {
         return s;
     }
 
+    public boolean checkMap(){
+        countCountry = 0;
+        numOfCountry = gameMap.getMap().size()-1;
+
+        String key = gameMap.getMap().keySet().iterator().next();
+        Country country = gameMap.getCountry(key);
+        preCountries.add(country);
+        isValidMap(country);
+        return validMap;
+
+    }
+
+    public boolean isValidMap(Country TFromCountry){
+        //return false if not owning the countries or too few troops on the From country
+        for (Country c : TFromCountry.getAdjacentCountries(gameMap)) {
+            if (preCountries.contains(c)) continue;
+                preCountries.add(c);
+                countCountry ++;
+
+            if(countCountry == numOfCountry){
+                validMap = true;
+                break;
+            }
+            if(validMap) break;
+                isValidMap(c);
+        }
+        return validMap;
+    }
+
     public void exportToXMLFile(String fileName) throws IOException {
         FileWriter os;
         if(mode == 1){
@@ -713,6 +782,7 @@ public class RiskModel extends DefaultHandler {
     //testing
     public void importFromXmlFile(String fileName) {
         File inputFile;
+
         if(mode == 1){
             inputFile = new File("Map1/" + fileName + ".txt");
         } else {
@@ -833,8 +903,6 @@ public class RiskModel extends DefaultHandler {
             players.add(loadingPlayer);
         }
         else if(qName.equalsIgnoreCase("countryName")) {
-
-//            gameMap.getCountry(loadingCountryName).setOwner(loadingPlayer);
             loadingPlayer.addCountry(gameMap.getCountry(loadingCountryName));
             gameMap.getCountry(loadingCountryName).changeOwner(ownerForLoadingCountry);
         }
@@ -889,6 +957,7 @@ public class RiskModel extends DefaultHandler {
             System.out.println("in map1 owner is "+map1.getCountry(key).getOwner().getName());
             System.out.println("in map2 owner is "+map2.getCountry(key).getOwner().getName());
         }
+        System.out.print(testingModel.validMap);
 
 
     }

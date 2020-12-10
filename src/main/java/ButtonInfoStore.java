@@ -48,7 +48,6 @@ public class ButtonInfoStore {
         bis.add(new ButtonInfo("quebec",260,240,25,15));
         bis.add(new ButtonInfo("westernunitedstates",100,275,25,15));
 
-
         //south america
         bis.add(new ButtonInfo("argentina",193,487,25,15));
         bis.add(new ButtonInfo("brazil",263,481,25,15));

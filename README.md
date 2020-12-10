@@ -44,6 +44,14 @@ User Manual for Game:
 
 For the  fourth milestone, we have implemented the XML system used to save and load the game states to a XML file, while also having a initial window at the very start of the game that can load a different map in addition to our original own by reading from special XML file.
 
+We have taken into consideration every advice we have been given for the last four projects, while also implementing our own fixes.
+
+There are no further milestone ahead, and this is the final major iteration of the project.
+
+Thank you for a very great semester, to everyone who was part of this journey.
+
+-The Avengers Team
+
 
 Known Bugs:
 

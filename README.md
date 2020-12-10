@@ -9,7 +9,7 @@ RISK, the 2-6 players game of global domination.
 
 This game is written in Java with a team of four students using IntelliJ IDEA with Java and Git/Github for version control.
 
-For the third milestone of the project, we have the deliverables of a readme file, UML and sequence diagrams, a test class for testing our java code, our up to date version of the Risk game with the View and the Controller, a new map for the game, a lot of fixes to the issues, and also plenty of java documentation embedded inside the java classes.
+For the fourth milestone of the project, we have the deliverables of a XML read and load system, readme file, UML and sequence diagrams, a test class for testing our java code, our up to date version of the Risk game with the View and the Controller, a new map for the game, saves and loads a lot of fixes to the issues, and also plenty of java documentation embedded inside the java classes.
 
 Description of Deliverables:
 
@@ -38,17 +38,12 @@ User Manual for Game:
           5. [HELP]: well, this is going to tell you how to play this game
           6. [PASS]: use this button when you finish your action
           7. If you want to quit the game, just close the window
+          8. [SAVE]: used to save your game state
+          9. [LOAD]: used to load your game state
 
 
-For the third milestone, we added a PlayerAI.java class for the computer player. And we also added a WorldMap to decouple the map building process from RiskModel that would populate countries to a game world, as well, for future projects, make custom maps for the game.
+For the  fourth milestone, we have implemented the XML system used to save and load the game states to a XML file, while also having a initial window at the very start of the game that can load a different map in addition to our original own by reading from special XML file.
 
-The AI player will attempt to make its own moves based on the information of the unit it has, the unit it recieves each turn, and the situation of the adjacent provinces of the AI player's provinces.
-
-We also revamped our RiskModel.java and RiskView.java to add bonus bonus army placement and troop movement phase, as well as integrating the AI player to the normal game flow in miletone 2.
-
-We have made the necessary changes to our UML diagrams which included the newly made PlayerAI and the WorldMap classes. As well as redrawn and revised the previous two UML diagrams' mistakes, which were known to be not up to par.
-
-For the road ahead, which is the final milestone, which includes the save function using XML and json
 
 Known Bugs:
 
